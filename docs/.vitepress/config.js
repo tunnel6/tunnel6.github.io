@@ -160,7 +160,7 @@ export default defineConfig({
   themeConfig: {
     // 社交链接
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/tunnel6/yat-client' }
+      { icon: 'github', link: 'https://github.com/tunnel6/yat' }
     ],
     
     // 搜索

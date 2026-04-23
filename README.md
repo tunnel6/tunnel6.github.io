@@ -121,7 +121,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Links
 
-- **YAT Main Repository**: [https://github.com/tunnel6/yat-client](https://github.com/tunnel6/-client)
+- **YAT Main Repository**: [https://github.com/tunnel6/yat](https://github.com/tunnel6/-client)
 - **Documentation**: [https://tunnel6.com/guide/](https://myroxy.dev/guide/)
 - **Download**: [https://unnel6.com/download](https://myroxy.dev/download)
 - **Support**: [support#tunnel6.com]

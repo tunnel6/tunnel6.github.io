@@ -23,6 +23,6 @@ import DownloadSection from './.vitepress/components/DownloadSection.vue'
 
 View all previous versions, release notes, and checksums on GitHub:
 
-[View All Releases on GitHub →](https://github.com/tunnel6/yat-client/releases)
+[View All Releases on GitHub →](https://github.com/tunnel6/yat/releases)
 
 </div>

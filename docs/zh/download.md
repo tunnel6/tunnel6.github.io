@@ -23,6 +23,6 @@ import DownloadSection from '../.vitepress/components/DownloadSection.vue'
 
 在 GitHub 上查看所有历史版本、发布说明和校验和：
 
-[在 GitHub 上查看所有版本 →](https://github.com/tunnel6/yat-client/releases)
+[在 GitHub 上查看所有版本 →](https://github.com/tunnel6/yat/releases)
 
 </div>

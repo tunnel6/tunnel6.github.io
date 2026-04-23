@@ -107,7 +107,7 @@ const { lang } = useData()
 const latestRelease = ref(null)
 const loading = ref(true)
 const error = ref(null)
-const releasesUrl = 'https://github.com/tunnel6/yat-client/releases'
+const releasesUrl = 'https://github.com/tunnel6/yat/releases'
 
 // 多语言配置
 const translations = {
@@ -149,7 +149,7 @@ const fetchLatestRelease = async () => {
   try {
     loading.value = true
     error.value = null
-    const response = await fetch('https://api.github.com/repos/tunnel6/yat-client/releases/latest')
+    const response = await fetch('https://api.github.com/repos/tunnel6/yat/releases/latest')
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
     const data = await response.json()
     data.assets = data.assets.map(asset => ({
