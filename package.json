@@ -1,0 +1,22 @@
+{
+  "name": "yat-website",
+  "version": "1.0.0",
+  "description": "YAT Official Website - Yet Another Tunnel",
+  "type": "module",
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "keywords": [
+    "tunnel",
+    "proxy",
+    "nat-traversal",
+    "vitepress"
+  ],
+  "author": "YAT Team",
+  "license": "MIT",
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  }
+}
