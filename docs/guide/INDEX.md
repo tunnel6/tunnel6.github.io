@@ -6,7 +6,7 @@
 
 ## 🎉 Documentation Complete!
 
-We have prepared **10 complete documents** (total **4,663 lines**) covering all core features of YAT.
+We have prepared **14 complete documents** (total **5,063 lines**) covering all core features of YAT.
 
 ---
 
@@ -45,9 +45,13 @@ We have prepared **10 complete documents** (total **4,663 lines**) covering all 
 | 8 | [08-multi-device-roles.md](./multi-device-roles.md) | 376 | Multi-device collaboration |
 | 9 | [09-account-settings.md](./account-settings.md) | 355 | Account and settings |
 | 10 | [10-faq.md](./faq.md) | 611 | Comprehensive FAQ |
+| 11 | [dns-troubleshooting.md](./dns-troubleshooting.md) | 69 | DNS troubleshooting guide |
+| 12 | [certificate-management.md](./certificate-management.md) | 64 | Certificate management guide |
+| 13 | [connection-troubleshooting.md](./connection-troubleshooting.md) | 86 | Connection troubleshooting guide |
+| 14 | [performance-optimization.md](./performance-optimization.md) | 85 | Performance optimization guide |
 | - | [SCREENSHOTS.md](./SCREENSHOTS.md) | 180 | Screenshot checklist |
 | - | [SUMMARY.md](./SUMMARY.md) | 348 | Writing summary |
-| **Total** | | **4,663** | |
+| **Total** | | **5,063** | |
 
 ---
 
@@ -131,14 +135,15 @@ When YAT features are updated, please update the corresponding documents:
 2. Follow existing document structure
 3. Add navigation link in README.md
 4. Add screenshot requirements in SCREENSHOTS.md
+5. Update INDEX.md document list and statistics
 
 ---
 
 ## 📊 Document Statistics
 
 ```
-Total documents: 13
-Total lines: 4,663
+Total documents: 17
+Total lines: 5,063
 Total chapters: 68
 Q&A count: 100+
 Code examples: 50+

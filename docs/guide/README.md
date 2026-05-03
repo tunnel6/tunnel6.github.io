@@ -63,6 +63,31 @@ Welcome to YAT! This guide will help you quickly understand and use YAT's featur
    - Multi-device collaboration
    - Session management
 
+### Troubleshooting & Optimization
+
+9. [DNS Troubleshooting](./dns-troubleshooting.md)
+   - DNS configuration verification
+   - DNS propagation issues
+   - Common DNS problems and solutions
+
+10. [Certificate Management](./certificate-management.md)
+    - Certificate lifecycle management
+    - Automatic certificate renewal
+    - Manual certificate management
+    - Certificate troubleshooting
+
+11. [Connection Troubleshooting](./connection-troubleshooting.md)
+    - Edge node connection issues
+    - Tunnel connection instability
+    - Network connectivity testing
+    - Firewall configuration
+
+12. [Performance Optimization](./performance-optimization.md)
+    - Performance monitoring metrics
+    - Edge node optimization
+    - Tunnel configuration optimization
+    - Performance problem diagnosis
+
 ### Settings and Maintenance
 
 9. [Account and Settings](./account-settings.md)
@@ -107,7 +132,7 @@ Welcome to YAT! This guide will help you quickly understand and use YAT's featur
 
 - **Document Version**: 1.0.0
 - **Applicable YAT Version**: v1.0.0+
-- **Last Updated**: 2024-12-10
+- **Last Updated**: 2026-05-04
 
 ---
 

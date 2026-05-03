@@ -6,7 +6,7 @@
 
 ## 🎉 文档已完成！
 
-我们为您准备了 **10 篇完整文档**（共 **4,663 行**），涵盖 YAT 的所有核心功能。
+我们为您准备了 **14 篇完整文档**（共 **5,063 行**），涵盖 YAT 的所有核心功能。
 
 ---
 
@@ -45,9 +45,13 @@
 | 8 | [08-multi-device-roles.md](./multi-device-roles.md) | 376 | 多设备协作 |
 | 9 | [09-account-settings.md](./account-settings.md) | 355 | 账户和设置 |
 | 10 | [10-faq.md](./faq.md) | 611 | 常见问题大全 |
+| 11 | [dns-troubleshooting.md](./dns-troubleshooting.md) | 69 | DNS 故障排除指南 |
+| 12 | [certificate-management.md](./certificate-management.md) | 64 | 证书管理指南 |
+| 13 | [connection-troubleshooting.md](./connection-troubleshooting.md) | 86 | 连接故障排除指南 |
+| 14 | [performance-optimization.md](./performance-optimization.md) | 85 | 性能优化指南 |
 | - | [SCREENSHOTS.md](./SCREENSHOTS.md) | 180 | 截图清单 |
 | - | [SUMMARY.md](./SUMMARY.md) | 348 | 编写总结 |
-| **总计** | | **4,663** | |
+| **总计** | | **5,063** | |
 
 ---
 
@@ -137,8 +141,8 @@
 ## 📊 文档统计
 
 ```
-总文档数: 13 篇
-总行数: 4,663 行
+总文档数: 17 篇
+总行数: 5,063 行
 总章节: 68 个
 问答数量: 100+ 个
 代码示例: 50+ 个

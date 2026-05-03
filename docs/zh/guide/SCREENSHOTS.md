@@ -172,8 +172,12 @@
 | 07-transport-modes.md | 1 | 0 | 0% |
 | 08-multi-device-roles.md | 1 | 0 | 0% |
 | 09-account-settings.md | 3 | 0 | 0% |
-| **总计** | **37** | **0** | **0%** |
+| dns-troubleshooting.md | 3 | 0 | 0% |
+| certificate-management.md | 3 | 0 | 0% |
+| connection-troubleshooting.md | 3 | 0 | 0% |
+| performance-optimization.md | 3 | 0 | 0% |
+| **总计** | **49** | **0** | **0%** |
 
 ---
 
-*最后更新：2024-12-10*
+*最后更新：2026-05-04*

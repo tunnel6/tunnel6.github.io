@@ -128,6 +128,10 @@ Examples:
 02-02-login-page.png
 03-01-app-selection.png
 04-01-deployment-dialog.png
+11-01-dns-configuration.png
+12-01-certificate-info.png
+13-01-connection-status.png
+14-01-performance-metrics.png
 ```
 
 ---
@@ -172,8 +176,12 @@ Examples:
 | 07-transport-modes.md | 1 | 0 | 0% |
 | 08-multi-device-roles.md | 1 | 0 | 0% |
 | 09-account-settings.md | 3 | 0 | 0% |
-| **Total** | **37** | **0** | **0%** |
+| dns-troubleshooting.md | 3 | 0 | 0% |
+| certificate-management.md | 3 | 0 | 0% |
+| connection-troubleshooting.md | 3 | 0 | 0% |
+| performance-optimization.md | 3 | 0 | 0% |
+| **Total** | **49** | **0** | **0%** |
 
 ---
 
-*Last updated: 2024-12-10*
+*Last updated: 2026-05-04*
