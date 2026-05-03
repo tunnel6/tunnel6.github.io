@@ -6,7 +6,7 @@
 
 ## 🎉 Documentation Complete!
 
-We have prepared **14 complete documents** (total **5,063 lines**) covering all core features of YAT.
+We have prepared **15 complete documents** (total **5,123 lines**) covering all core features of YAT.
 
 ---
 
@@ -49,9 +49,10 @@ We have prepared **14 complete documents** (total **5,063 lines**) covering all 
 | 12 | [certificate-management.md](./certificate-management.md) | 64 | Certificate management guide |
 | 13 | [connection-troubleshooting.md](./connection-troubleshooting.md) | 86 | Connection troubleshooting guide |
 | 14 | [performance-optimization.md](./performance-optimization.md) | 85 | Performance optimization guide |
+| 15 | [microsoft-store-user-agreement.md](./microsoft-store-user-agreement.md) | 60 | Microsoft Store user agreement |
 | - | [SCREENSHOTS.md](./SCREENSHOTS.md) | 180 | Screenshot checklist |
 | - | [SUMMARY.md](./SUMMARY.md) | 348 | Writing summary |
-| **Total** | | **5,063** | |
+| **Total** | | **5,123** | |
 
 ---
 
@@ -142,8 +143,8 @@ When YAT features are updated, please update the corresponding documents:
 ## 📊 Document Statistics
 
 ```
-Total documents: 17
-Total lines: 5,063
+Total documents: 18
+Total lines: 5,123
 Total chapters: 68
 Q&A count: 100+
 Code examples: 50+

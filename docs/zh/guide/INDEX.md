@@ -6,7 +6,7 @@
 
 ## 🎉 文档已完成！
 
-我们为您准备了 **14 篇完整文档**（共 **5,063 行**），涵盖 YAT 的所有核心功能。
+我们为您准备了 **15 篇完整文档**（共 **5,123 行**），涵盖 YAT 的所有核心功能。
 
 ---
 
@@ -49,9 +49,10 @@
 | 12 | [certificate-management.md](./certificate-management.md) | 64 | 证书管理指南 |
 | 13 | [connection-troubleshooting.md](./connection-troubleshooting.md) | 86 | 连接故障排除指南 |
 | 14 | [performance-optimization.md](./performance-optimization.md) | 85 | 性能优化指南 |
+| 15 | [microsoft-store-user-agreement.md](./microsoft-store-user-agreement.md) | 60 | 微软商店用户协议 |
 | - | [SCREENSHOTS.md](./SCREENSHOTS.md) | 180 | 截图清单 |
 | - | [SUMMARY.md](./SUMMARY.md) | 348 | 编写总结 |
-| **总计** | | **5,063** | |
+| **总计** | | **5,123** | |
 
 ---
 
@@ -141,8 +142,8 @@
 ## 📊 文档统计
 
 ```
-总文档数: 17 篇
-总行数: 5,063 行
+总文档数: 18 篇
+总行数: 5,123 行
 总章节: 68 个
 问答数量: 100+ 个
 代码示例: 50+ 个

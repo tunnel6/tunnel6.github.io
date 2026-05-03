@@ -88,6 +88,12 @@ Welcome to YAT! This guide will help you quickly understand and use YAT's featur
     - Tunnel configuration optimization
     - Performance problem diagnosis
 
+13. [Microsoft Store User Agreement](./microsoft-store-user-agreement.md)
+    - Legal agreement between YAT and users
+    - License grant and user responsibilities
+    - Data collection and privacy terms
+    - Intellectual property rights
+
 ### Settings and Maintenance
 
 9. [Account and Settings](./account-settings.md)
