@@ -4,7 +4,20 @@ export default defineConfig({
   title: 'YAT',
   description: 'Yet Another Tunnel - Making intranet penetration simpler',
   base: '/',
-  
+  head: [
+    [
+      'script',
+      { async: '', src: 'https://www.googletagmanager.com/gtag/js?id=G-7PLNTDZKVT' }
+    ],
+    [
+      'script',
+      {},
+      ` window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-7PLNTDZKVT');`
+    ]
+  ],
   // 忽略死链检查（允许文档中存在暂时未实现的链接）
   ignoreDeadLinks: true,
   

@@ -121,7 +121,7 @@ Edge 服务器
 
 ```bash
 # 下载最新版本
-wget https://github.com/yat/releases/latest/download/yat-edge-linux-amd64
+curl https://download.tunnel6.com/download/edge/releases/v1.1.0-rc3/edge-linux-amd64 -o /usr/local/bin/edge
 
 # 添加执行权限
 chmod +x yat-edge-linux-amd64

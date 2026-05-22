@@ -284,17 +284,11 @@ sudo systemctl restart yat-edge
 **手动更新**:
 ```bash
 # 1. 下载新版本
-wget https://github.com/yat/releases/latest/download/yat-edge
+curl  https://github.com/tunnel6/edge/releases/latest/download/edge-${os}-${arch} -o /usr/local/bin/edge
 
-# 2. 停止旧版本
-sudo systemctl stop yat-edge
-
-# 3. 替换二进制文件
-sudo mv yat-edge /opt/yat/yat-edge
-sudo chmod +x /opt/yat/yat-edge
 
 # 4. 启动新版本
-sudo systemctl start yat-edge
+killall edge && edge server start
 ```
 
 ### Q: Edge 证书过期？
@@ -601,8 +595,8 @@ tar xzf yat-backup-20241210.tar.gz \
 
 ## 💬 获取帮助
 
-- **GitHub Issues**: [提交问题](https://github.com/yat/issues)
-- **Discussions**: [社区讨论](https://github.com/yat/discussions)
+- **GitHub Issues**: [提交问题](https://github.com/tunnel6/yat/issues)
+- **Discussions**: [社区讨论](https://github.com/tunnel6/yat/discussions)
 - **Email**: support@myroxy.dev
 
 ---

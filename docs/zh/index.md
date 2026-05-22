@@ -3,21 +3,20 @@ layout: home
 
 hero:
   name: "YAT"
-  text: "Yet Another Tunnel"
-  tagline: Making intranet penetration simpler and more secure
+  tagline: YAT (Yet Another Tunnel) 是一个功能强大的内网穿透与应用扩展平台，让您能够安全、快速地从任何地方访问内网服务。
   image:
     src: /images/yat.png
     style: "max-width: 580px; max-height: 580px; padding-top:50px"
     alt: YAT Logo
   actions:
     - theme: brand
-      text: Get Started
+      text: 开始
       link: /zh/guide/quick-start
     - theme: alt
-      text: View on GitHub
-      link: https://github.com/yat
+      text: 项目
+      link: https://github.com/tunnel6/yat
     - theme: alt
-      text: Download
+      text: 下载
       link: /zh/download
 
 # features:
@@ -54,28 +53,28 @@ const stats = ref([
 const useCases = ref([
   {
     icon: '🏠',
-    title: 'Home NAS Access',
-    description: 'Access your home files from anywhere securely'
+    title: '家庭NAS接入',
+    description: '随时随地安全访问您的家庭文件'
   },
   {
     icon: '💻',
-    title: 'Development Sharing',
-    description: 'Share local development servers with team members'
+    title: '开发共享',
+    description: '与团队成员共享本地开发服务器'
   },
   {
     icon: '🖥️',
-    title: 'Remote Desktop',
-    description: 'Remote control Mac/Windows with ARD/VNC extensions'
+    title: '远程桌面',
+    description: '使用 ARD/VNC 扩展远程控制 Mac/Windows'
   },
   {
     icon: '🎮',
-    title: 'Game Servers',
-    description: 'Host private game servers for friends'
+    title: '游戏服务器',
+    description: '为朋友们搭建私人游戏服务器'
   }
 ])
 </script>
 
-## App Preview
+## 预览
 
 <div class="app-preview">
   <div class="preview-card preview-card--back">
@@ -95,7 +94,7 @@ const useCases = ref([
   </div>
 </div> -->
 
-## Use Cases
+## 解决方案
 
 <div class="use-cases">
   <div v-for="useCase in useCases" :key="useCase.title" class="use-case-card">

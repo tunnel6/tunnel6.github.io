@@ -46,15 +46,15 @@ YAT is developed by a passionate team of developers who believe in open source a
 
 YAT is open source under the MIT License.
 
-- **GitHub**: [https://github.com/yat](https://github.com/yat)
-- **Issues**: [Report bugs](https://github.com/yat/issues)
-- **Discussions**: [Community forum](https://github.com/yat/discussions)
+- **GitHub**: [https://github.com/tunnel6/yat](https://github.com/tunnel6/yat)
+- **Issues**: [Report bugs](https://github.com/tunnel6/yat/issues)
+- **Discussions**: [Community forum](https://github.com/tunnel6/discussions)
 
 ## Contact
 
-- **Email**: [support@myroxy.dev](mailto:support@myroxy.dev)
+- **Email**: [support@myroxy.dev](mailto:support@tunnel6.com)
 - **Twitter**: [@yat](https://twitter.com/yat)
-- **Discord**: [Join our community](https://discord.gg/yat)
+- **Discord**: [Join our community](https://discord.gg/tunnel6/yat)
 
 ## License
 

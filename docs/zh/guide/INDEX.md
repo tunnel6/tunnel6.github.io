@@ -112,8 +112,8 @@
 
 ## 💬 获取帮助
 
-- **GitHub Issues**: [提交问题](https://github.com/yat/issues)
-- **Discussions**: [社区讨论](https://github.com/yat/discussions)
+- **GitHub Issues**: [提交问题](https://github.com/tunnel6/yat/issues)
+- **Discussions**: [社区讨论](https://github.com/tunnel6/yat/discussions)
 - **Email**: support@myroxy.dev
 
 ---

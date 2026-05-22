@@ -144,8 +144,8 @@ Welcome to YAT! This guide will help you quickly understand and use YAT's featur
 
 ## 💬 Get Help
 
-- **GitHub Issues**: [Report Issues](https://github.com/yat/issues)
-- **Community Discussions**: [Discussions](https://github.com/yat/discussions)
+- **GitHub Issues**: [Report Issues](https://github.com/tunnel6/yat/issues)
+- **Community Discussions**: [Discussions](https://github.com/tunnel6/yat/discussions)
 - **Developer Documentation**: [DEVELOPER_GUIDE.md](../DEVELOPER_GUIDE.md)
 - **Extension Development Guide**: [EXTENSION_DEVELOPER_GUIDE.md](../EXTENSION_DEVELOPER_GUIDE.md)
 

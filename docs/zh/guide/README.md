@@ -144,8 +144,8 @@
 
 ## 💬 获取帮助
 
-- **GitHub Issues**: [提交问题](https://github.com/yat/issues)
-- **社区讨论**: [Discussions](https://github.com/yat/discussions)
+- **GitHub Issues**: [提交问题](https://github.com/tunnel6/yat/issues)
+- **社区讨论**: [Discussions](https://github.com/tunnel6/yat/discussions)
 - **开发者文档**: [DEVELOPER_GUIDE.md](../DEVELOPER_GUIDE.md)
 - **扩展开发文档**: [EXTENSION_DEVELOPER_GUIDE.md](../EXTENSION_DEVELOPER_GUIDE.md)
 

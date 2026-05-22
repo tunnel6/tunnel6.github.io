@@ -284,14 +284,14 @@ sudo systemctl restart yat-edge
 **Manual Update**:
 ```bash
 # 1. Download new version
-wget https://github.com/yat/releases/latest/download/yat-edge
+wget https://captain.tunnel6.com/download/edge/releases/latest/edge-linux-amd64 -o /usr/local/bin/edge
 
 # 2. Stop old version
-sudo systemctl stop yat-edge
+sudo systemctl stop edge
 
-# 3. Replace binary
-sudo mv yat-edge /opt/yat/yat-edge
-sudo chmod +x /opt/yat/yat-edge
+# # 3. Replace binary
+# sudo mv yat-edge /opt/yat/yat-edge
+# sudo chmod +x /opt/yat/yat-edge
 
 # 4. Start new version
 sudo systemctl start yat-edge
@@ -601,9 +601,9 @@ If issue unresolved, submit Issue with:
 
 ## 💬 Get Help
 
-- **GitHub Issues**: [Report Issues](https://github.com/yat/issues)
-- **Discussions**: [Community Discussions](https://github.com/yat/discussions)
-- **Email**: support@myroxy.dev
+- **GitHub Issues**: [Report Issues](https://github.com/tunnel/yat/issues)
+- **Discussions**: [Community Discussions](https://github.com/tunnel/yat/discussions)
+- **Email**: support@tunnel6.com
 
 ---
 

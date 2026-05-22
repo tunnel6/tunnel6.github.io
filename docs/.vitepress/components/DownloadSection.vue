@@ -16,8 +16,6 @@
         <p class="release-date">{{ t.releasedAt }} {{ formatDate(latestRelease.published_at) }}</p>
       </div>
 
-      <div class="release-notes" v-if="latestRelease.body" v-html="formatReleaseNotes(latestRelease.body)"></div>
-
       <div class="downloads-grid">
         <div class="platform-card">
           <div class="platform-icon">
@@ -95,6 +93,12 @@
           </div>
         </details>
       </div>
+      <div class="checksum-section">
+        <details open>
+            <summary>{{ t.viewReleaseNotes }}</summary>
+          <div class="release-notes" v-if="latestRelease.renderedBody" v-html="latestRelease.renderedBody"></div>
+        </details>
+      </div>
     </div>
   </div>
 </template>
@@ -108,6 +112,7 @@ const latestRelease = ref(null)
 const loading = ref(true)
 const error = ref(null)
 const releasesUrl = 'https://github.com/tunnel6/yat/releases'
+let markdownRendererPromise
 
 // 多语言配置
 const translations = {
@@ -118,7 +123,7 @@ const translations = {
     latestVersion: '最新版本:',
     releasedAt: '发布于',
     download: '下载',
-    viewChecksum: '查看 SHA256 校验和',
+    viewReleaseNotes: '查看发布说明',
     minutesAgo: '分钟前',
     hoursAgo: '小时前',
     daysAgo: '天前',
@@ -132,6 +137,7 @@ const translations = {
     releasedAt: 'Released',
     download: 'Download',
     viewChecksum: 'View SHA256 Checksums',
+    viewReleaseNotes: 'View Release Notes',
     minutesAgo: 'minutes ago',
     hoursAgo: 'hours ago',
     daysAgo: 'days ago',
@@ -149,14 +155,24 @@ const fetchLatestRelease = async () => {
   try {
     loading.value = true
     error.value = null
-    const response = await fetch('https://api.github.com/repos/tunnel6/yat/releases/latest')
+    const response = await fetch('https://api.github.com/repos/tunnel6/yat/releases/latest', {
+      headers: {
+        Accept: 'application/vnd.github.full+json'
+      }
+    })
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
     const data = await response.json()
+    const cleanedReleaseNotes = cleanReleaseNotes(data.body || '')
+    const renderedBody = data.body_html || await renderReleaseNotes(cleanedReleaseNotes)
+
     data.assets = data.assets.map(asset => ({
       ...asset,
       sha256: extractSha256(asset.name, data.body)
     }))
-    latestRelease.value = data
+    latestRelease.value = {
+      ...data,
+      renderedBody
+    }
   } catch (err) {
     console.error('Failed to fetch release:', err)
     error.value = '无法获取版本信息，请直接访问 GitHub Releases'
@@ -216,15 +232,38 @@ const getTimeAgo = (dateString) => {
   const now = new Date()
   const diffMs = now - date
   const diffMins = Math.floor(diffMs / 60000)
-  if (diffMins < 1) return t.justNow
-  if (diffMins < 60) return `${diffMins} ${t.minutesAgo}`
+  if (diffMins < 1) return t.value.justNow
+  if (diffMins < 60) return `${diffMins} ${t.value.minutesAgo}`
   const diffHours = Math.floor(diffMins / 60)
-  if (diffHours < 24) return `${diffHours} ${t.hoursAgo}`
+  if (diffHours < 24) return `${diffHours} ${t.value.hoursAgo}`
   const diffDays = Math.floor(diffHours / 24)
-  return `${diffDays} ${t.daysAgo}`
+  return `${diffDays} ${t.value.daysAgo}`
 }
 
-const formatReleaseNotes = (body) => body.split('\n').filter(line => !line.includes('sha256:') && !line.match(/\d+\.\d+ (MB|GB)/) && !line.includes('minutes ago') && !line.includes('hours ago')).join('\n')
+const cleanReleaseNotes = (body) => body
+    .split('\n')
+    .filter(line => !line.includes('sha256:') && !line.match(/\d+\.\d+ (MB|GB)/) && !line.includes('minutes ago') && !line.includes('hours ago'))
+    .join('\n')
+
+const fallbackMarkdownToHtml = (markdown) => markdown
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/\n/g, '<br>')
+
+const renderReleaseNotes = async (markdown) => {
+  if (!markdown.trim()) return ''
+  try {
+    if (!markdownRendererPromise) {
+      markdownRendererPromise = import('vitepress').then(({ createMarkdownRenderer }) => createMarkdownRenderer(process.cwd()))
+    }
+
+    const md = await markdownRendererPromise
+    return md.render(markdown)
+  } catch {
+    return fallbackMarkdownToHtml(markdown)
+  }
+}
 
 onMounted(() => fetchLatestRelease())
 </script>

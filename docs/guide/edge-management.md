@@ -121,7 +121,7 @@ After successful deployment:
 
 ```bash
 # Download latest version
-wget https://github.com/yat/releases/latest/download/yat-edge-linux-amd64
+wget https://github.com/tunnel6/yat/releases/latest/download/yat-edge-linux-amd64
 
 # Add execute permission
 chmod +x yat-edge-linux-amd64
