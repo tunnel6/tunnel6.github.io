@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: "YAT"
-  text: "Yet Another Tunnel"
-  tagline: Making intranet penetration simpler and more secure
+  text: ""
+  tagline: "Expose localhost safely to the world. Take control: Secure reverse proxy on your own terms."
   image:
     src: /images/logo-withshell.png
     alt: YAT Logo

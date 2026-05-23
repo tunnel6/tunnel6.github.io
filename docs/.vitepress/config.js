@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'YAT',
+  title: 'YAT(Yet Another Tunnel)',
   description: 'Yet Another Tunnel - Making intranet penetration simpler',
   base: '/',
   head: [

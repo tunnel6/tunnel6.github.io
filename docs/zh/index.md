@@ -2,8 +2,10 @@
 layout: home
 
 hero:
-  name: "YAT"
-  tagline: YAT (Yet Another Tunnel) 是一个功能强大的内网穿透与应用扩展平台，让您能够安全、快速地从任何地方访问内网服务。
+  name: "打洞黍"
+  text: ""
+  tagline: 'YAT是一个功能强大的内网穿透与应用扩展平台，让您能够安全、快速地从任何地方访问内网服务。<br/>
+   "Dig your own tunnels. Own your own data."'
   image:
     src: /images/yat.png
     style: "max-width: 580px; max-height: 580px; padding-top:50px"

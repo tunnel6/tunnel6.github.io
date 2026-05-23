@@ -123,6 +123,7 @@ const translations = {
     latestVersion: '最新版本:',
     releasedAt: '发布于',
     download: '下载',
+    viewChecksum:"查看 SHA256 校验和",
     viewReleaseNotes: '查看发布说明',
     minutesAgo: '分钟前',
     hoursAgo: '小时前',
