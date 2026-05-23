@@ -88,7 +88,7 @@
           <summary>{{ t.viewChecksum }}</summary>
           <div class="checksum-list">
             <div class="checksum-item" v-for="asset in validAssets" :key="'sha-' + asset.id">
-              <code>{{ asset.name }}: {{ asset.sha256 || 'N/A' }}</code>
+              <code>{{ asset.name }}: {{ asset.digest || 'N/A' }}</code>
             </div>
           </div>
         </details>
@@ -139,7 +139,7 @@ const translations = {
     download: 'Download',
     viewChecksum: 'View SHA256 Checksums',
     viewReleaseNotes: 'View Release Notes',
-    minutesAgo: 'minutes ago',
+    minutesAgo: 'mins ago',
     hoursAgo: 'hours ago',
     daysAgo: 'days ago',
     justNow: 'just now'
@@ -199,10 +199,10 @@ const getAssetsByPlatform = (platform) => {
   if (!latestRelease.value) return []
   return latestRelease.value.assets.filter(asset => {
     const name = asset.name.toLowerCase()
-    if (name.includes('.blockmap') || name.includes('.yml')) return false
-    if (platform === 'win') return name.includes('win') && (name.endsWith('.exe') || name.endsWith('.msi'))
-    if (platform === 'mac') return name.includes('mac') && name.endsWith('.dmg')
-    if (platform === 'linux') return name.includes('linux') && (name.endsWith('.appimage') || name.endsWith('.deb'))
+    if (name.includes('.blockmap') || name.includes('.yml')||name.includes('.yml')) return false
+    if (platform === 'win') return name.includes('win') && (name.endsWith('.exe') || name.endsWith('.msi') || name.endsWith('.exe.zip'))
+    if (platform === 'mac') return name.includes('mac') && (name.endsWith('.dmg') && !name.includes('dmg.zip'))
+    if (platform === 'linux') return name.includes('linux') && (name.endsWith('.appimage') || name.endsWith('.deb')) || (name.endsWith(".appimage.zip") || name.endsWith("deb.zip"))
     return false
   })
 }
@@ -211,11 +211,11 @@ const validAssets = computed(() => {
   if (!latestRelease.value) return []
   return latestRelease.value.assets.filter(asset => {
     const name = asset.name.toLowerCase()
-    return !name.includes('.blockmap') && !name.includes('.yml')
+    return !name.includes('.blockmap') && !name.includes('.yml') && !name.includes('.yaml')
   })
 })
 
-const getCleanName = (name) => name.replace(/YAT-/i, '').replace(/-\d+\.\d+\.\d+[^.]*/g, '').replace(/\.(exe|dmg|AppImage|deb)$/i, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+const getCleanName = (name) => name.replace(/YAT-/i, '').replace(/-\d+\.\d+\.\d+[^.]*/g, '').replace(/\.(exe.zip|exe|dmg|dmg.zip|AppImage|AppImage.zip|deb|deb.zip)$/i, '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
 
 const formatSize = (bytes) => {
   if (!bytes) return 'Unknown'
