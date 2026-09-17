@@ -1,0 +1,1144 @@
+# WireGuard 组网指南
+
+> 使用 WireGuard 构建虚拟局域网，实现设备间安全互联
+
+---
+
+## 📋 目录
+
+- [什么是 WireGuard 组网](#什么是-wireguard-组网)
+- [快速开始](#快速开始)
+- [进阶优化](#进阶优化)
+- [自维护 Edge 配置](#自维护-edge-配置)
+- [常见问题排查](#常见问题排查)
+- [平台特定指南](#平台特定指南)
+
+---
+
+## 什么是 WireGuard 组网
+
+### 核心概念
+
+WireGuard 组网是 YAT 的高级网络功能，使用 WireGuard 协议在多台设备间建立虚拟局域网（VPN）。与传统的隧道模式不同，WireGuard 组网提供：
+
+- 🌐 **虚拟局域网** - 所有成员共享同一 IP 网段
+- 🔐 **端到端加密** - WireGuard 内核级加密
+- 🚀 **高性能** - 接近原生的网络性能
+- 🔄 **智能路由** - 自动选择直连或中继路径
+
+### 工作原理
+
+```
+┌─────────────────────────────────────────────────────┐
+│                  WireGuard 网络                      │
+│                                                     │
+│  ┌──────────┐         ┌──────────┐                 │
+│  │ 设备 A   │◄───────►│ 设备 B   │                 │
+│  │ 10.0.0.2 │  直连   │ 10.0.0.3 │                 │
+│  └──────────┘  或中继  └──────────┘                 │
+│       │                        │                    │
+│       │                        │                    │
+│       ▼                        ▼                    │
+│  ┌──────────┐         ┌──────────┐                 │
+│  │ 设备 C   │◄───────►│ 设备 D   │                 │
+│  │ 10.0.0.4 │         │ 10.0.0.5 │                 │
+│  └──────────┘         └──────────┘                 │
+│                                                     │
+│  Edge 服务器：协调 + 中继（可选）                    │
+└─────────────────────────────────────────────────────┘
+```
+
+### 与隧道模式的区别
+
+| 特性 | 隧道模式 | WireGuard 组网 |
+|------|---------|---------------|
+| **连接方式** | 点对点隧道 | 虚拟局域网 |
+| **IP 分配** | 无 | 自动分配网段 IP |
+| **多设备互联** | 需要多个隧道 | 原生支持 |
+| **性能** | 中等 | 接近原生 |
+| **适用场景** | 单服务暴露 | 多设备互联、远程管理 |
+
+---
+
+## 快速开始
+
+### 前置要求
+
+- ✅ YAT 客户端已安装并登录
+- ✅ 已订阅支持 WireGuard 的 Edge 服务器
+- ✅ Edge 服务器已启用 WireGuard 功能
+
+### 步骤 1：创建 WireGuard 网络
+
+1. 打开 YAT 客户端，进入 **Networks** 页面
+2. 点击 **创建网络** 按钮
+3. 填写网络配置：
+   - **网络名称**：自定义名称（如 "我的办公室网络"）
+   - **CIDR 网段**：建议使用 `10.0.0.0/24`（支持 254 个设备）
+   - **中继模式**：选择 `optional`（推荐）或 `force`
+
+> 📸 **[截图位置]** 创建 WireGuard 网络对话框
+> 
+> 说明：显示网络名称、CIDR 输入框、中继模式选择
+
+4. 点击 **创建** 完成
+
+### 步骤 2：加入本地设备
+
+创建网络后，需要将当前设备加入网络：
+
+1. 在网络卡片上点击 **加入本地设备** 按钮
+2. 等待系统分配 IP 地址
+3. 设备状态变为 **在线**
+
+> 📸 **[截图位置]** 网络详情页面 - 加入本地设备按钮
+> 
+> 说明：显示网络卡片、加入按钮、成员列表
+
+::: tip 提示
+每台设备都需要单独点击"加入本地设备"才能参与组网。这是安全设计，确保只有明确授权的设备才能加入网络。
+:::
+
+### 步骤 3：邀请其他设备
+
+其他设备加入网络的步骤：
+
+1. 在其他设备上打开 YAT 客户端
+2. 进入 **Networks** 页面
+3. 找到目标网络（同一 Edge 下的网络会自动同步）
+4. 点击 **加入网络**
+5. 等待 IP 分配完成
+
+### 步骤 4：验证连接
+
+加入网络后，验证设备间是否可以互通：
+
+```bash
+# 在设备 A 上 ping 设备 B 的内网 IP
+ping 10.0.0.3
+
+# 应该看到正常的 ICMP 响应
+64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=2.5ms
+```
+
+> 📸 **[截图位置]** 网络成员列表 - 显示在线状态和 IP
+> 
+> 说明：显示成员列表、IP 地址、在线状态、连接质量
+
+### 步骤 5：查看连接详情
+
+点击成员可以查看连接详情：
+
+- **连接路径**：直连（direct）或中继（relay）
+- **延迟**：当前连接延迟
+- **Endpoint**：对端的实际 UDP 地址
+- **握手时间**：最后一次 WireGuard 握手时间
+
+> 📸 **[截图位置]** 成员详情对话框 - 显示连接信息
+> 
+> 说明：显示成员详情、连接路径、延迟、endpoint
+
+---
+
+## 进阶优化
+
+### 中继模式选择
+
+YAT 支持三种中继模式，影响设备间的连接策略：
+
+#### 1. `optional` 模式（推荐）
+
+```
+设备 A ──尝试直连──► 设备 B
+          │
+          ├─ 成功 → 使用直连（低延迟）
+          │
+          └─ 失败 → 自动切换到 Edge 中继
+```
+
+**特点**：
+- ✅ 优先尝试直连，性能最佳
+- ✅ 直连失败自动回退到中继
+- ✅ 适合大多数场景
+
+**适用场景**：
+- 混合网络环境（部分设备在同一局域网）
+- 跨地域但有直连可能的设备
+- 需要最佳性能的场景
+
+#### 2. `force` 模式
+
+```
+设备 A ──强制中继──► Edge 服务器 ──中继──► 设备 B
+```
+
+**特点**：
+- ✅ 连接稳定，不受 NAT 类型影响
+- ⚠️ 延迟较高（经过 Edge 中转）
+- ⚠️ 带宽受 Edge 限制
+
+**适用场景**：
+- 对称 NAT 环境（直连几乎不可能）
+- 需要稳定连接，不关心延迟
+- 调试和测试
+
+#### 3. `disabled` 模式
+
+```
+设备 A ──仅直连──► 设备 B
+          │
+          └─ 失败 → 无法连接
+```
+
+**特点**：
+- ✅ 最高性能（纯直连）
+- ❌ 直连失败则无法通信
+- ❌ 对 NAT 类型要求高
+
+**适用场景**：
+- 所有设备在同一局域网
+- 所有设备都有公网 IP
+- 极致性能要求
+
+### 切换中继模式
+
+1. 进入网络详情页
+2. 点击 **设置** 或 **编辑** 按钮
+3. 修改 **中继模式**
+4. 保存后，所有成员会自动同步新配置
+
+> 📸 **[截图位置]** 网络设置对话框 - 中继模式选择
+> 
+> 说明：显示三种中继模式选项
+
+### 理解连接路径
+
+YAT 会智能选择最优路径：
+
+#### 直连路径（Direct）
+
+```
+设备 A (192.168.1.100:51820) ──UDP──► 设备 B (192.168.1.101:51820)
+```
+
+**判断标准**：
+- WireGuard 握手成功
+- 收到认证 payload（不仅是握手）
+- 75 秒内有新数据
+
+**优势**：
+- 延迟最低
+- 带宽最高
+- 不经过 Edge
+
+#### 中继路径（Relay）
+
+```
+设备 A ──UDP──► Edge (公网IP:59000) ──UDP──► 设备 B
+```
+
+**触发条件**：
+- 直连握手超时（30 秒）
+- 直连无数据（75 秒）
+- 强制中继模式
+
+**Edge 中继机制**：
+- 每个 peer 分配独立 UDP 端口（59000-60999）
+- Edge 转发加密的 WireGuard 报文
+- 不同来源的流量使用独立 upstream flow
+
+### P2P 会话状态与健康指示器
+
+网络详情页顶部的健康状态 pill 反映了所有 P2P 会话的聚合状态。理解这些状态有助于排查连接问题。
+
+#### 会话生命周期
+
+两台设备之间的直连协商经历以下阶段：
+
+```
+创建 → 信息收集(gathering) → 打洞(punching) → 建立中(establishing) → 已连接(connected)
+                                                          ↘ 失败(failed)
+```
+
+| 阶段 | 超时 | 说明 |
+|------|------|------|
+| **信息收集** | 30 秒 | 双方交换 endpoint 信息（公网 IP、LAN 地址、NAT 类型） |
+| **打洞** | 60 秒 | 向对端 endpoint 发送 WireGuard 握手尝试 |
+| **建立中** | 30 秒 | 等待对端确认打洞结果 |
+| **已连接** | - | 协商成功，直连路径可用 |
+| **失败** | - | 协商超时或打洞失败 |
+
+#### 健康状态含义
+
+| 状态 | 颜色 | 含义 |
+|------|------|------|
+| **Healthy** | 🟢 绿色 | 所有会话已连接 |
+| **Partial** | 🟠 橙色 | 部分会话失败，但有中继回退或其余连通 |
+| **Error** | 🔴 红色 | 所有会话失败且无中继回退 |
+| **Offline** | ⚪ 灰色 | 无在线成员 |
+
+#### 会话失败但实际连通
+
+在某些场景下，UI 显示会话 "失败" 但实际网络是连通的：
+
+- **原因**：P2P 信令协商（endpoint 发现与打洞）和 WireGuard 实际加密握手是两个独立的过程。信令超时不代表隧道不通。
+- **自动恢复**：Edge 的观测循环（每 5 秒）会检测 WireGuard 实际握手状态。当检测到隧道已连通时，会自动将 "失败" 的会话恢复为 "已连接"。
+- **恢复延迟**：最多 5-10 秒。
+
+::: tip 提示
+如果你看到 "失败" 状态但 `ping` 测试正常，说明 WireGuard 隧道实际已建立。等待几秒后 UI 会自动更新。如果持续不恢复，尝试点击 **刷新** 按钮。
+:::
+
+#### 排查 Health Banner
+
+展开健康 Banner 可以查看每个失败/待连接会话的详情：
+
+- **会话端点**：`{发起方} → {目标方}`，显示设备名称
+- **状态标签**：显示当前协商阶段
+- **错误信息**：显示失败原因（如 `timeout`、`direct punch failed`）
+
+常见错误信息：
+
+| 错误 | 含义 | 建议 |
+|------|------|------|
+| `timeout` | 协商阶段超时 | 检查 NAT 类型，考虑切换到 `force` 模式 |
+| `direct punch failed, relay disabled` | 打洞失败且无中继 | 切换到 `optional` 模式启用中继回退 |
+| `direct punch failed, relay fallback remains active` | 打洞失败但中继可用 | 正常，流量正通过中继转发 |
+
+### 优化建议
+
+#### 1. 同一局域网设备
+
+如果多台设备在同一局域网：
+
+- ✅ 使用 `optional` 或 `disabled` 模式
+- ✅ Edge 会自动检测 Same-NAT 设备
+- ✅ 设备间会优先使用 LAN 地址直连
+
+> 📸 **[截图位置]** Same-NAT 检测提示
+> 
+> 说明：显示检测到同一 NAT 后的设备对
+
+#### 2. 跨地域设备
+
+如果设备分布在不同地域：
+
+- ✅ 使用 `optional` 模式
+- ✅ 允许自动回退到中继
+- ✅ 考虑部署地理位置居中的 Edge
+
+#### 3. 对称 NAT 环境
+
+如果设备在对称 NAT 后：
+
+- ✅ 使用 `force` 模式
+- ✅ 所有流量通过 Edge 中继
+- ✅ 连接稳定但延迟较高
+
+#### 4. 性能敏感场景
+
+如果需要最佳性能：
+
+- ✅ 确保设备间可以直连
+- ✅ 使用 `optional` 或 `disabled` 模式
+- ✅ 检查防火墙是否放行 UDP 流量
+
+---
+
+## 自维护 Edge 配置
+
+### Edge WireGuard 功能要求
+
+自维护 Edge 需要启用 WireGuard 功能：
+
+```yaml
+# Edge 配置文件 (config.yaml)
+proxy:
+  wireguard:
+    enabled: true              # 启用 WireGuard 功能
+    relay:
+      enabled: true            # 启用业务 relay
+      interface_prefix: "wg-yat0"
+      listen_port_base: 58021  # WG 接口端口起始
+      peer_relay_port_base: 59000  # Peer relay 端口起始
+      key_dir: "/var/lib/yat/wg-keys"
+      public_endpoint: "edge.example.com"  # Edge 公网地址
+```
+
+### 关键配置说明
+
+#### 1. `enabled: true`
+
+启用 WireGuard 功能。Edge 启动后会：
+- 创建 WireGuard observation interface
+- 初始化 relay manager
+- 开始 endpoint 观测循环
+
+#### 2. `relay.enabled`
+
+控制业务 relay 是否启用：
+
+- `true`：创建 per-peer relay listener，支持中继转发
+- `false`：仅保留 observation interface，不支持 relay
+
+::: tip 提示
+即使 `relay.enabled=false`，Edge 仍然可以观测 endpoint。只是客户端无法使用中继路径。
+:::
+
+#### 3. `listen_port_base: 58021`
+
+WireGuard 接口端口起始值。每个网络占用一个端口：
+- 网络 1: 58021
+- 网络 2: 58022
+- ...
+
+**防火墙要求**：
+```bash
+# 放行 WG 接口端口
+sudo ufw allow 58021:58100/udp
+```
+
+#### 4. `peer_relay_port_base: 59000`
+
+Per-peer relay 端口起始值。每个 peer 分配独立端口：
+- Peer A: 59000
+- Peer B: 59001
+- ...
+
+**端口范围**：59000-60999（支持 2000 个 peer）
+
+**防火墙要求**：
+```bash
+# 放行 peer relay 端口
+sudo ufw allow 59000:60999/udp
+```
+
+#### 5. `public_endpoint`
+
+Edge 的公网地址。客户端使用此地址连接 relay：
+
+```
+客户端 A ──UDP──► edge.example.com:59000 ──转发──► 客户端 B
+```
+
+**格式要求**：
+- ✅ `edge.example.com`
+- ✅ `1.2.3.4`
+- ✅ `1.2.3.4:8000`（如果 Edge 在非标准端口）
+- ❌ `http://edge.example.com`（不要带协议）
+
+### 部署验证
+
+部署 Edge 后，验证 WireGuard 功能：
+
+```bash
+# 1. 检查 Edge 日志
+journalctl -u yat-edge -f | grep -i wireguard
+
+# 应该看到：
+# "WireGuard functionality enabled"
+# "Relay manager initialized"
+# "Observation loop started"
+
+# 2. 检查 WireGuard 接口
+sudo ip link show | grep wg-yat
+
+# 应该看到类似：
+# wg-yat0-abc123: <POINTOPOINT,NOARP,UP,LOWER_UP> mtu 1420
+
+# 3. 检查监听端口
+sudo ss -ulnp | grep yat-edge
+
+# 应该看到：
+# udp  0  0  0.0.0.0:58021  0.0.0.0:*  users:(("yat-edge",pid=1234))
+# udp  0  0  0.0.0.0:59000  0.0.0.0:*  users:(("yat-edge",pid=1234))
+```
+
+### 常见配置问题
+
+#### Q: Edge 启动失败，提示 "WireGuard initialization failed"
+
+**原因**：
+- 内核不支持 WireGuard（需要 Linux 5.6+）
+- 缺少权限创建网络接口
+
+**解决**：
+```bash
+# 检查内核版本
+uname -r
+
+# 如果 < 5.6，升级内核
+sudo apt install linux-image-generic
+
+# 确保以 root 运行 Edge
+sudo systemctl start yat-edge
+```
+
+#### Q: 客户端无法连接 relay
+
+**原因**：
+- 防火墙未放行端口
+- `public_endpoint` 配置错误
+- Edge 未启用 relay
+
+**解决**：
+```bash
+# 1. 检查防火墙
+sudo ufw status
+sudo ufw allow 58021:60999/udp
+
+# 2. 验证 public_endpoint
+curl -I http://edge.example.com
+
+# 3. 检查 Edge 配置
+grep -A 10 "wireguard:" /etc/yat/config.yaml
+```
+
+#### Q: 中继模式切换后不生效
+
+**原因**：
+- 配置未同步到所有成员
+- 客户端未刷新运行态
+
+**解决**：
+1. 在 Edge 上修改中继模式
+2. 所有客户端点击 **同步本地 Adapter** 按钮
+3. 等待 5-10 秒让配置生效
+
+---
+
+## 常见问题排查
+
+### 问题 1：需要手动点击"加入本地设备"才能参与组网
+
+**现象**：
+创建网络后，当前设备没有自动加入网络，需要手动点击"加入本地设备"。
+
+**原因**：
+这是安全设计。YAT 不会自动将设备加入网络，需要用户明确授权。
+
+**解决**：
+1. 在网络卡片上找到 **加入本地设备** 按钮
+2. 点击并等待 IP 分配完成
+3. 设备状态变为 **在线** 即表示加入成功
+
+> 📸 **[截图位置]** 加入本地设备按钮
+> 
+> 说明：显示网络卡片上的加入按钮
+
+### 问题 2：组网不成功，尝试"同步本地 Adapter"
+
+**现象**：
+设备已加入网络，但无法 ping 通其他成员。
+
+**原因**：
+- 本地 WireGuard 配置未同步
+- Helper daemon 未正确 apply 配置
+- 运行态与配置不一致
+
+**解决**：
+1. 进入网络详情页
+2. 找到 **同步本地 Adapter** 按钮（通常在配置面板或操作菜单中）
+3. 点击并等待同步完成
+4. 检查是否出现 WireGuard 接口
+
+**macOS**：
+```bash
+# 检查 WireGuard 接口
+ifconfig | grep -A 5 utun
+
+# 应该看到类似：
+# utun3: flags=8051<UP,POINTOPOINT,RUNNING,MULTICAST> mtu 1420
+#     inet 10.0.0.2 --> 10.0.0.1 netmask 0xffffffff
+```
+
+**Windows**：
+```powershell
+# 检查网络适配器
+Get-NetAdapter | Where-Object {$_.InterfaceDescription -like "*WireGuard*"}
+
+# 应该看到类似：
+# Name  InterfaceDescription                  Status
+# ----  --------------------                  ------
+# YAT   WireGuard Tunnel: yat-network1        Up
+```
+
+### 问题 3：macOS WireGuard 调试
+
+**现象**：
+macOS 上 WireGuard 接口未创建或无法通信。
+
+**调试步骤**：
+
+#### 1. 检查 Helper Daemon
+
+```bash
+# 检查 yat-wg-helperd 是否运行
+ps aux | grep yat-wg-helper
+
+# 应该看到：
+# root  1234  0.0  0.1  /var/run/yat-wg-helperd
+
+# 如果未运行，手动启动
+sudo /Library/Application\ Support/yat/yat-wg-helperd
+```
+
+#### 2. 检查 Unix Socket
+
+```bash
+# 检查 socket 文件
+ls -l /var/run/yat-wg-helper.sock
+
+# 应该看到：
+# srw-r--r--  1 root  wheel  0  9 18 10:00 /var/run/yat-wg-helper.sock
+```
+
+#### 3. 查看 Helper 日志
+
+```bash
+# 查看 helper daemon 日志
+log show --predicate 'process == "yat-wg-helperd"' --last 5m
+
+# 或在 YAT 客户端中查看：
+# 设置 > 系统 > WireGuard Helper > 查看日志
+```
+
+#### 4. 检查 boringtun 进程
+
+```bash
+# 检查 boringtun 是否运行
+ps aux | grep boringtun
+
+# 应该看到：
+# root  5678  0.0  0.5  /Library/Application\ Support/yat/boringtun
+```
+
+#### 5. 手动测试 Helper
+
+```bash
+# 使用 socat 与 helper 通信
+sudo socat - UNIX-CONNECT:/var/run/yat-wg-helper.sock
+
+# 发送 JSON 请求
+{"request":"status"}
+
+# 应该收到响应
+{"status":"ok","interfaces":["wg-yat0-abc123"]}
+```
+
+#### 6. 强制重新 Apply
+
+```bash
+# 删除所有 WireGuard 接口
+sudo ifconfig utun3 down
+sudo ifconfig utun3 destroy
+
+# 在 YAT 客户端中点击"同步本地 Adapter"
+# 或重启 YAT 客户端
+```
+
+### 问题 4：Windows 检查网络适配器是否组建
+
+**现象**：
+Windows 上 WireGuard 网络未正常工作。
+
+**检查步骤**：
+
+#### 1. 检查网络适配器
+
+```powershell
+# 方法 1：PowerShell
+Get-NetAdapter | Where-Object {$_.InterfaceDescription -like "*WireGuard*"}
+
+# 方法 2：命令行
+netsh interface show interface
+
+# 方法 3：设备管理器
+# 打开设备管理器 > 网络适配器 > 查找 "WireGuard" 相关设备
+```
+
+**期望结果**：
+```
+Name       InterfaceDescription         Status
+----       --------------------         ------
+YAT-NET1   WireGuard Tunnel: yat-net1   Up
+```
+
+#### 2. 检查 IP 配置
+
+```powershell
+# 查看 WireGuard 适配器的 IP 配置
+Get-NetIPAddress -InterfaceAlias "YAT-NET1"
+
+# 应该看到分配的内网 IP
+# IPAddress      : 10.0.0.2
+# PrefixLength   : 24
+# AddressFamily  : IPv4
+```
+
+#### 3. 检查路由表
+
+```powershell
+# 查看路由表
+Get-NetRoute -InterfaceAlias "YAT-NET1"
+
+# 应该看到网络网段的路由
+# DestinationPrefix  NextHop  RouteMetric
+# 10.0.0.0/24        0.0.0.0  256
+```
+
+#### 4. 测试连通性
+
+```powershell
+# Ping 其他成员
+Test-Connection -ComputerName 10.0.0.3 -Count 4
+
+# 如果失败，检查防火墙
+# Windows Defender 防火墙可能阻止 ICMP
+New-NetFirewallRule -DisplayName "Allow ICMP" -Direction Inbound -Protocol ICMPv4 -Action Allow
+```
+
+#### 5. 检查 Wintun 驱动
+
+```powershell
+# 检查 Wintun 驱动是否安装
+Get-WindowsDriver -Online | Where-Object {$_.ProviderName -like "*Wintun*"}
+
+# 如果未安装，重新安装 YAT 客户端
+# 或手动安装 Wintun：https://www.wintun.net/
+```
+
+#### 6. 重启 WireGuard 服务
+
+```powershell
+# 停止 YAT 客户端
+Stop-Process -Name "YAT"
+
+# 删除 WireGuard 适配器
+Remove-NetAdapter -Name "YAT-NET1" -Confirm:$false
+
+# 重新启动 YAT 客户端
+Start-Process "C:\Program Files\YAT\YAT.exe"
+
+# 等待 10 秒，检查适配器是否重新创建
+Get-NetAdapter | Where-Object {$_.InterfaceDescription -like "*WireGuard*"}
+```
+
+### 问题 5：Same-NAT LAN 是否组网成功观察
+
+**现象**：
+两台设备在同一局域网（Same-NAT），但不确定是否成功使用 LAN 地址直连。
+
+**观察方法**：
+
+#### 1. 查看成员详情
+
+在 YAT 客户端中：
+1. 进入网络详情页
+2. 点击目标成员
+3. 查看 **连接信息**
+
+**期望看到**：
+```
+连接路径：direct
+Endpoint：192.168.1.101:51820  （LAN 地址）
+延迟：< 5ms
+```
+
+如果 Endpoint 是公网 IP，说明未使用 LAN 地址。
+
+> 📸 **[截图位置]** 成员详情 - 显示 LAN endpoint
+> 
+> 说明：显示连接路径为 direct，endpoint 为 LAN 地址
+
+#### 2. 检查 Edge 日志
+
+```bash
+# 在 Edge 上查看日志
+journalctl -u yat-edge -f | grep -i "same-nat"
+
+# 应该看到：
+# "Detected same-NAT peers: peerA=1.2.3.4, peerB=1.2.3.4"
+# "Triggering LAN endpoint gathering"
+```
+
+#### 3. 验证 LAN 连通性
+
+```bash
+# 在设备 A 上
+ping 192.168.1.101  # 设备 B 的 LAN 地址
+
+# 应该成功
+64 bytes from 192.168.1.101: icmp_seq=1 ttl=64 time=0.5ms
+```
+
+#### 4. 检查 WireGuard 接口
+
+**macOS**：
+```bash
+# 查看 WireGuard peer 的 endpoint
+sudo wg show all
+
+# 应该看到：
+# interface: wg-yat0-abc123
+# peer: <peer-B-public-key>
+#   endpoint: 192.168.1.101:51820  （LAN 地址）
+```
+
+**Windows**：
+```powershell
+# 使用 WireGuard CLI（如果安装）
+& "C:\Program Files\WireGuard\wireguard.exe" /showall
+
+# 或在 YAT 配置面板中查看
+```
+
+#### 5. 强制 LAN 发现
+
+如果未检测到 Same-NAT：
+
+1. 确保两台设备都已加入网络
+2. 等待 30 秒让 Edge 完成 endpoint 观测
+3. 在两台设备上分别点击 **同步本地 Adapter**
+4. 检查 Edge 日志是否触发 LAN gathering
+
+### 问题 6：Endpoint 未被观测到
+
+**现象**：
+成员的 endpoint 显示为空或 "未观测到"。
+
+**原因**：
+- 客户端未发送 WireGuard 握手
+- Edge observation interface 未正常工作
+- 防火墙阻止 UDP 流量
+
+**解决**：
+
+#### 1. 检查客户端 WireGuard 状态
+
+```bash
+# macOS
+sudo wg show all
+
+# 应该看到 peer 和 endpoint
+# peer: <public-key>
+#   endpoint: 1.2.3.4:51820
+
+# Windows
+# 查看 YAT 配置面板中的 WireGuard 状态
+```
+
+#### 2. 检查 Edge 观测接口
+
+```bash
+# 在 Edge 上
+sudo wg show wg-yat0-abc123
+
+# 应该看到所有 peer
+# peer: <peer-A-key>
+#   endpoint: 1.2.3.4:51820
+# peer: <peer-B-key>
+#   endpoint: 5.6.7.8:51820
+```
+
+#### 3. 检查防火墙
+
+```bash
+# Edge 防火墙
+sudo ufw status
+sudo ufw allow 58021:60999/udp
+
+# 客户端防火墙
+# macOS: 系统设置 > 网络 > 防火墙 > 允许传入连接
+# Windows: Windows Defender 防火墙 > 允许应用通过防火墙
+```
+
+#### 4. 强制刷新
+
+1. 在客户端点击 **同步本地 Adapter**
+2. 等待 5-10 秒
+3. 在 Edge 上检查日志：`journalctl -u yat-edge -f | grep observation`
+4. 应该看到 endpoint 更新
+
+### 问题 7：中继转发失败
+
+**现象**：
+使用 `force` 模式，但无法通过 Edge 中继通信。
+
+**原因**：
+- Edge relay listener 未启动
+- 目标 endpoint 未被观测到
+- 严格 NAT 阻止 relay 流量
+
+**解决**：
+
+#### 1. 检查 Edge relay 状态
+
+```bash
+# 检查 relay listener 是否监听
+sudo ss -ulnp | grep yat-edge
+
+# 应该看到：
+# udp  0  0  0.0.0.0:59000  0.0.0.0:*  users:(("yat-edge",pid=1234))
+# udp  0  0  0.0.0.0:59001  0.0.0.0:*  users:(("yat-edge",pid=1234))
+```
+
+#### 2. 检查目标 endpoint
+
+```bash
+# 在 Edge 上查看目标 peer 的 endpoint
+sudo wg show wg-yat0-abc123 | grep -A 2 "peer: <target-key>"
+
+# 应该看到：
+# endpoint: 1.2.3.4:51820
+```
+
+如果 endpoint 为空，relay 无法转发。
+
+#### 3. 检查 relay 日志
+
+```bash
+# 查看 relay 转发日志
+journalctl -u yat-edge -f | grep -i relay
+
+# 应该看到：
+# "Relay packet from 59000 to 1.2.3.4:51820"
+```
+
+#### 4. 理解当前限制
+
+::: warning 重要提示
+当前 per-peer relay 使用新的 Edge UDP 源端口创建 upstream socket，**未复用** observer 已建立的 NAT 通道。
+
+在严格 endpoint-dependent NAT 环境下，relay 可能失败。这是已知的未完成项，需要后续实现通道复用。
+:::
+
+**临时解决方案**：
+- 使用 `optional` 模式，优先尝试直连
+- 部署地理位置居中的 Edge，减少 NAT 层级
+- 确保目标设备的 endpoint 已被观测到
+
+---
+
+## 平台特定指南
+
+### macOS
+
+#### 系统要求
+
+- macOS 10.15+ (Catalina)
+- 需要管理员权限安装 helper daemon
+
+#### Helper Daemon 管理
+
+```bash
+# 查看 helper 状态
+launchctl list | grep yat-wg-helper
+
+# 手动启动 helper
+sudo launchctl load /Library/LaunchDaemons/com.yat.wg-helper.plist
+
+# 手动停止 helper
+sudo launchctl unload /Library/LaunchDaemons/com.yat.wg-helper.plist
+
+# 查看 helper 日志
+log show --predicate 'process == "yat-wg-helperd"' --last 5m
+```
+
+#### 电源管理
+
+macOS 支持 Power Assertion 阻止空闲睡眠：
+
+1. 进入 **设置 > 系统**
+2. 开启 **禁止系统休眠**
+3. 当有活跃网络时，系统不会进入空闲睡眠
+
+::: tip 提示
+Power Assertion 只能阻止空闲睡眠，无法阻止合盖或手动睡眠。合盖后需要依赖对端的 `PersistentKeepalive` 唤醒。
+:::
+
+#### 常见问题
+
+**Q: WireGuard 接口消失**
+```bash
+# 重新同步配置
+# 在 YAT 客户端中点击"同步本地 Adapter"
+
+# 或重启 helper
+sudo launchctl unload /Library/LaunchDaemons/com.yat.wg-helper.plist
+sudo launchctl load /Library/LaunchDaemons/com.yat.wg-helper.plist
+```
+
+**Q: 睡眠后连接断开**
+```bash
+# 唤醒后强制重新 apply
+# 在 YAT 客户端中点击"同步本地 Adapter"
+
+# 或手动触发
+sudo killall -HUP yat-wg-helperd
+```
+
+### Windows
+
+#### 系统要求
+
+- Windows 10+ (64-bit)
+- 需要安装 Wintun 驱动
+
+#### Wintun 驱动管理
+
+```powershell
+# 检查 Wintun 驱动
+Get-WindowsDriver -Online | Where-Object {$_.ProviderName -like "*Wintun*"}
+
+# 如果未安装，重新安装 YAT 客户端
+# 或从 https://www.wintun.net/ 手动安装
+```
+
+#### 网络适配器管理
+
+```powershell
+# 查看所有 WireGuard 适配器
+Get-NetAdapter | Where-Object {$_.InterfaceDescription -like "*WireGuard*"}
+
+# 禁用适配器
+Disable-NetAdapter -Name "YAT-NET1" -Confirm:$false
+
+# 启用适配器
+Enable-NetAdapter -Name "YAT-NET1" -Confirm:$false
+
+# 删除适配器
+Remove-NetAdapter -Name "YAT-NET1" -Confirm:$false
+```
+
+#### 防火墙配置
+
+```powershell
+# 允许 YAT 通过防火墙
+New-NetFirewallRule -DisplayName "YAT" -Direction Inbound -Program "C:\Program Files\YAT\YAT.exe" -Action Allow
+
+# 允许 ICMP（ping）
+New-NetFirewallRule -DisplayName "Allow ICMP" -Direction Inbound -Protocol ICMPv4 -Action Allow
+
+# 允许 UDP 流量（WireGuard）
+New-NetFirewallRule -DisplayName "WireGuard UDP" -Direction Inbound -Protocol UDP -LocalPort 51820 -Action Allow
+```
+
+#### 常见问题
+
+**Q: 网络适配器未创建**
+```powershell
+# 检查 Wintun 驱动
+Get-WindowsDriver -Online | Where-Object {$_.ProviderName -like "*Wintun*"}
+
+# 重新安装 YAT 客户端
+# 或以管理员身份运行 YAT
+```
+
+**Q: 无法 ping 通其他成员**
+```powershell
+# 检查防火墙
+Get-NetFirewallRule | Where-Object {$_.DisplayName -like "*ICMP*"}
+
+# 如果没有规则，添加
+New-NetFirewallRule -DisplayName "Allow ICMP" -Direction Inbound -Protocol ICMPv4 -Action Allow
+```
+
+### Linux
+
+#### 系统要求
+
+- Linux 5.6+ (内核支持 WireGuard)
+- 需要 root 权限
+
+#### 安装 WireGuard 工具
+
+```bash
+# Ubuntu/Debian
+sudo apt install wireguard wireguard-tools
+
+# CentOS/RHEL
+sudo yum install wireguard wireguard-tools
+
+# Fedora
+sudo dnf install wireguard-tools
+```
+
+#### 检查 WireGuard 接口
+
+```bash
+# 查看所有 WireGuard 接口
+sudo ip link show type wireguard
+
+# 或使用 wg 命令
+sudo wg show all
+
+# 查看特定接口
+sudo wg show wg-yat0-abc123
+```
+
+#### 常见问题
+
+**Q: 内核不支持 WireGuard**
+```bash
+# 检查内核版本
+uname -r
+
+# 如果 < 5.6，升级内核
+sudo apt install linux-image-generic
+sudo reboot
+```
+
+**Q: 缺少权限**
+```bash
+# 确保以 root 运行 YAT
+sudo ./yat
+
+# 或使用 sudo
+sudo -E ./yat
+```
+
+---
+
+## 💡 最佳实践
+
+### 1. 网络规划
+
+- ✅ 使用 `/24` 网段（支持 254 个设备）
+- ✅ 避免与现有网段冲突（如 `192.168.1.0/24`）
+- ✅ 为不同用途创建不同网络（办公、测试、生产）
+
+### 2. 安全建议
+
+- ✅ 定期审查网络成员
+- ✅ 及时移除不活跃设备
+- ✅ 使用强密码保护 YAT 账户
+- ✅ 启用两步验证（如果支持）
+
+### 3. 性能优化
+
+- ✅ 优先使用直连路径
+- ✅ 选择地理位置居中的 Edge
+- ✅ 避免在对称 NAT 环境下使用直连
+- ✅ 定期监控连接质量
+
+### 4. 故障预防
+
+- ✅ 保持 YAT 客户端更新
+- ✅ 定期检查 Edge 健康状态
+- ✅ 备份重要配置
+- ✅ 记录网络拓扑和 IP 分配
+
+---
+
+## 📚 相关文档
+
+- [传输模式](./transport-modes.md) - 了解 Relay/P2P/WireGuard 的区别
+- [Edge 管理](./edge-management.md) - 部署和管理 Edge 服务器
+- [多设备与角色](./multi-device-roles.md) - 多设备协作和权限管理
+- [常见问题](./faq.md) - 解决其他常见问题
+
+---
+
+*最后更新：2026-09-18*
+*YAT Team - 让内网穿透更简单*

@@ -58,6 +58,7 @@ export default defineConfig({
               text: 'Advanced',
               items: [
                 { text: 'Transport Modes', link: '/guide/transport-modes' },
+                { text: 'WireGuard Networking', link: '/guide/wireguard-networking' },
                 { text: 'Multi-Device & Roles', link: '/guide/multi-device-roles' },
                 { text: 'Account & Settings', link: '/guide/account-settings' },
                 { text: 'FAQ', link: '/guide/faq' }
@@ -130,6 +131,7 @@ export default defineConfig({
               text: '高级功能',
               items: [
                 { text: '传输模式', link: '/zh/guide/transport-modes' },
+                { text: 'WireGuard 组网', link: '/zh/guide/wireguard-networking' },
                 { text: '多设备与角色', link: '/zh/guide/multi-device-roles' },
                 { text: '账户与设置', link: '/zh/guide/account-settings' },
                 { text: '常见问题', link: '/zh/guide/faq' }
