@@ -480,9 +480,92 @@ export const extension = { ... }
 
 ### Q: IPv6 支持？
 
-YAT **支持** IPv6：
-- Edge 服务器可以配置 IPv6
-- 客户端自动选择最佳协议
+YAT 的 Edge 服务器可以通过 IPv6 访问，客户端也会自动检测 IPv6 连通性。
+
+但 **WireGuard 网络当前仅支持 IPv4**：
+- 网络 CIDR 分配仅支持 IPv4（如 `10.0.0.0/24`）
+- LAN endpoint 采集（same-NAT 发现）仅处理 IPv4 地址
+- Relay 转发不处理 IPv6 数据包
+
+如果需求足够，未来版本可能会为 WireGuard 网络添加 IPv6 支持。
+
+### Q: 虚拟机 guest 与同局域网 peer 单向通信（能发不能收）
+
+**现象**：
+运行在虚拟机 guest（KVM、VirtualBox、VMware）中的设备可以向同局域网 peer 发送数据，但收不到任何回包（`0 B received, N KiB sent`）。
+
+**原因**：VM guest 同时有 bridge 和 NAT 模式的虚拟网卡。NAT 网卡导致 guest 的流量被 host 做 masquerading，产生非对称路由：
+
+```
+Peer → 发往 guest 的 LAN IP → 到达 guest ✓
+Guest → 经 NAT 网卡回包 → 源 IP 变成 host IP → peer 不识别 → 丢包 ✗
+```
+
+**解决方案**：
+
+#### 方案 1：确保 bridge 网卡为默认路由（推荐）
+
+确保 guest 的默认网关走 **bridge** 网卡，而不是 NAT 网卡：
+
+**Linux guest**：
+```bash
+# 查看当前路由
+ip route
+
+# bridge 网卡应该是默认路由
+# 如果 NAT 网卡是默认路由，调整 metric：
+sudo ip route change default via <bridge-gateway> dev <bridge-interface> metric 100
+```
+
+**Windows guest**：
+1. 打开**网络连接**
+2. 右键 bridge 适配器 → **属性** → **IPv4** → **高级**
+3. 取消勾选"自动跃点"，设置较低值（如 10）
+4. 对 NAT 适配器设置较高跃点值（如 100）
+
+#### 方案 2：移除 NAT 模式网卡
+
+如果不需要 NAT 网卡，从 VM 配置中删除：
+
+**KVM/libvirt**：
+```bash
+virsh edit <vm-name>
+# 删除 <interface type='network'> 且 <source network='default'/> 的块
+```
+
+#### 方案 3：使用 relay 模式
+
+如果 VM 网络无法重新配置，将 WireGuard 网络切换为 `force` relay 模式。流量将通过 Edge relay 服务器转发，绕过局域网路由问题。
+
+::: tip
+observed endpoint 显示的是 **host 的 IP**（而非 guest 的 IP），这在 guest 使用 NAT 模式网络时是正常行为。host 执行 NAT masquerading，因此外部 peer 看到的是 host 的 IP。这是正常的，不是 bug。
+:::
+
+### Q: 为什么 same-NAT（同局域网）优先使用 LAN endpoint 而不是 observed 公网 endpoint？
+
+当两个 peer 处于同一个 NAT 后（共享相同公网 IP），你可能会问：既然 observed 公网 endpoint 已经验证可用，为什么不直接用它？
+
+**原因是 Hairpin NAT（NAT 回环）的支持不确定。**
+
+如果 same-NAT 的 peer 使用 observed 公网 endpoint，流量路径会是：
+
+```
+设备 A (192.168.1.100) → 路由器 → 公网 → 路由器 → 设备 B (192.168.1.101)
+```
+
+这要求路由器支持 **Hairpin NAT** —— 即把来自 LAN 设备、目标为本路由器公网 IP 的流量，回环转发到 LAN 内的另一台设备。许多家用路由器：
+
+- ❌ 完全不支持 Hairpin NAT
+- ⚠️ 实现有 bug 或不稳定
+- ⚠️ 仅对特定协议支持（不一定支持 UDP）
+
+**YAT 的方案**：当检测到 same-NAT（两个 peer 共享相同的 observed 公网 IP）时，优先使用各 peer 上报的 LAN endpoint，实现局域网直连，不依赖路由器的 Hairpin NAT 能力：
+
+```
+设备 A (192.168.1.100) → 局域网直连 → 设备 B (192.168.1.101)
+```
+
+如果 LAN endpoint 不可用或无效，YAT 会自动回退到 observed 公网 endpoint，并且 WireGuard 内置的自愈机制（PersistentKeepalive 每 25 秒）可以在数秒内恢复 endpoint 问题。
 
 ---
 
@@ -597,8 +680,7 @@ tar xzf yat-backup-20241210.tar.gz \
 
 - **GitHub Issues**: [提交问题](https://github.com/tunnel6/yat/issues)
 - **Discussions**: [社区讨论](https://github.com/tunnel6/yat/discussions)
-- **Email**: support@myroxy.dev
-
+- **Email**: support@tunnel6.com
 ---
 
 *YAT Team - 让内网穿透更简单*

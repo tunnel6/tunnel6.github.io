@@ -77,7 +77,7 @@ WireGuard 组网是 YAT 的高级网络功能，使用 WireGuard 协议在多台
    - **CIDR 网段**：建议使用 `10.0.0.0/24`（支持 254 个设备）
    - **中继模式**：选择 `optional`（推荐）或 `force`
 
-> 📸 **[截图位置]** 创建 WireGuard 网络对话框
+> ![Networking snapshot](/images/guide/snapshot-networking-create-zh.png) 创建 WireGuard 网络对话框
 > 
 > 说明：显示网络名称、CIDR 输入框、中继模式选择
 
@@ -91,7 +91,7 @@ WireGuard 组网是 YAT 的高级网络功能，使用 WireGuard 协议在多台
 2. 等待系统分配 IP 地址
 3. 设备状态变为 **在线**
 
-> 📸 **[截图位置]** 网络详情页面 - 加入本地设备按钮
+>  ![Networking snapshot](/images/guide/snapshot-networkinfo-members-zh.png) 网络详情页面 - 加入本地设备按钮
 > 
 > 说明：显示网络卡片、加入按钮、成员列表
 
@@ -121,7 +121,7 @@ ping 10.0.0.3
 64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=2.5ms
 ```
 
-> 📸 **[截图位置]** 网络成员列表 - 显示在线状态和 IP
+> ![Networking snapshot](/images/guide/snapshot-networkinfo-members-zh.png)网络成员列表 - 显示在线状态和 IP
 > 
 > 说明：显示成员列表、IP 地址、在线状态、连接质量
 
@@ -134,7 +134,7 @@ ping 10.0.0.3
 - **Endpoint**：对端的实际 UDP 地址
 - **握手时间**：最后一次 WireGuard 握手时间
 
-> 📸 **[截图位置]** 成员详情对话框 - 显示连接信息
+> ![Networking snapshot](/images/guide/snapshot-networkinfo-links-zh.png)成员详情对话框 - 显示连接信息
 > 
 > 说明：显示成员详情、连接路径、延迟、endpoint
 
@@ -207,13 +207,105 @@ YAT 支持三种中继模式，影响设备间的连接策略：
 3. 修改 **中继模式**
 4. 保存后，所有成员会自动同步新配置
 
-> 📸 **[截图位置]** 网络设置对话框 - 中继模式选择
+> ![Networking snapshot](/images/guide/snapshot-networkinfo-settting-relay-zh.png)网络设置对话框 - 中继模式选择
 > 
 > 说明：显示三种中继模式选项
 
 ### 理解连接路径
 
 YAT 会智能选择最优路径：
+
+#### Endpoint 选择流程图
+
+下图展示了 YAT 如何为每个 peer 确定使用哪个 endpoint：
+
+```
+                    ┌──────────────────────────────────┐
+                    │  Edge 从 WireGuard 握手中观察到    │
+                    │  peer 的 UDP 源地址               │
+                    │  → "observed endpoint"            │
+                    │    (如 1.2.3.4:57681)    │
+                    └──────────────┬───────────────────┘
+                                   │
+                    ┌──────────────▼───────────────────┐
+                    │  两个 peer 是否共享相同的          │
+                    │  observed 公网 IP？               │
+                    │  (same-NAT / 同局域网检测)        │
+                    └──────┬───────────────┬───────────┘
+                           │               │
+                     ┌─YES─┘               └──NO──┐
+                     ▼                             ▼
+          ┌─────────────────────┐    ┌────────────────────────┐
+          │  Edge 向两个 peer    │    │  使用 observed endpoint │
+          │  推送 gather 请求    │    │  作为 peer endpoint     │
+          └──────────┬──────────┘    │  (公网直连路径)          │
+                     │               └────────────────────────┘
+          ┌──────────▼──────────┐
+          │  客户端上报其         │
+          │  LAN IP + WG 端口    │
+          │  (如 192.168.1.5:   │
+          │   51820)             │
+          └──────────┬──────────┘
+                     │
+          ┌──────────▼──────────┐
+          │  LAN endpoint 有效？  │
+          │  (非 WG TUN IP,     │
+          │   非过期)            │
+          └──────┬─────────┬───┘
+                 │         │
+           ┌─YES─┘         └──NO──┐
+           ▼                      ▼
+  ┌──────────────────┐  ┌────────────────────────┐
+  │ 使用 LAN endpoint │  │ 回退到 observed endpoint│
+  │ (局域网直连路径)   │  │ (公网直连路径)          │
+  └────────┬─────────┘  └──────────┬─────────────┘
+           │                       │
+           └───────────┬───────────┘
+                       │
+          ┌────────────▼────────────┐
+          │  WireGuard 内核发送      │
+          │  PersistentKeepalive    │
+          │  (每 25 秒)              │
+          └────────────┬────────────┘
+                       │
+          ┌────────────▼────────────┐
+          │  通信正常？              │
+          └──────┬────────────┬─────┘
+                 │            │
+           ┌─YES─┘            └──NO──┐
+           ▼                         ▼
+  ┌──────────────────┐    ┌──────────────────────────┐
+  │ ✅ 连接成功！      │    │  WG 内核自动修正 endpoint │
+  │  低延迟 LAN 路径   │    │  为 observed IP           │
+  │  或公网路径        │    │  (自愈，≤25秒)            │
+  └──────────────────┘    └────────────┬─────────────┘
+                                       │
+                          ┌────────────▼────────────┐
+                          │  仍然不通？              │
+                          │  Relay 模式回退：         │
+                          │  optional → relay peer   │
+                          │  force → 始终走 relay    │
+                          │  disabled → 无回退        │
+                          └─────────────────────────┘
+```
+
+#### Endpoint 类型
+
+| 类型 | 来源 | 可靠性 | 示例 |
+|------|------|--------|------|
+| **Observed** | Edge 从 WG 握手中观察到的 peer UDP 源地址 | ✅ 已验证可用 | `1.2.3.4:57681` |
+| **LAN** | 客户端通过 same-NAT gather 自报 | ⚠️ 未验证 | `192.168.1.100:51820` |
+| **Relay** | Edge relay 服务器配置 | ✅ 始终可用 | `edge.example.com:59000` |
+
+#### 自愈机制
+
+当 LAN endpoint 不通时，WireGuard 内置机制会自动恢复：
+
+1. Peer 从 **observed** 公网 IP 发送 `PersistentKeepalive`（每 25 秒）
+2. 本地 WG 内核收到 keepalive → 自动更新 peer endpoint
+3. 通信恢复到 observed（公网）路径
+
+**恢复时间**：最长 25 秒（一个 keepalive 周期）+ 网络延迟
 
 #### 直连路径（Direct）
 
@@ -315,7 +407,7 @@ YAT 会智能选择最优路径：
 - ✅ Edge 会自动检测 Same-NAT 设备
 - ✅ 设备间会优先使用 LAN 地址直连
 
-> 📸 **[截图位置]** Same-NAT 检测提示
+> [Networking snapshot](/images/guide/snapshot-networkinfo-links-zh.png)Same-NAT 检测提示
 > 
 > 说明：显示检测到同一 NAT 后的设备对
 
@@ -522,7 +614,7 @@ grep -A 10 "wireguard:" /etc/yat/config.yaml
 2. 点击并等待 IP 分配完成
 3. 设备状态变为 **在线** 即表示加入成功
 
-> 📸 **[截图位置]** 加入本地设备按钮
+> > [Networking snapshot](/images/guide/snapshot-netwokinfo-join-zh.png)加入本地设备按钮
 > 
 > 说明：显示网络卡片上的加入按钮
 
@@ -747,7 +839,7 @@ Endpoint：192.168.1.101:51820  （LAN 地址）
 
 如果 Endpoint 是公网 IP，说明未使用 LAN 地址。
 
-> 📸 **[截图位置]** 成员详情 - 显示 LAN endpoint
+> [Networking snapshot](/images/guide/snapshot-netwokinfo-join-zh.png)成员详情 - 显示 LAN endpoint
 > 
 > 说明：显示连接路径为 direct，endpoint 为 LAN 地址
 

@@ -486,9 +486,92 @@ Check for loading errors
 
 ### Q: IPv6 support?
 
-YAT **supports** IPv6:
-- Edge servers can configure IPv6
-- Client auto-selects best protocol
+YAT's Edge server can be accessed via IPv6, and the client auto-detects IPv6 connectivity.
+
+However, **WireGuard Networking currently only supports IPv4**:
+- Network CIDR assignment is IPv4-only (e.g., `10.0.0.0/24`)
+- LAN endpoint gathering (same-NAT discovery) only handles IPv4 addresses
+- Relay forwarding does not process IPv6 packets
+
+IPv6 support for WireGuard networking may be added in a future release if there is sufficient demand.
+
+### Q: Virtual machine guest can't communicate with same-LAN peers (one-way traffic)
+
+**Symptom**:
+A device running inside a VM guest (KVM, VirtualBox, VMware) can send data to same-LAN peers, but receives nothing back (`0 B received, N KiB sent`).
+
+**Cause**: The VM guest has a NAT-mode virtual NIC in addition to the bridge NIC. The NAT interface causes the guest's traffic to be masqueraded through the host's IP, creating asymmetric routing:
+
+```
+Peer → sends to guest's LAN IP → reaches guest ✓
+Guest → replies via NAT NIC → source IP becomes host IP → peer doesn't recognize → drops ✗
+```
+
+**Solution**:
+
+#### Option 1: Ensure bridge NIC is the default route (Recommended)
+
+Make sure the guest's default gateway goes through the **bridge** NIC, not the NAT NIC:
+
+**Linux guest**:
+```bash
+# Check current routes
+ip route
+
+# Bridge NIC should be the default route
+# If NAT NIC is default, adjust metric:
+sudo ip route change default via <bridge-gateway> dev <bridge-interface> metric 100
+```
+
+**Windows guest**:
+1. Open **Network Connections**
+2. Right-click the bridge adapter → **Properties** → **IPv4** → **Advanced**
+3. Uncheck "Automatic metric" and set a lower value (e.g., 10)
+4. For the NAT adapter, set a higher metric (e.g., 100)
+
+#### Option 2: Remove the NAT-mode NIC
+
+If the NAT NIC is not needed, remove it from the VM configuration:
+
+**KVM/libvirt**:
+```bash
+virsh edit <vm-name>
+# Remove the <interface type='network'> block with <source network='default'/>
+```
+
+#### Option 3: Use relay mode
+
+If the VM network cannot be reconfigured, switch the WireGuard network to `force` relay mode. Traffic will go through the Edge relay server, bypassing the LAN routing issue.
+
+::: tip
+The observed endpoint showing the **host's IP** (not the guest's IP) is expected behavior when the guest uses NAT-mode networking. The host performs NAT masquerading, so external peers see the host's IP. This is normal and does not indicate a bug.
+:::
+
+### Q: Why does same-LAN (same-NAT) use LAN endpoint instead of the observed public endpoint?
+
+When two peers are behind the same NAT (same public IP), you might wonder why YAT doesn't just use the observed public endpoint — after all, it's already verified working.
+
+**The reason is Hairpin NAT (NAT loopback) uncertainty.**
+
+If same-NAT peers used the observed public endpoint, the traffic path would be:
+
+```
+Device A (192.168.1.100) → Router → Internet → Router → Device B (192.168.1.101)
+```
+
+This requires the router to support **Hairpin NAT** — the ability to route traffic from a LAN device back to another LAN device via the router's own public IP. Many consumer routers either:
+
+- ❌ Don't support Hairpin NAT at all
+- ⚠️ Have buggy/inconsistent implementations
+- ⚠️ Only support it for specific protocols (not UDP)
+
+**YAT's solution**: When same-NAT is detected (two peers share the same observed public IP), YAT prioritizes the LAN endpoint reported by each peer. This enables direct LAN communication without depending on the router's Hairpin NAT capability:
+
+```
+Device A (192.168.1.100) → Direct LAN → Device B (192.168.1.101)
+```
+
+If the LAN endpoint is unavailable or invalid, YAT automatically falls back to the observed public endpoint, and WireGuard's built-in self-healing mechanism (PersistentKeepalive every 25s) can recover from endpoint issues within seconds.
 
 ---
 

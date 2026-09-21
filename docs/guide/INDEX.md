@@ -114,7 +114,7 @@ Once screenshots are completed, the documentation is ready for publication!
 
 - **GitHub Issues**: [Report Issues](https://github.com/tunnel6/yat/issues)
 - **Discussions**: [Community Discussions](https://github.com/tunnel6/yat/discussions)
-- **Email**: support@myroxy.dev
+- **Email**: support@tunnel6.com
 
 ---
 

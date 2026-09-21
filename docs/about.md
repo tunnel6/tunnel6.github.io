@@ -52,7 +52,7 @@ YAT is open source under the MIT License.
 
 ## Contact
 
-- **Email**: [support@myroxy.dev](mailto:support@tunnel6.com)
+- **Email**: [support@tunnel6.com](mailto:support@tunnel6.com)
 - **Twitter**: [@yat](https://twitter.com/yat)
 - **Discord**: [Join our community](https://discord.gg/tunnel6/yat)
 

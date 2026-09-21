@@ -77,7 +77,7 @@ WireGuard networking is YAT's advanced networking feature that uses the WireGuar
    - **CIDR**: Recommended `10.0.0.0/24` (supports 254 devices)
    - **Relay Mode**: Choose `optional` (recommended) or `force`
 
-> 📸 **[Screenshot placeholder]** Create WireGuard network dialog
+> 📸 ![Networking snapshot](/images/guide/snapshot-networking-create-en.png) Create WireGuard network dialog
 > 
 > Description: Shows network name, CIDR input, relay mode selection
 
@@ -91,7 +91,7 @@ After creating the network, add your current device:
 2. Wait for IP address assignment
 3. Device status changes to **Online**
 
-> 📸 **[Screenshot placeholder]** Network detail page - Join local device button
+> 📸 ![Networking snapshot](/images/guide/snapshot-networkinfo-join-en.png) Network detail page - Join local device button
 > 
 > Description: Shows network card, join button, member list
 
@@ -121,7 +121,7 @@ ping 10.0.0.3
 64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=2.5ms
 ```
 
-> 📸 **[Screenshot placeholder]** Network member list - showing online status and IPs
+> 📸 ![Networking snapshot](/images/guide/snapshot-networkinfo-members-en.png) Network member list - showing online status and IPs
 > 
 > Description: Shows member list, IP addresses, online status, connection quality
 
@@ -133,10 +133,6 @@ Click a member to view connection details:
 - **Latency**: Current connection latency
 - **Endpoint**: Peer's actual UDP address
 - **Handshake Time**: Last WireGuard handshake time
-
-> 📸 **[Screenshot placeholder]** Member detail dialog - showing connection info
-> 
-> Description: Shows member details, connection path, latency, endpoint
 
 ---
 
@@ -207,13 +203,107 @@ Device A ──Direct only──► Device B
 3. Modify **Relay Mode**
 4. After saving, all members sync automatically
 
-> 📸 **[Screenshot placeholder]** Network settings dialog - relay mode selection
+> 📸 ![Networking snapshot](/images/guide/snapshot-networkinfo-settting-relay-en.png) Network settings dialog - relay mode selection
 > 
 > Description: Shows three relay mode options
 
 ### Understanding Connection Paths
 
 YAT intelligently selects the optimal path:
+
+#### Endpoint Selection Flowchart
+
+The following diagram shows how YAT determines which endpoint to use for each peer:
+
+```
+                    ┌──────────────────────────────────┐
+                    │  Edge observes peer's UDP source  │
+                    │  from WireGuard handshake          │
+                    │  → "observed endpoint"            │
+                    │    (e.g. 1.2.3.4:57681)   │
+                    └──────────────┬───────────────────┘
+                                   │
+                    ┌──────────────▼───────────────────┐
+                    │  Do both peers share the same     │
+                    │  observed public IP?              │
+                    │  (same-NAT / same-LAN detection)  │
+                    └──────┬───────────────┬───────────┘
+                           │               │
+                     ┌─YES─┘               └──NO──┐
+                     ▼                             ▼
+          ┌─────────────────────┐    ┌────────────────────────┐
+          │  Edge pushes gather  │    │  Use observed endpoint  │
+          │  request to both     │    │  as peer endpoint       │
+          │  peers               │    │  (public internet path) │
+          └──────────┬──────────┘    └────────────────────────┘
+                     │
+          ┌──────────▼──────────┐
+          │  Client reports its  │
+          │  LAN IP + WG port    │
+          │  (e.g. 192.168.1.5:  │
+          │   51820)             │
+          └──────────┬──────────┘
+                     │
+          ┌──────────▼──────────┐
+          │  LAN endpoint valid? │
+          │  (not WG TUN IP,    │
+          │   not stale)        │
+          └──────┬─────────┬───┘
+                 │         │
+           ┌─YES─┘         └──NO──┐
+           ▼                      ▼
+  ┌──────────────────┐  ┌────────────────────────┐
+  │ Use LAN endpoint  │  │ Fall back to observed   │
+  │ for peer          │  │ endpoint                │
+  │ (LAN direct path) │  │ (public internet path)  │
+  └────────┬─────────┘  └──────────┬─────────────┘
+           │                       │
+           └───────────┬───────────┘
+                       │
+          ┌────────────▼────────────┐
+          │  WireGuard kernel sends  │
+          │  PersistentKeepalive     │
+          │  (every 25s)             │
+          └────────────┬────────────┘
+                       │
+          ┌────────────▼────────────┐
+          │  Communication working?  │
+          └──────┬────────────┬─────┘
+                 │            │
+           ┌─YES─┘            └──NO──┐
+           ▼                         ▼
+  ┌──────────────────┐    ┌──────────────────────────┐
+  │ ✅ Connected!     │    │  WG kernel auto-corrects  │
+  │  Low-latency LAN │    │  endpoint to observed IP   │
+  │  or public path  │    │  (self-healing, ≤25s)      │
+  └──────────────────┘    └────────────┬─────────────┘
+                                       │
+                          ┌────────────▼────────────┐
+                          │  Still failing?          │
+                          │  Relay mode fallback:    │
+                          │  optional → relay peer   │
+                          │  force → always relay    │
+                          │  disabled → no fallback  │
+                          └─────────────────────────┘
+```
+
+#### Endpoint Types
+
+| Type | Source | Reliability | Example |
+|------|--------|-------------|--------|
+| **Observed** | Edge sees peer's UDP source IP from WG handshake | ✅ Verified working | `1.2.3.4:57681` |
+| **LAN** | Client self-reports via same-NAT gather | ⚠️ Not verified | `192.168.1.100:51820` |
+| **Relay** | Edge relay server configuration | ✅ Always available | `edge.example.com:59000` |
+
+#### Self-Healing
+
+When a LAN endpoint turns out to be unreachable, WireGuard's built-in mechanism automatically recovers:
+
+1. Peer sends `PersistentKeepalive` (every 25s) from the **observed** public IP
+2. Local WG kernel receives it → automatically updates peer endpoint
+3. Communication resumes via the observed (public) path
+
+**Recovery time**: at most 25 seconds (one keepalive cycle) + network latency.
 
 #### Direct Path
 
@@ -315,7 +405,6 @@ If multiple devices are on the same LAN:
 - ✅ Edge auto-detects Same-NAT devices
 - ✅ Devices prioritize LAN address direct connection
 
-> 📸 **[Screenshot placeholder]** Same-NAT detection notice
 > 
 > Description: Shows device pairs detected on same NAT
 
@@ -522,7 +611,7 @@ This is security design. YAT doesn't auto-add devices to networks, requiring exp
 2. Click and wait for IP assignment
 3. Device status **Online** means join successful
 
-> 📸 **[Screenshot placeholder]** Join local device button
+> 📸![Networking snapshot](/images/guide/snapshot-networking-create-en.png)Join local device button
 > 
 > Description: Shows join button on network card
 
@@ -746,10 +835,6 @@ Latency: < 5ms
 ```
 
 If Endpoint is public IP, LAN address not used.
-
-> 📸 **[Screenshot placeholder]** Member details - showing LAN endpoint
-> 
-> Description: Shows path as direct, endpoint as LAN address
 
 #### 2. Check Edge Logs
 

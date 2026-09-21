@@ -114,7 +114,7 @@
 
 - **GitHub Issues**: [提交问题](https://github.com/tunnel6/yat/issues)
 - **Discussions**: [社区讨论](https://github.com/tunnel6/yat/discussions)
-- **Email**: support@myroxy.dev
+- **Email**: support@tunnel6.com
 
 ---
 
