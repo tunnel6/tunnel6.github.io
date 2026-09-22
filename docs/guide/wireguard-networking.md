@@ -66,7 +66,7 @@ WireGuard networking is YAT's advanced networking feature that uses the WireGuar
 
 - ✅ YAT client installed and logged in
 - ✅ Subscribed to a WireGuard-enabled Edge server
-- ✅ Edge server has WireGuard functionality enabled
+- ✅ Edge server has WireGuard functionality enabled (see [Edge Management - Enable WireGuard](./edge-management.md#enable-wireguard))
 
 ### Step 1: Create a WireGuard Network
 
@@ -293,7 +293,7 @@ The following diagram shows how YAT determines which endpoint to use for each pe
 |------|--------|-------------|--------|
 | **Observed** | Edge sees peer's UDP source IP from WG handshake | ✅ Verified working | `1.2.3.4:57681` |
 | **LAN** | Client self-reports via same-NAT gather | ⚠️ Not verified | `192.168.1.100:51820` |
-| **Relay** | Edge relay server configuration | ✅ Always available | `edge.example.com:59000` |
+| **Relay** | Edge relay server configuration | ✅ Always available | `edge.example.com:58021` |
 
 #### Self-Healing
 
@@ -324,7 +324,7 @@ Device A (192.168.1.100:51820) ──UDP──► Device B (192.168.1.101:51820)
 #### Relay Path
 
 ```
-Device A ──UDP──► Edge (public-ip:59000) ──UDP──► Device B
+Device A ──UDP──► Edge (public-ip:WG-port) ──Kernel Forward──► Device B
 ```
 
 **Triggers**:
@@ -333,9 +333,9 @@ Device A ──UDP──► Edge (public-ip:59000) ──UDP──► Device B
 - Force relay mode
 
 **Edge Relay Mechanism**:
-- Each peer gets dedicated UDP port (59000-60999)
-- Edge forwards encrypted WireGuard packets
-- Different sources use independent upstream flows
+- All peers connect to the same WG interface port
+- Edge uses kernel forwarder (nftables + ip_forward) to forward encrypted packets within the same interface
+- No additional per-peer relay ports needed
 
 ### P2P Session Status & Health Indicators
 
@@ -449,7 +449,6 @@ proxy:
       enabled: true            # Enable business relay
       interface_prefix: "wg-yat0"
       listen_port_base: 58021  # WG interface port base
-      peer_relay_port_base: 59000  # Peer relay port base
       key_dir: "/var/lib/yat/wg-keys"
       public_endpoint: "edge.example.com"  # Edge public address
 ```
@@ -467,7 +466,7 @@ Enables WireGuard functionality. Edge will:
 
 Controls business relay:
 
-- `true`: Creates per-peer relay listeners, supports relay forwarding
+- `true`: Enables kernel forwarder relay forwarding (nftables + ip_forward)
 - `false`: Only keeps observation interface, no relay support
 
 ::: tip
@@ -487,27 +486,12 @@ WireGuard interface port base. Each network uses one port:
 sudo ufw allow 58021:58100/udp
 ```
 
-#### 4. `peer_relay_port_base: 59000`
-
-Per-peer relay port base. Each peer gets dedicated port:
-- Peer A: 59000
-- Peer B: 59001
-- ...
-
-**Port range**: 59000-60999 (supports 2000 peers)
-
-**Firewall requirements**:
-```bash
-# Allow peer relay ports
-sudo ufw allow 59000:60999/udp
-```
-
-#### 5. `public_endpoint`
+#### 4. `public_endpoint`
 
 Edge's public address. Clients use this for relay:
 
 ```
-Client A ──UDP──► edge.example.com:59000 ──Forward──► Client B
+Client A ──UDP──► edge.example.com:58021 ──Kernel Forward──► Client B
 ```
 
 **Format requirements**:
@@ -540,8 +524,12 @@ sudo ss -ulnp | grep yat-edge
 
 # Should see:
 # udp  0  0  0.0.0.0:58021  0.0.0.0:*  users:(("yat-edge",pid=1234))
-# udp  0  0  0.0.0.0:59000  0.0.0.0:*  users:(("yat-edge",pid=1234))
 ```
+
+::: tip
+Edge relay uses kernel forwarder to forward traffic within the same WG interface.
+No additional per-peer relay ports needed. Just allow the WG interface port.
+:::
 
 ### Common Configuration Issues
 
@@ -692,15 +680,26 @@ log show --predicate 'process == "yat-wg-helperd"' --last 5m
 # Settings > System > WireGuard Helper > View logs
 ```
 
-#### 4. Check boringtun Process
+#### 4. View Helper Logs to Confirm Startup
 
 ```bash
-# Check if boringtun is running
-ps aux | grep boringtun
+# macOS: via unified log
+log show --predicate 'process == "yat-wg-helperd"' --last 5m
 
-# Should see:
-# root  5678  0.0  0.5  /Library/Application\ Support/yat/boringtun
+# macOS: view log file directly
+tail -f /Library/Logs/YAT/yat-wg-helperd.log
+
+# Windows: view log file
+type %ProgramData%\YAT\helper\wireguard\yat-wg-helperd.log
+
+# Or in YAT client:
+# Settings > System > WireGuard Helper > View logs
 ```
+
+::: tip
+`yat-wg-helperd` embeds the boringtun engine — there is no separate boringtun process.
+Confirm the log shows `started` or successful `apply` messages to verify the helper daemon is running.
+:::
 
 #### 5. Manual Helper Test
 
@@ -790,11 +789,11 @@ New-NetFirewallRule -DisplayName "Allow ICMP" -Direction Inbound -Protocol ICMPv
 #### 5. Check Wintun Driver
 
 ```powershell
-# Check if Wintun driver installed
+# Check Wintun driver (bundled with installer, no manual install needed)
 Get-WindowsDriver -Online | Where-Object {$_.ProviderName -like "*Wintun*"}
 
-# If not installed, reinstall YAT client
-# Or manually install Wintun: https://www.wintun.net/
+# Driver should be ready after installing YAT client
+# If missing, rerun the YAT installer to repair
 ```
 
 #### 6. Restart WireGuard Service
@@ -960,13 +959,17 @@ Using `force` mode but can't communicate via Edge relay.
 #### 1. Check Edge Relay Status
 
 ```bash
-# Check if relay listeners are listening
+# Check if WG interface is listening
 sudo ss -ulnp | grep yat-edge
 
 # Should see:
-# udp  0  0  0.0.0.0:59000  0.0.0.0:*  users:(("yat-edge",pid=1234))
-# udp  0  0  0.0.0.0:59001  0.0.0.0:*  users:(("yat-edge",pid=1234))
+# udp  0  0  0.0.0.0:58021  0.0.0.0:*  users:(("yat-edge",pid=1234))
 ```
+
+::: tip
+Edge relay uses kernel forwarder to forward within the same WG interface.
+All peers share the same WG port. No need to check additional per-peer relay ports.
+:::
 
 #### 2. Check Target Endpoint
 
@@ -986,16 +989,22 @@ If endpoint empty, relay can't forward.
 # View relay forwarding logs
 journalctl -u yat-edge -f | grep -i relay
 
-# Should see:
-# "Relay packet from 59000 to 1.2.3.4:51820"
+# Should see nft counter growing:
+# yat_relay  chain forward  accept
 ```
+
+::: tip
+Edge relay uses kernel forwarder to forward within the same WG interface.
+All peers share the same WG port. No need to check additional per-peer relay ports.
+:::
 
 #### 4. Understand Current Limitations
 
 ::: warning Important
-Current per-peer relay creates upstream sockets with new Edge UDP source ports, **not reusing** observer's established NAT channel.
-
-In strict endpoint-dependent NAT environments, relay may fail. This is a known incomplete item requiring channel multiplexing implementation.
+The kernel forwarder relies on `ip_forward` for same-interface forwarding,
+preserving the original source IP. However, in strict endpoint-dependent
+NAT environments, direct peer connections may still be limited.
+We recommend using `optional` mode as the preferred setting.
 :::
 
 **Temporary Solutions**:
@@ -1009,178 +1018,62 @@ In strict endpoint-dependent NAT environments, relay may fail. This is a known i
 
 ### macOS
 
-#### System Requirements
+#### Prerequisites
 
-- macOS 10.15+ (Catalina)
-- Administrator privileges required for helper daemon installation
+- Joined at least one WireGuard network
+- Helper daemon requires administrator privileges (YAT will automatically request elevation when joining a network)
 
-#### Helper Daemon Management
+#### Debug Information
+
+| Item | Path |
+|------|------|
+| Helper Log | `/Library/Logs/YAT/yat-wg-helperd.log` |
+| WG Config | `~/Library/Application Support/yat/wireguard/networks/<networkId>/wg.conf` |
+
+#### View WireGuard Status
 
 ```bash
-# View helper status
-launchctl list | grep yat-wg-helper
-
-# Manually start helper
-sudo launchctl load /Library/LaunchDaemons/com.yat.wg-helper.plist
-
-# Manually stop helper
-sudo launchctl unload /Library/LaunchDaemons/com.yat.wg-helper.plist
-
-# View helper logs
-log show --predicate 'process == "yat-wg-helperd"' --last 5m
-```
-
-#### Power Management
-
-macOS supports Power Assertion to prevent idle sleep:
-
-1. Go to **Settings > System**
-2. Enable **Prevent system sleep**
-3. System won't enter idle sleep when networks active
-
-::: tip
-Power Assertion only prevents idle sleep, not lid-close or manual sleep. After lid-close, relies on peer's `PersistentKeepalive` to wake.
-:::
-
-#### Common Issues
-
-**Q: WireGuard interface disappears**
-```bash
-# Re-sync config
-# Click "Sync Local Adapter" in YAT client
-
-# Or restart helper
-sudo launchctl unload /Library/LaunchDaemons/com.yat.wg-helper.plist
-sudo launchctl load /Library/LaunchDaemons/com.yat.wg-helper.plist
-```
-
-**Q: Connection breaks after sleep**
-```bash
-# Force re-apply after wake
-# Click "Sync Local Adapter" in YAT client
-
-# Or manually trigger
-sudo killall -HUP yat-wg-helperd
+# Available after installing the official WireGuard macOS client
+# https://apps.apple.com/app/wireguard/id1451685025
+sudo wg show all
 ```
 
 ### Windows
 
-#### System Requirements
+#### Prerequisites
 
-- Windows 10+ (64-bit)
-- Wintun driver installation required
+- Joined at least one WireGuard network
+- Helper daemon requires administrator privileges (automatically configured by YAT installer)
 
-#### Wintun Driver Management
+#### Debug Information
 
-```powershell
-# Check Wintun driver
-Get-WindowsDriver -Online | Where-Object {$_.ProviderName -like "*Wintun*"}
+| Item | Path |
+|------|------|
+| Helper Log | `%ProgramData%\YAT\helper\wireguard\yat-wg-helperd.log` |
+| WG Config | `%APPDATA%\yat\wireguard\networks\<networkId>\wg.conf` |
 
-# If not installed, reinstall YAT client
-# Or manually install from https://www.wintun.net/
-```
-
-#### Network Adapter Management
+#### View WireGuard Status
 
 ```powershell
-# View all WireGuard adapters
+# Check packet activity via Wintun virtual network adapter
 Get-NetAdapter | Where-Object {$_.InterfaceDescription -like "*WireGuard*"}
 
-# Disable adapter
-Disable-NetAdapter -Name "YAT-NET1" -Confirm:$false
-
-# Enable adapter
-Enable-NetAdapter -Name "YAT-NET1" -Confirm:$false
-
-# Remove adapter
-Remove-NetAdapter -Name "YAT-NET1" -Confirm:$false
-```
-
-#### Firewall Configuration
-
-```powershell
-# Allow YAT through firewall
-New-NetFirewallRule -DisplayName "YAT" -Direction Inbound -Program "C:\Program Files\YAT\YAT.exe" -Action Allow
-
-# Allow ICMP (ping)
-New-NetFirewallRule -DisplayName "Allow ICMP" -Direction Inbound -Protocol ICMPv4 -Action Allow
-
-# Allow UDP traffic (WireGuard)
-New-NetFirewallRule -DisplayName "WireGuard UDP" -Direction Inbound -Protocol UDP -LocalPort 51820 -Action Allow
-```
-
-#### Common Issues
-
-**Q: Network adapter not created**
-```powershell
-# Check Wintun driver
-Get-WindowsDriver -Online | Where-Object {$_.ProviderName -like "*Wintun*"}
-
-# Reinstall YAT client
-# Or run YAT as administrator
-```
-
-**Q: Can't ping other members**
-```powershell
-# Check firewall
-Get-NetFirewallRule | Where-Object {$_.DisplayName -like "*ICMP*"}
-
-# If no rules, add
-New-NetFirewallRule -DisplayName "Allow ICMP" -Direction Inbound -Protocol ICMPv4 -Action Allow
+# Wintun adapter can also be found in Windows Device Manager > Network adapters
 ```
 
 ### Linux
 
-#### System Requirements
+#### Prerequisites
 
-- Linux 5.6+ (kernel WireGuard support)
-- Root privileges required
-
-#### Install WireGuard Tools
+- Linux 5.6+ (native kernel WireGuard support)
+- Edge process requires root privileges
 
 ```bash
-# Ubuntu/Debian
-sudo apt install wireguard wireguard-tools
-
-# CentOS/RHEL
-sudo yum install wireguard wireguard-tools
-
-# Fedora
-sudo dnf install wireguard-tools
-```
-
-#### Check WireGuard Interfaces
-
-```bash
-# View all WireGuard interfaces
-sudo ip link show type wireguard
-
-# Or use wg command
+# View WireGuard interface status
 sudo wg show all
 
-# View specific interface
-sudo wg show wg-yat0-abc123
-```
-
-#### Common Issues
-
-**Q: Kernel doesn't support WireGuard**
-```bash
-# Check kernel version
-uname -r
-
-# If < 5.6, upgrade kernel
-sudo apt install linux-image-generic
-sudo reboot
-```
-
-**Q: Missing permissions**
-```bash
-# Ensure YAT runs as root
-sudo ./yat
-
-# Or use sudo
-sudo -E ./yat
+# View interface details
+sudo ip link show type wireguard
 ```
 
 ---

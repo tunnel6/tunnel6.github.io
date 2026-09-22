@@ -66,7 +66,7 @@ WireGuard 组网是 YAT 的高级网络功能，使用 WireGuard 协议在多台
 
 - ✅ YAT 客户端已安装并登录
 - ✅ 已订阅支持 WireGuard 的 Edge 服务器
-- ✅ Edge 服务器已启用 WireGuard 功能
+- ✅ Edge 服务器已启用 WireGuard 功能（参见 [Edge 管理 - 启用 WireGuard](./edge-management.md#启用-wireguard-功能)）
 
 ### 步骤 1：创建 WireGuard 网络
 
@@ -295,7 +295,7 @@ YAT 会智能选择最优路径：
 |------|------|--------|------|
 | **Observed** | Edge 从 WG 握手中观察到的 peer UDP 源地址 | ✅ 已验证可用 | `1.2.3.4:57681` |
 | **LAN** | 客户端通过 same-NAT gather 自报 | ⚠️ 未验证 | `192.168.1.100:51820` |
-| **Relay** | Edge relay 服务器配置 | ✅ 始终可用 | `edge.example.com:59000` |
+| **Relay** | Edge relay 服务器配置 | ✅ 始终可用 | `edge.example.com:58021` |
 
 #### 自愈机制
 
@@ -326,7 +326,7 @@ YAT 会智能选择最优路径：
 #### 中继路径（Relay）
 
 ```
-设备 A ──UDP──► Edge (公网IP:59000) ──UDP──► 设备 B
+设备 A ──UDP──► Edge (公网IP:WG端口) ──Kernel Forward──► 设备 B
 ```
 
 **触发条件**：
@@ -335,9 +335,9 @@ YAT 会智能选择最优路径：
 - 强制中继模式
 
 **Edge 中继机制**：
-- 每个 peer 分配独立 UDP 端口（59000-60999）
-- Edge 转发加密的 WireGuard 报文
-- 不同来源的流量使用独立 upstream flow
+- 所有 peer 连接至同一 WG 接口端口
+- Edge 通过 kernel forwarder（nftables + ip_forward）在同接口内转发加密报文
+- 无需额外 per-peer relay 端口
 
 ### P2P 会话状态与健康指示器
 
@@ -452,7 +452,6 @@ proxy:
       enabled: true            # 启用业务 relay
       interface_prefix: "wg-yat0"
       listen_port_base: 58021  # WG 接口端口起始
-      peer_relay_port_base: 59000  # Peer relay 端口起始
       key_dir: "/var/lib/yat/wg-keys"
       public_endpoint: "edge.example.com"  # Edge 公网地址
 ```
@@ -470,7 +469,7 @@ proxy:
 
 控制业务 relay 是否启用：
 
-- `true`：创建 per-peer relay listener，支持中继转发
+- `true`：启用 kernel forwarder 中继转发（nftables + ip_forward）
 - `false`：仅保留 observation interface，不支持 relay
 
 ::: tip 提示
@@ -490,27 +489,12 @@ WireGuard 接口端口起始值。每个网络占用一个端口：
 sudo ufw allow 58021:58100/udp
 ```
 
-#### 4. `peer_relay_port_base: 59000`
-
-Per-peer relay 端口起始值。每个 peer 分配独立端口：
-- Peer A: 59000
-- Peer B: 59001
-- ...
-
-**端口范围**：59000-60999（支持 2000 个 peer）
-
-**防火墙要求**：
-```bash
-# 放行 peer relay 端口
-sudo ufw allow 59000:60999/udp
-```
-
-#### 5. `public_endpoint`
+#### 4. `public_endpoint`
 
 Edge 的公网地址。客户端使用此地址连接 relay：
 
 ```
-客户端 A ──UDP──► edge.example.com:59000 ──转发──► 客户端 B
+客户端 A ──UDP──► edge.example.com:58021 ──Kernel Forward──► 客户端 B
 ```
 
 **格式要求**：
@@ -543,8 +527,12 @@ sudo ss -ulnp | grep yat-edge
 
 # 应该看到：
 # udp  0  0  0.0.0.0:58021  0.0.0.0:*  users:(("yat-edge",pid=1234))
-# udp  0  0  0.0.0.0:59000  0.0.0.0:*  users:(("yat-edge",pid=1234))
 ```
+
+::: tip 说明
+Edge relay 使用 kernel forwarder 在同 WG 接口内转发 peer 间流量，
+无需额外的 per-peer relay 端口。只需放行 WG 接口端口即可。
+:::
 
 ### 常见配置问题
 
@@ -695,28 +683,26 @@ log show --predicate 'process == "yat-wg-helperd"' --last 5m
 # 设置 > 系统 > WireGuard Helper > 查看日志
 ```
 
-#### 4. 检查 boringtun 进程
+#### 4. 查看 Helper 日志确认启动成功
 
 ```bash
-# 检查 boringtun 是否运行
-ps aux | grep boringtun
+# macOS：通过 unified log 查看
+log show --predicate 'process == "yat-wg-helperd"' --last 5m
 
-# 应该看到：
-# root  5678  0.0  0.5  /Library/Application\ Support/yat/boringtun
+# macOS：直接查看日志文件
+tail -f /Library/Logs/YAT/yat-wg-helperd.log
+
+# Windows：查看日志文件
+type %ProgramData%\YAT\helper\wireguard\yat-wg-helperd.log
+
+# 或在 YAT 客户端中查看：
+# 设置 > 系统 > WireGuard Helper > 查看日志
 ```
 
-#### 5. 手动测试 Helper
-
-```bash
-# 使用 socat 与 helper 通信
-sudo socat - UNIX-CONNECT:/var/run/yat-wg-helper.sock
-
-# 发送 JSON 请求
-{"request":"status"}
-
-# 应该收到响应
-{"status":"ok","interfaces":["wg-yat0-abc123"]}
-```
+::: tip 提示
+`yat-wg-helperd` 内嵌了 boringtun 引擎，不存在独立的 boringtun 进程。
+确认日志中出现 `started` 或 `apply` 成功信息即表示 helper daemon 正常运行。
+:::
 
 #### 6. 强制重新 Apply
 
@@ -793,11 +779,11 @@ New-NetFirewallRule -DisplayName "Allow ICMP" -Direction Inbound -Protocol ICMPv
 #### 5. 检查 Wintun 驱动
 
 ```powershell
-# 检查 Wintun 驱动是否安装
+# 检查 Wintun 驱动（安装程序已自动包含，无需手动安装）
 Get-WindowsDriver -Online | Where-Object {$_.ProviderName -like "*Wintun*"}
 
-# 如果未安装，重新安装 YAT 客户端
-# 或手动安装 Wintun：https://www.wintun.net/
+# 正常情况下安装 YAT 客户端后驱动已就绪
+# 如确实缺失，可重新运行 YAT 安装程序修复
 ```
 
 #### 6. 重启 WireGuard 服务
@@ -971,9 +957,13 @@ sudo ufw allow 58021:60999/udp
 sudo ss -ulnp | grep yat-edge
 
 # 应该看到：
-# udp  0  0  0.0.0.0:59000  0.0.0.0:*  users:(("yat-edge",pid=1234))
-# udp  0  0  0.0.0.0:59001  0.0.0.0:*  users:(("yat-edge",pid=1234))
+# udp  0  0  0.0.0.0:58021  0.0.0.0:*  users:(("yat-edge",pid=1234))
 ```
+
+::: tip 说明
+Edge relay 使用 kernel forwarder 在同 WG 接口内转发，所有 peer 共享同一 WG 端口。
+无需检查额外的 per-peer relay 端口。
+:::
 
 #### 2. 检查目标 endpoint
 
@@ -993,16 +983,21 @@ sudo wg show wg-yat0-abc123 | grep -A 2 "peer: <target-key>"
 # 查看 relay 转发日志
 journalctl -u yat-edge -f | grep -i relay
 
-# 应该看到：
-# "Relay packet from 59000 to 1.2.3.4:51820"
+# 应该看到 nft counter 增长：
+# yat_relay  chain forward  accept
 ```
+
+::: tip 说明
+Edge relay 使用 kernel forwarder 在同 WG 接口内转发，所有 peer 共享同一 WG 端口。
+无需检查额外的 per-peer relay 端口。
+:::
 
 #### 4. 理解当前限制
 
 ::: warning 重要提示
-当前 per-peer relay 使用新的 Edge UDP 源端口创建 upstream socket，**未复用** observer 已建立的 NAT 通道。
-
-在严格 endpoint-dependent NAT 环境下，relay 可能失败。这是已知的未完成项，需要后续实现通道复用。
+Kernel forwarder 依赖 `ip_forward` 在同 WG 接口内转发流量，
+源 IP 保持不变。但在严格 endpoint-dependent NAT 环境下，
+peer 直连可能仍然受限。建议优先使用 `optional` 模式。
 :::
 
 **临时解决方案**：
@@ -1016,178 +1011,62 @@ journalctl -u yat-edge -f | grep -i relay
 
 ### macOS
 
-#### 系统要求
+#### 前提条件
 
-- macOS 10.15+ (Catalina)
-- 需要管理员权限安装 helper daemon
+- 已加入至少一个 WireGuard 网络
+- Helper daemon 需要管理员权限（首次加入网络时 YAT 会自动请求提权）
 
-#### Helper Daemon 管理
+#### 调试信息
+
+| 项目 | 路径 |
+|------|------|
+| Helper 日志 | `/Library/Logs/YAT/yat-wg-helperd.log` |
+| WG 配置文件 | `~/Library/Application Support/yat/wireguard/networks/<networkId>/wg.conf` |
+
+#### 查看 WireGuard 状态
 
 ```bash
-# 查看 helper 状态
-launchctl list | grep yat-wg-helper
-
-# 手动启动 helper
-sudo launchctl load /Library/LaunchDaemons/com.yat.wg-helper.plist
-
-# 手动停止 helper
-sudo launchctl unload /Library/LaunchDaemons/com.yat.wg-helper.plist
-
-# 查看 helper 日志
-log show --predicate 'process == "yat-wg-helperd"' --last 5m
-```
-
-#### 电源管理
-
-macOS 支持 Power Assertion 阻止空闲睡眠：
-
-1. 进入 **设置 > 系统**
-2. 开启 **禁止系统休眠**
-3. 当有活跃网络时，系统不会进入空闲睡眠
-
-::: tip 提示
-Power Assertion 只能阻止空闲睡眠，无法阻止合盖或手动睡眠。合盖后需要依赖对端的 `PersistentKeepalive` 唤醒。
-:::
-
-#### 常见问题
-
-**Q: WireGuard 接口消失**
-```bash
-# 重新同步配置
-# 在 YAT 客户端中点击"同步本地 Adapter"
-
-# 或重启 helper
-sudo launchctl unload /Library/LaunchDaemons/com.yat.wg-helper.plist
-sudo launchctl load /Library/LaunchDaemons/com.yat.wg-helper.plist
-```
-
-**Q: 睡眠后连接断开**
-```bash
-# 唤醒后强制重新 apply
-# 在 YAT 客户端中点击"同步本地 Adapter"
-
-# 或手动触发
-sudo killall -HUP yat-wg-helperd
+# 安装 WireGuard 官方 macOS 客户端后可用
+# https://apps.apple.com/app/wireguard/id1451685025
+sudo wg show all
 ```
 
 ### Windows
 
-#### 系统要求
+#### 前提条件
 
-- Windows 10+ (64-bit)
-- 需要安装 Wintun 驱动
+- 已加入至少一个 WireGuard 网络
+- Helper daemon 需要管理员权限（YAT 安装程序已自动配置）
 
-#### Wintun 驱动管理
+#### 调试信息
 
-```powershell
-# 检查 Wintun 驱动
-Get-WindowsDriver -Online | Where-Object {$_.ProviderName -like "*Wintun*"}
+| 项目 | 路径 |
+|------|------|
+| Helper 日志 | `%ProgramData%\YAT\helper\wireguard\yat-wg-helperd.log` |
+| WG 配置文件 | `%APPDATA%\yat\wireguard\networks\<networkId>\wg.conf` |
 
-# 如果未安装，重新安装 YAT 客户端
-# 或从 https://www.wintun.net/ 手动安装
-```
-
-#### 网络适配器管理
+#### 查看 WireGuard 状态
 
 ```powershell
-# 查看所有 WireGuard 适配器
+# 通过 Wintun 虚拟网络适配器查看发包情况
 Get-NetAdapter | Where-Object {$_.InterfaceDescription -like "*WireGuard*"}
 
-# 禁用适配器
-Disable-NetAdapter -Name "YAT-NET1" -Confirm:$false
-
-# 启用适配器
-Enable-NetAdapter -Name "YAT-NET1" -Confirm:$false
-
-# 删除适配器
-Remove-NetAdapter -Name "YAT-NET1" -Confirm:$false
-```
-
-#### 防火墙配置
-
-```powershell
-# 允许 YAT 通过防火墙
-New-NetFirewallRule -DisplayName "YAT" -Direction Inbound -Program "C:\Program Files\YAT\YAT.exe" -Action Allow
-
-# 允许 ICMP（ping）
-New-NetFirewallRule -DisplayName "Allow ICMP" -Direction Inbound -Protocol ICMPv4 -Action Allow
-
-# 允许 UDP 流量（WireGuard）
-New-NetFirewallRule -DisplayName "WireGuard UDP" -Direction Inbound -Protocol UDP -LocalPort 51820 -Action Allow
-```
-
-#### 常见问题
-
-**Q: 网络适配器未创建**
-```powershell
-# 检查 Wintun 驱动
-Get-WindowsDriver -Online | Where-Object {$_.ProviderName -like "*Wintun*"}
-
-# 重新安装 YAT 客户端
-# 或以管理员身份运行 YAT
-```
-
-**Q: 无法 ping 通其他成员**
-```powershell
-# 检查防火墙
-Get-NetFirewallRule | Where-Object {$_.DisplayName -like "*ICMP*"}
-
-# 如果没有规则，添加
-New-NetFirewallRule -DisplayName "Allow ICMP" -Direction Inbound -Protocol ICMPv4 -Action Allow
+# 在 Windows 设备管理器 > 网络适配器 中也可看到 Wintun 适配器
 ```
 
 ### Linux
 
-#### 系统要求
+#### 前提条件
 
-- Linux 5.6+ (内核支持 WireGuard)
-- 需要 root 权限
-
-#### 安装 WireGuard 工具
+- Linux 5.6+（内核原生支持 WireGuard）
+- Edge 进程需要 root 权限
 
 ```bash
-# Ubuntu/Debian
-sudo apt install wireguard wireguard-tools
-
-# CentOS/RHEL
-sudo yum install wireguard wireguard-tools
-
-# Fedora
-sudo dnf install wireguard-tools
-```
-
-#### 检查 WireGuard 接口
-
-```bash
-# 查看所有 WireGuard 接口
-sudo ip link show type wireguard
-
-# 或使用 wg 命令
+# 查看 WireGuard 接口状态
 sudo wg show all
 
-# 查看特定接口
-sudo wg show wg-yat0-abc123
-```
-
-#### 常见问题
-
-**Q: 内核不支持 WireGuard**
-```bash
-# 检查内核版本
-uname -r
-
-# 如果 < 5.6，升级内核
-sudo apt install linux-image-generic
-sudo reboot
-```
-
-**Q: 缺少权限**
-```bash
-# 确保以 root 运行 YAT
-sudo ./yat
-
-# 或使用 sudo
-sudo -E ./yat
+# 查看接口详情
+sudo ip link show type wireguard
 ```
 
 ---

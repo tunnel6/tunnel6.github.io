@@ -495,6 +495,37 @@ However, **WireGuard Networking currently only supports IPv4**:
 
 IPv6 support for WireGuard networking may be added in a future release if there is sufficient demand.
 
+### Q: WireGuard relay network not working (peers can't communicate)
+
+**Symptom**: Edge is online, WireGuard interface is created, but peers can't ping each other
+
+**Quick Diagnostics**:
+
+```bash
+# 1. Confirm nftables rules are installed
+sudo nft list table ip yat_relay
+# Expected: forward chain with counter showing packets
+
+# 2. Confirm IP forwarding is enabled
+cat /proc/sys/net/ipv4/ip_forward   # Should be 1
+
+# 3. Confirm rp_filter is disabled
+cat /proc/sys/net/ipv4/conf/all/rp_filter   # Should be 0
+
+# 4. Check if Docker iptables is interfering
+sudo iptables -L DOCKER-USER -v -n   # Check for DROP policy
+sudo iptables -V                      # Check if nft or legacy
+```
+
+**Common Causes**:
+- `ip_forward` not enabled (Edge sets it automatically, but may fail with insufficient container privileges)
+- Docker host's `DOCKER-USER` chain DROP policy blocking forwarded packets
+- iptables-legacy incompatible with nftables rules (separate kernel paths)
+
+::: tip Detailed Troubleshooting Guide
+See [Edge Management - Troubleshooting](./edge-management.md#troubleshooting) for a complete diagnostic workflow including Docker iptables DROP policy diagnosis and solutions.
+:::
+
 ### Q: Virtual machine guest can't communicate with same-LAN peers (one-way traffic)
 
 **Symptom**:

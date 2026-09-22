@@ -489,6 +489,37 @@ YAT 的 Edge 服务器可以通过 IPv6 访问，客户端也会自动检测 IPv
 
 如果需求足够，未来版本可能会为 WireGuard 网络添加 IPv6 支持。
 
+### Q: WireGuard relay 网络不通（peer 间无法通信）
+
+**现象**：Edge 已上线，WireGuard 接口已创建，但 peer 之间 ping 不通
+
+**快速排查**：
+
+```bash
+# 1. 确认 nftables 规则已安装
+sudo nft list table ip yat_relay
+# 期望看到 forward 链，counter 有计数
+
+# 2. 确认 IP 转发已启用
+cat /proc/sys/net/ipv4/ip_forward   # 应为 1
+
+# 3. 确认 rp_filter 已关闭
+cat /proc/sys/net/ipv4/conf/all/rp_filter   # 应为 0
+
+# 4. 检查 Docker iptables 是否干扰
+sudo iptables -L DOCKER-USER -v -n   # 检查是否有 DROP 策略
+sudo iptables -V                      # 确认是 nft 还是 legacy
+```
+
+**常见原因**：
+- `ip_forward` 未启用（Edge 会自动设置，但容器权限不足时可能失败）
+- Docker 主机的 `DOCKER-USER` 链 DROP 策略拦截了转发包
+- iptables-legacy 与 nftables 规则不兼容（两者使用独立内核路径）
+
+::: tip 详细排查指南
+参见 [Edge 管理文档 - 异常处理](./edge-management.md#异常处理)，包含 Docker iptables DROP 策略的完整诊断流程和解决方案。
+:::
+
 ### Q: 虚拟机 guest 与同局域网 peer 单向通信（能发不能收）
 
 **现象**：
