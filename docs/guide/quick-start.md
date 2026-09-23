@@ -205,7 +205,7 @@ Now that you've experienced YAT's basic features, explore more advanced features
 ### Recommended Learning Path
 
 1. **[Tunnel Management](./tunnel-management.md)** - Learn to create TCP/UDP tunnels, tunnel sharing, etc.
-2. **[Edge Server Management](./edge-management.md)** - Deploy your own Edge server
+2. **[Edge Server Management](./edge/management.md)** - Deploy your own Edge server
 3. **[Apps and Extensions](./apps-and-extensions.md)** - Use ARD remote desktop
 
 ### Common Operations Quick Reference
@@ -255,7 +255,7 @@ Now that you've experienced YAT's basic features, explore more advanced features
 
 - [What is YAT](./what-is-yat.md) - Learn YAT's core features
 - [Tunnel Management](./tunnel-management.md) - Deep dive into tunnel management
-- [Edge Server Management](./edge-management.md) - Deploy and manage Edge
+- [Edge Server Management](./edge/management.md) - Deploy and manage Edge
 - [FAQ](./faq.md) - Solve common issues
 
 ---

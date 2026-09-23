@@ -263,7 +263,7 @@ Now that you understand what YAT is, let's start using it!
 
 - [Quick Start](./quick-start.md) - Get started with YAT in 5 minutes
 - [Tunnel Management](./tunnel-management.md) - Learn core features
-- [Edge Server Management](./edge-management.md) - Deploy and manage Edge
+- [Edge Server Management](./edge/management.md) - Deploy and manage Edge
 - [Developer Documentation](../DEVELOPER_GUIDE.md) - Understand technical architecture
 
 ---

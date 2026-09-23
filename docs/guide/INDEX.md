@@ -20,7 +20,7 @@ We have prepared **15 complete documents** (total **5,123 lines**) covering all 
 
 ### Read on Demand
 
-- 🖥️ Deploy Edge server → [Edge Server Management](./edge-management.md)
+- 🖥️ Deploy Edge server → [Deploy Edge](./edge/deploy.md)
 - 🎨 Use remote desktop → [Apps and Extensions](./apps-and-extensions.md)
 - 🌐 Configure custom domains → [Custom Domains](./custom-domains.md)
 - ⚡ Learn transport modes → [Transport Modes and Protocols](./transport-modes.md)
@@ -38,7 +38,7 @@ We have prepared **15 complete documents** (total **5,123 lines**) covering all 
 | 1 | [01-what-is-yat.md](./what-is-yat.md) | 278 | YAT introduction and architecture |
 | 2 | [02-quick-start.md](./quick-start.md) | 263 | 5-minute quick start |
 | 3 | [03-tunnel-management.md](./tunnel-management.md) | 461 | Complete tunnel management |
-| 4 | [04-edge-management.md](./edge-management.md) | 554 | Edge deployment and management |
+| 4 | [04-edge-deploy.md](./edge/deploy.md) | 109 | Edge deployment guide |
 | 5 | [05-apps-and-extensions.md](./apps-and-extensions.md) | 485 | Apps and extension system |
 | 6 | [06-custom-domains.md](./custom-domains.md) | 308 | Custom domain configuration |
 | 7 | [07-transport-modes.md](./transport-modes.md) | 324 | Transport mode comparison |
@@ -173,7 +173,7 @@ Screenshot placeholders: 37
 ```
 Beginner foundation
     ↓
-04-edge-management.md (20 minutes)
+edge/deploy.md (20 minutes)
     ↓
 05-apps-and-extensions.md (20 minutes)
     ↓

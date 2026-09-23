@@ -24,7 +24,7 @@
 ### 步骤 1: 获取 CNAME 记录值
 
 #### 在 Edge 控制台中获取记录值
-1. 登录 YAT 控制台 → [Edge 管理](./edge-management.md)
+1. 登录 YAT 控制台 → [Edge 管理](./edge/management.md)
 2. 在 Edge 列表中找到您的 Edge 服务器
 3. 点击 **管理** 按钮或点击 Edge 卡片进入详情页
 4. 在 **域名健康** 或 **DNS 配置** 区域找到 CNAME 记录值
@@ -86,7 +86,7 @@ sudo systemd-resolve --flush-caches
 ## 📚 相关资源
 - [DNS 记录配置指南](./custom-domains.md#dns-record-setup)
 - [自定义域名配置](./custom-domains.md)
-- [Edge 管理](./edge-management.md)
+- [Edge 管理](./edge/management.md)
 
 ## ❓ 常见问题
 

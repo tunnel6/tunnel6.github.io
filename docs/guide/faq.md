@@ -262,16 +262,16 @@ ssh user@edge-server
 uptime
 
 # 2. Check Edge process
-ps aux | grep yat-edge
+ps aux | grep edge
 
 # 3. Check port
 netstat -tlnp | grep 443
 
 # 4. View logs
-sudo journalctl -u yat-edge -n 100
+sudo journalctl -u edge -n 100
 
 # 5. Restart service
-sudo systemctl restart yat-edge
+sudo systemctl restart edge
 ```
 
 ### Q: How to update Edge?
@@ -290,11 +290,11 @@ wget https://captain.tunnel6.com/download/edge/releases/latest/edge-linux-amd64 
 sudo systemctl stop edge
 
 # # 3. Replace binary
-# sudo mv yat-edge /opt/yat/yat-edge
-# sudo chmod +x /opt/yat/yat-edge
+# sudo mv edge /opt/yat/edge
+# sudo chmod +x /opt/yat/edge
 
 # 4. Start new version
-sudo systemctl start yat-edge
+sudo systemctl start edge
 ```
 
 ### Q: Edge certificate expired?
@@ -305,17 +305,17 @@ YAT will auto-renew 30 days before expiration.
 **Manual Renewal**:
 ```bash
 # On Edge server
-./yat-edge certs renew --config config.yaml
+./edge certs renew --config config.yaml
 
 # Restart Edge
-sudo systemctl restart yat-edge
+sudo systemctl restart edge
 ```
 
 ### Q: How to view Edge resource usage?
 
 ```bash
 # CPU and memory
-top -p $(pgrep yat-edge)
+top -p $(pgrep edge)
 
 # Network traffic
 iftop -i eth0
@@ -523,7 +523,7 @@ sudo iptables -V                      # Check if nft or legacy
 - iptables-legacy incompatible with nftables rules (separate kernel paths)
 
 ::: tip Detailed Troubleshooting Guide
-See [Edge Management - Troubleshooting](./edge-management.md#troubleshooting) for a complete diagnostic workflow including Docker iptables DROP policy diagnosis and solutions.
+See [Edge WireGuard Configuration - Troubleshooting](./edge/wireguard.md#troubleshooting) for a complete diagnostic workflow including Docker iptables DROP policy diagnosis and solutions.
 :::
 
 ### Q: Virtual machine guest can't communicate with same-LAN peers (one-way traffic)
@@ -708,7 +708,7 @@ If issue unresolved, submit Issue with:
 
 - [Quick Start](./quick-start.md) - Getting started guide
 - [Tunnel Management](./tunnel-management.md) - Tunnel-related
-- [Edge Management](./edge-management.md) - Edge-related
+- [Edge Management](./edge/management.md) - Edge-related
 - [Apps and Extensions](./apps-and-extensions.md) - Extension-related
 
 ---

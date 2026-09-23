@@ -294,7 +294,7 @@ YAT 文档体系
 4. [10-faq.md](./faq.md) - 遇到问题时查看
 
 **按需阅读**：
-- 部署 Edge → [04-edge-management.md](./edge-management.md)
+- 部署 Edge → [部署 Edge](./edge/deploy.md)
 - 使用远程桌面 → [05-apps-and-extensions.md](./apps-and-extensions.md)
 - 配置域名 → [06-custom-domains.md](./custom-domains.md)
 - 多设备协作 → [08-multi-device-roles.md](./multi-device-roles.md)

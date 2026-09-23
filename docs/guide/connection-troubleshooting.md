@@ -25,7 +25,7 @@
 ### 步骤 1: 检查 Edge 节点状态
 ```bash
 # 检查 Edge 进程
-ps aux | grep yat-edge
+ps aux | grep edge
 
 # 检查端口监听
 lsof -i :8080  # 或其他配置的端口
@@ -77,7 +77,7 @@ performance:
 ```
 
 ## 📚 相关资源
-- [Edge 管理](./edge-management.md)
+- [Edge 管理](./edge/management.md)
 - [传输模式](./transport-modes.md)
 - [隧道管理](./tunnel-management.md)
 

@@ -55,7 +55,7 @@ YAT 支持自动证书签发和续期：
 - **监控告警**: 设置证书到期前 7 天告警
 
 ## 📚 相关资源
-- [Edge 管理](./edge-management.md)
+- [Edge 管理](./edge/management.md)
 - [自定义域名](./custom-domains.md)
 - [FAQ - 证书相关问题](./faq.md#q-edge-certificate-expired)
 

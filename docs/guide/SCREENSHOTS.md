@@ -55,7 +55,7 @@ This document lists all locations where screenshots are needed for easy referenc
 
 ---
 
-## 04-edge-management.md
+## edge/deploy.md
 
 | No. | Location | Description | Status |
 |-----|----------|-------------|--------|
@@ -170,7 +170,7 @@ Examples:
 | 01-what-is-yat.md | 3 | 0 | 0% |
 | 02-quick-start.md | 6 | 0 | 0% |
 | 03-tunnel-management.md | 9 | 0 | 0% |
-| 04-edge-management.md | 6 | 0 | 0% |
+| edge/deploy.md | 6 | 0 | 0% |
 | 05-apps-and-extensions.md | 5 | 0 | 0% |
 | 06-custom-domains.md | 3 | 0 | 0% |
 | 07-transport-modes.md | 1 | 0 | 0% |

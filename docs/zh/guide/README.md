@@ -30,7 +30,7 @@
    - 隧道共享与协作
    - 删除隧道
 
-4. [Edge 服务器管理](./edge-management.md)
+4. [Edge 服务器管理](./edge/management.md)
    - 什么是 Edge 服务器
    - 部署 Edge 服务器
    - 管理 Edge 服务器
@@ -122,7 +122,7 @@
 
 ### 我想部署自己的 Edge 服务器
 
-👉 阅读 [Edge 服务器管理](./edge-management.md)
+👉 阅读 [Edge 服务器管理](./edge/management.md)
 
 ### 我想使用远程桌面功能
 

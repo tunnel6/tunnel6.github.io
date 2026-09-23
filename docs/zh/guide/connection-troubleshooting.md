@@ -77,7 +77,7 @@ performance:
 ```
 
 ## 📚 相关资源
-- [Edge 管理](./edge-management.md)
+- [Edge 管理](./edge/management.md)
 - [传输模式](./transport-modes.md)
 - [隧道管理](./tunnel-management.md)
 

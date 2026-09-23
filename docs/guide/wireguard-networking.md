@@ -66,7 +66,7 @@ WireGuard networking is YAT's advanced networking feature that uses the WireGuar
 
 - ✅ YAT client installed and logged in
 - ✅ Subscribed to a WireGuard-enabled Edge server
-- ✅ Edge server has WireGuard functionality enabled (see [Edge Management - Enable WireGuard](./edge-management.md#enable-wireguard))
+- ✅ Edge server has WireGuard functionality enabled (see [Edge WireGuard Configuration Guide](./edge/wireguard.md))
 
 ### Step 1: Create a WireGuard Network
 
@@ -506,7 +506,7 @@ After deploying Edge, verify WireGuard:
 
 ```bash
 # 1. Check Edge logs
-journalctl -u yat-edge -f | grep -i wireguard
+journalctl -u edge -f | grep -i wireguard
 
 # Should see:
 # "WireGuard functionality enabled"
@@ -520,10 +520,10 @@ sudo ip link show | grep wg-yat
 # wg-yat0-abc123: <POINTOPOINT,NOARP,UP,LOWER_UP> mtu 1420
 
 # 3. Check listening ports
-sudo ss -ulnp | grep yat-edge
+sudo ss -ulnp | grep edge
 
 # Should see:
-# udp  0  0  0.0.0.0:58021  0.0.0.0:*  users:(("yat-edge",pid=1234))
+# udp  0  0  0.0.0.0:58021  0.0.0.0:*  users:(("edge",pid=1234))
 ```
 
 ::: tip
@@ -548,7 +548,7 @@ uname -r
 sudo apt install linux-image-generic
 
 # Ensure Edge runs as root
-sudo systemctl start yat-edge
+sudo systemctl start edge
 ```
 
 #### Q: Clients can't connect to relay
@@ -839,7 +839,7 @@ If Endpoint is public IP, LAN address not used.
 
 ```bash
 # View logs on Edge
-journalctl -u yat-edge -f | grep -i "same-nat"
+journalctl -u edge -f | grep -i "same-nat"
 
 # Should see:
 # "Detected same-NAT peers: peerA=1.2.3.4, peerB=1.2.3.4"
@@ -941,7 +941,7 @@ sudo ufw allow 58021:60999/udp
 
 1. Click **Sync Local Adapter** on client
 2. Wait 5-10 seconds
-3. Check Edge logs: `journalctl -u yat-edge -f | grep observation`
+3. Check Edge logs: `journalctl -u edge -f | grep observation`
 4. Should see endpoint update
 
 ### Issue 7: Relay Forwarding Fails
@@ -960,10 +960,10 @@ Using `force` mode but can't communicate via Edge relay.
 
 ```bash
 # Check if WG interface is listening
-sudo ss -ulnp | grep yat-edge
+sudo ss -ulnp | grep edge
 
 # Should see:
-# udp  0  0  0.0.0.0:58021  0.0.0.0:*  users:(("yat-edge",pid=1234))
+# udp  0  0  0.0.0.0:58021  0.0.0.0:*  users:(("edge",pid=1234))
 ```
 
 ::: tip
@@ -987,7 +987,7 @@ If endpoint empty, relay can't forward.
 
 ```bash
 # View relay forwarding logs
-journalctl -u yat-edge -f | grep -i relay
+journalctl -u edge -f | grep -i relay
 
 # Should see nft counter growing:
 # yat_relay  chain forward  accept
@@ -1112,7 +1112,7 @@ sudo ip link show type wireguard
 ## 📚 Related Documentation
 
 - [Transport Modes](./transport-modes.md) - Understand Relay/P2P/WireGuard differences
-- [Edge Management](./edge-management.md) - Deploy and manage Edge servers
+- [Edge Management](./edge/management.md) - Deploy and manage Edge servers
 - [Multi-Device & Roles](./multi-device-roles.md) - Multi-device collaboration and permissions
 - [FAQ](./faq.md) - Solve other common issues
 

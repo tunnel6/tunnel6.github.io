@@ -75,7 +75,7 @@ performance:
   - 启用流式传输处理大文件
 
 ## 📚 相关资源
-- [Edge 管理](./edge-management.md)
+- [Edge 管理](./edge/management.md)
 - [传输模式](./transport-modes.md)
 - [隧道管理](./tunnel-management.md)
 - [FAQ - 性能相关问题](./faq.md#q-performance-issues)

@@ -66,7 +66,7 @@ WireGuard 组网是 YAT 的高级网络功能，使用 WireGuard 协议在多台
 
 - ✅ YAT 客户端已安装并登录
 - ✅ 已订阅支持 WireGuard 的 Edge 服务器
-- ✅ Edge 服务器已启用 WireGuard 功能（参见 [Edge 管理 - 启用 WireGuard](./edge-management.md#启用-wireguard-功能)）
+- ✅ Edge 服务器已启用 WireGuard 功能（参见 [Edge WireGuard 配置指南](./edge/wireguard.md)）
 
 ### 步骤 1：创建 WireGuard 网络
 
@@ -1105,7 +1105,7 @@ sudo ip link show type wireguard
 ## 📚 相关文档
 
 - [传输模式](./transport-modes.md) - 了解 Relay/P2P/WireGuard 的区别
-- [Edge 管理](./edge-management.md) - 部署和管理 Edge 服务器
+- [Edge 管理](./edge/management.md) - 部署和管理 Edge 服务器
 - [多设备与角色](./multi-device-roles.md) - 多设备协作和权限管理
 - [常见问题](./faq.md) - 解决其他常见问题
 

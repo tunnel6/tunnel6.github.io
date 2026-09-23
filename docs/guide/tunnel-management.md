@@ -451,7 +451,7 @@ Use meaningful names:
 ## 📚 Related Documentation
 
 - [Quick Start](./quick-start.md) - Create your first tunnel
-- [Edge Server Management](./edge-management.md) - Manage Edge servers
+- [Edge Server Management](./edge/management.md) - Manage Edge servers
 - [Apps and Extensions](./apps-and-extensions.md) - Use extension features
 - [Transport Modes](./transport-modes.md) - Learn about transport modes
 

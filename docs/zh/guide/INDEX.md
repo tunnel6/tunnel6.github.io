@@ -20,12 +20,15 @@
 
 ### 按需阅读
 
-- 🖥️ 部署 Edge 服务器 → [Edge 服务器管理](./edge-management.md)
+- 🖥️ 部署 Edge 服务器 → [部署 Edge](./edge/deploy.md)
 - 🎨 使用远程桌面 → [应用与扩展](./apps-and-extensions.md)
 - 🌐 配置自定义域名 → [自定义域名](./custom-domains.md)
 - ⚡ 了解传输模式 → [传输模式与协议](./transport-modes.md)
 - 👥 多设备协作 → [多设备与角色管理](./multi-device-roles.md)
 - ⚙️ 客户端设置 → [账户与设置](./account-settings.md)
+- 📝 Edge 配置参考 → [Edge 管理 > 配置参数参考](./edge/config-reference.md)
+- 🚀 Edge 启动参数 → [Edge 管理 > 启动参数参考](./edge/startup-params.md)
+- ❓ Edge 问题排查 → [Edge 管理 > 常见问题](./edge/faq.md)
 - ❓ 遇到问题 → [常见问题](./faq.md)
 
 ---
@@ -38,7 +41,7 @@
 | 1 | [01-what-is-yat.md](./what-is-yat.md) | 278 | YAT 介绍和架构 |
 | 2 | [02-quick-start.md](./quick-start.md) | 263 | 5 分钟快速上手 |
 | 3 | [03-tunnel-management.md](./tunnel-management.md) | 461 | 隧道完整管理 |
-| 4 | [04-edge-management.md](./edge-management.md) | 554 | Edge 部署和管理 |
+| 4 | [04-edge-deploy.md](./edge/deploy.md) | 109 | Edge 部署指南 |
 | 5 | [05-apps-and-extensions.md](./apps-and-extensions.md) | 485 | 应用和扩展系统 |
 | 6 | [06-custom-domains.md](./custom-domains.md) | 308 | 自定义域名配置 |
 | 7 | [07-transport-modes.md](./transport-modes.md) | 324 | 传输模式对比 |

@@ -22,13 +22,13 @@ YAT 支持自动证书签发和续期：
 当需要手动管理证书时：
 ```bash
 # 查看证书信息
-./yat-edge certs info --config config.yaml
+./edge certs info --config config.yaml
 
 # 手动续期证书
-./yat-edge certs renew --config config.yaml
+./edge certs renew --config config.yaml
 
 # 重新生成证书
-./yat-edge certs generate --config config.yaml
+./edge certs generate --config config.yaml
 ```
 
 ## 🚨 常见证书问题
@@ -37,7 +37,7 @@ YAT 支持自动证书签发和续期：
 - **现象**: 浏览器显示 "您的连接不是私密连接" 或 "NET::ERR_CERT_DATE_INVALID"
 - **解决方案**: 
   - 等待自动续期（通常在到期前 30 天）
-  - 手动执行 `./yat-edge certs renew`
+  - 手动执行 `./edge certs renew`
   - 检查系统时间是否正确
 
 ### 证书不匹配
@@ -55,7 +55,7 @@ YAT 支持自动证书签发和续期：
 - **监控告警**: 设置证书到期前 7 天告警
 
 ## 📚 相关资源
-- [Edge 管理](./edge-management.md)
+- [Edge 管理](./edge/management.md)
 - [自定义域名](./custom-domains.md)
 - [FAQ - 证书相关问题](./faq.md#q-edge-certificate-expired)
 

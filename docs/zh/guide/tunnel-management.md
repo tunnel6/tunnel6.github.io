@@ -451,7 +451,7 @@ netstat -ano | findstr :8080
 ## 📚 相关文档
 
 - [快速开始](./quick-start.md) - 创建第一个隧道
-- [Edge 服务器管理](./edge-management.md) - 管理 Edge 服务器
+- [Edge 服务器管理](./edge/management.md) - 管理 Edge 服务器
 - [应用与扩展](./apps-and-extensions.md) - 使用扩展功能
 - [传输模式](./transport-modes.md) - 了解传输模式
 

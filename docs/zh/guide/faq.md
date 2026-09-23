@@ -517,7 +517,7 @@ sudo iptables -V                      # 确认是 nft 还是 legacy
 - iptables-legacy 与 nftables 规则不兼容（两者使用独立内核路径）
 
 ::: tip 详细排查指南
-参见 [Edge 管理文档 - 异常处理](./edge-management.md#异常处理)，包含 Docker iptables DROP 策略的完整诊断流程和解决方案。
+参见 [Edge WireGuard 配置 - 异常处理](./edge/wireguard.md#异常处理)，包含 Docker iptables DROP 策略的完整诊断流程和解决方案。
 :::
 
 ### Q: 虚拟机 guest 与同局域网 peer 单向通信（能发不能收）
@@ -702,7 +702,7 @@ tar xzf yat-backup-20241210.tar.gz \
 
 - [快速开始](./quick-start.md) - 入门指南
 - [隧道管理](./tunnel-management.md) - 隧道相关
-- [Edge 管理](./edge-management.md) - Edge 相关
+- [Edge 管理](./edge/management.md) - Edge 相关
 - [应用与扩展](./apps-and-extensions.md) - 扩展相关
 
 ---

@@ -262,7 +262,7 @@ Edge 服务器是 YAT 网络的节点，负责转发流量，服务协调等。
 
 - [快速开始](./quick-start.md) - 5 分钟上手 YAT
 - [隧道管理](./tunnel-management.md) - 学习核心功能
-- [Edge 服务器管理](./edge-management.md) - 部署和管理 Edge
+- [Edge 服务器管理](./edge/management.md) - 部署和管理 Edge
 - [开发者文档](../DEVELOPER_GUIDE.md) - 了解技术架构
 
 ---

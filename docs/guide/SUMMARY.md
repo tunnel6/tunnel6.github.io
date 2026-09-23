@@ -14,7 +14,14 @@ docs/how-to-use/
 ├── 01-what-is-yat.md             # What is YAT (278 lines)
 ├── 02-quick-start.md             # Quick Start (263 lines)
 ├── 03-tunnel-management.md       # Tunnel Management (461 lines)
-├── 04-edge-management.md         # Edge Server Management (554 lines)
+├── edge/                         # Edge Management (directory)
+│   ├── management.md             # Overview (172 lines)
+│   ├── deploy.md                 # Deployment guide (109 lines)
+│   ├── wireguard.md              # WireGuard config (269 lines)
+│   ├── config-reference.md       # Config reference (433 lines)
+│   ├── cli-reference.md          # CLI reference (457 lines)
+│   ├── startup-params.md         # Startup params (141 lines)
+│   └── faq.md                    # Edge FAQ (110 lines)
 ├── 05-apps-and-extensions.md     # Apps and Extensions (485 lines)
 ├── 06-custom-domains.md          # Custom Domains (308 lines)
 ├── 07-transport-modes.md         # Transport Modes and Protocols (324 lines)
@@ -33,7 +40,7 @@ docs/how-to-use/
 | 01-what-is-yat.md | 278 | 8 | 3 |
 | 02-quick-start.md | 263 | 6 | 6 |
 | 03-tunnel-management.md | 461 | 8 | 9 |
-| 04-edge-management.md | 554 | 8 | 6 |
+| edge/* (7 files) | 1,691 | 7 | 6 |
 | 05-apps-and-extensions.md | 485 | 7 | 5 |
 | 06-custom-domains.md | 308 | 6 | 3 |
 | 07-transport-modes.md | 324 | 7 | 1 |
@@ -204,7 +211,7 @@ See [SCREENSHOTS.md](./SCREENSHOTS.md) for details
 |----------|----------|-------------|-------------|
 | 🔴 High | 02-quick-start.md | 6 | Essential for new users |
 | 🔴 High | 03-tunnel-management.md | 9 | Core features |
-| 🟡 Medium | 04-edge-management.md | 6 | Important features |
+| 🟡 Medium | edge/deploy.md | 6 | Important features |
 | 🟡 Medium | 05-apps-and-extensions.md | 5 | Extension usage |
 | 🟢 Low | 01-what-is-yat.md | 3 | Interface overview |
 | 🟢 Low | 06-custom-domains.md | 3 | Advanced features |
@@ -294,7 +301,7 @@ YAT Documentation System
 4. [10-faq.md](./faq.md) - Check when encountering issues
 
 **Read on demand**:
-- Deploy Edge → [04-edge-management.md](./edge-management.md)
+- Deploy Edge → [Deploy Edge](./edge/deploy.md)
 - Use remote desktop → [05-apps-and-extensions.md](./apps-and-extensions.md)
 - Configure domains → [06-custom-domains.md](./custom-domains.md)
 - Multi-device collaboration → [08-multi-device-roles.md](./multi-device-roles.md)

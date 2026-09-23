@@ -296,7 +296,7 @@ Always use HTTPS to avoid mixed content warnings.
 ## 📚 Related Documentation
 
 - [Tunnel Management](./tunnel-management.md) - Create and manage tunnels
-- [Edge Server Management](./edge-management.md) - Edge domain configuration
+- [Edge Server Management](./edge/management.md) - Edge domain configuration
 - [FAQ](./faq.md) - Solve domain-related issues
 
 ---

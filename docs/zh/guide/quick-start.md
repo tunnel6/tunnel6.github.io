@@ -205,7 +205,7 @@ https://abc123-def456.myroxy.dev
 ### 推荐学习路径
 
 1. **[隧道管理](./tunnel-management.md)** - 学习创建 TCP/UDP 隧道、隧道共享等
-2. **[Edge 服务器管理](./edge-management.md)** - 部署自己的 Edge 服务器
+2. **[Edge 服务器管理](./edge/management.md)** - 部署自己的 Edge 服务器
 3. **[应用与扩展](./apps-and-extensions.md)** - 使用 ARD 远程桌面
 
 ### 常用操作速查
@@ -255,7 +255,7 @@ https://abc123-def456.myroxy.dev
 
 - [YAT 是什么](./what-is-yat.md) - 了解 YAT 的核心功能
 - [隧道管理](./tunnel-management.md) - 深入学习隧道管理
-- [Edge 服务器管理](./edge-management.md) - 部署和管理 Edge
+- [Edge 服务器管理](./edge/management.md) - 部署和管理 Edge
 - [常见问题](./faq.md) - 解决常见问题
 
 ---

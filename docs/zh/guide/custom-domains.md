@@ -296,7 +296,7 @@ ipconfig /flushdns
 ## 📚 相关文档
 
 - [隧道管理](./tunnel-management.md) - 创建和管理隧道
-- [Edge 服务器管理](./edge-management.md) - Edge 域名配置
+- [Edge 服务器管理](./edge/management.md) - Edge 域名配置
 - [常见问题](./faq.md) - 解决域名相关问题
 
 ---

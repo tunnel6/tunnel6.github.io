@@ -30,7 +30,7 @@ Welcome to YAT! This guide will help you quickly understand and use YAT's featur
    - Tunnel sharing and collaboration
    - Delete tunnels
 
-4. [Edge Server Management](./edge-management.md)
+4. [Edge Server Management](./edge/management.md)
    - What is an Edge server
    - Deploy Edge servers
    - Manage Edge servers
@@ -122,7 +122,7 @@ Welcome to YAT! This guide will help you quickly understand and use YAT's featur
 
 ### I want to deploy my own Edge server
 
-👉 Read [Edge Server Management](./edge-management.md)
+👉 Read [Edge Server Management](./edge/management.md)
 
 ### I want to use remote desktop feature
 

@@ -49,7 +49,19 @@ export default defineConfig({
               text: 'Core Features',
               items: [
                 { text: 'Tunnel Management', link: '/guide/tunnel-management' },
-                { text: 'Edge Management', link: '/guide/edge-management' },
+                {
+                  text: 'Edge Management',
+                  link: '/guide/edge/management',
+                  collapsed: true,
+                  items: [
+                    { text: 'Deploy Edge', link: '/guide/edge/deploy' },
+                    { text: 'WireGuard Configuration', link: '/guide/edge/wireguard' },
+                    { text: 'Config Reference', link: '/guide/edge/config-reference' },
+                    { text: 'CLI Reference', link: '/guide/edge/cli-reference' },
+                    { text: 'Startup Parameters', link: '/guide/edge/startup-params' },
+                    { text: 'FAQ', link: '/guide/edge/faq' }
+                  ]
+                },
                 { text: 'Apps & Extensions', link: '/guide/apps-and-extensions' },
                 { text: 'Custom Domains', link: '/guide/custom-domains' }
               ]
@@ -122,7 +134,19 @@ export default defineConfig({
               text: '核心功能',
               items: [
                 { text: '隧道管理', link: '/zh/guide/tunnel-management' },
-                { text: 'Edge 管理', link: '/zh/guide/edge-management' },
+                {
+                  text: 'Edge 管理',
+                  link: '/zh/guide/edge/management',
+                  collapsed: true,
+                  items: [
+                    { text: '部署 Edge', link: '/zh/guide/edge/deploy' },
+                    { text: 'WireGuard 配置', link: '/zh/guide/edge/wireguard' },
+                    { text: '配置参数参考', link: '/zh/guide/edge/config-reference' },
+                    { text: 'CLI 命令参考', link: '/zh/guide/edge/cli-reference' },
+                    { text: '启动参数参考', link: '/zh/guide/edge/startup-params' },
+                    { text: '常见问题', link: '/zh/guide/edge/faq' }
+                  ]
+                },
                 { text: '应用与扩展', link: '/zh/guide/apps-and-extensions' },
                 { text: '自定义域名', link: '/zh/guide/custom-domains' }
               ]
