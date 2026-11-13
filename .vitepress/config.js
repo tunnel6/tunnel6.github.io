@@ -223,11 +223,6 @@ export default defineConfig({
   
   // 主题配置
   themeConfig: {
-    // 社交链接
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/tunnel6/yat' }
-    ],
-    
     // 搜索
     search: {
       provider: 'local'
