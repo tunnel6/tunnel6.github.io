@@ -1,14 +1,23 @@
 <script setup>
+import { computed } from 'vue'
+import { useData } from 'vitepress'
+
 defineProps({
   block: { type: Boolean, default: false }
 })
+const { localeIndex } = useData()
+const dashboardLoginUrl = computed(() => (
+  localeIndex.value === 'zh'
+    ? 'https://dash.tunnel6.com/login?redirect=%2F&source=wiki&locale=zh-CN'
+    : 'https://dash.tunnel6.com/login?redirect=%2F&source=wiki&locale=en'
+))
 </script>
 
 <template>
   <a
     class="header-get-started-button"
     :class="{ 'header-get-started-button--block': block }"
-    href="https://dash.tunnel6.com"
+    :href="dashboardLoginUrl"
   >
     Get Started
   </a>

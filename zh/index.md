@@ -11,7 +11,7 @@ description: 构建基于身份的私有网络，通过认证隧道发布本地�
   title="你的零信任网络。"
   titleAccent="隧道与虚拟局域网。"
   description="YAT 将基于身份的服务隧道与 WireGuard 组网结合：发布本地应用，把设备接入加密虚拟局域网，无需开放入站端口即可保持访问可控。"
-  :primary-action="{ text: '免费开始', link: '/zh/guide/quick-start' }"
+  :primary-action="{ text: '免费开始', link: 'https://dash.tunnel6.com/login?redirect=%2F&source=wiki&locale=zh-CN' }"
   :secondary-action="{ text: '下载客户端', link: '/zh/download' }"
   github-action="查看 GitHub"
   :hero-chips="['零信任身份', '服务隧道', 'WireGuard 虚拟局域网', 'mTLS 端到端']"
@@ -138,6 +138,6 @@ description: 构建基于身份的私有网络，通过认证隧道发布本地�
   }"
   cta-title="今天部署你的第一条安全隧道。"
   cta-description="下载 YAT，接入 Edge，几分钟内创建零信任入口或 WireGuard 虚拟局域网。"
-  :cta-action="{ text: '立即开始', link: '/zh/guide/quick-start' }"
+  :cta-action="{ text: '立即开始', link: 'https://dash.tunnel6.com/login?redirect=%2F&source=wiki&locale=zh-CN' }"
   :docs-action="{ text: '阅读文档', link: '/zh/guide/what-is-yat' }"
 />

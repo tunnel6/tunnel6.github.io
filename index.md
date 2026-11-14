@@ -11,7 +11,7 @@ description: Build an identity-aware private network, publish local services thr
   title="Your zero-trust network."
   titleAccent="Tunnels and virtual LANs."
   description="YAT combines identity-aware service tunnels with WireGuard networking. Expose local applications, connect devices into an encrypted virtual LAN, and keep access under your control—without opening inbound ports."
-  :primary-action="{ text: 'Start for free', link: '/guide/quick-start' }"
+  :primary-action="{ text: 'Start for free', link: 'https://dash.tunnel6.com/login?redirect=%2F&source=wiki&locale=en' }"
   :secondary-action="{ text: 'Download client', link: '/download' }"
   github-action="View on GitHub"
   :hero-chips="['Zero-trust identity', 'Service tunnels', 'WireGuard virtual LAN', 'mTLS end to end']"
@@ -138,6 +138,6 @@ description: Build an identity-aware private network, publish local services thr
   }"
   cta-title="Deploy your first secure tunnel today."
   cta-description="Download YAT, connect an Edge, and create a zero-trust endpoint or WireGuard virtual LAN in minutes."
-  :cta-action="{ text: 'Get started now', link: '/guide/quick-start' }"
+  :cta-action="{ text: 'Get started now', link: 'https://dash.tunnel6.com/login?redirect=%2F&source=wiki&locale=en' }"
   :docs-action="{ text: 'Read the docs', link: '/guide/what-is-yat' }"
 />
