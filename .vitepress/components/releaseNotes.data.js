@@ -2,24 +2,28 @@ import { createContentLoader } from 'vitepress'
 
 const releaseSummaries = {
   en: {
+    'v1.4.0': 'Snap / deb packages for Linux and a refreshed native title bar.',
     'v1.3.0': 'Invite codes, path controls, and richer peer diagnostics.',
     'v1.2.1-native': 'Native networking architecture for faster, more stable connections.',
     'v1.2.1': 'Network sharing to CLI and more reliable WireGuard handshakes.',
     'v1.2.0': 'WireGuard private networks with subnet assignment and link health.'
   },
   'zh-CN': {
+    'v1.4.0': 'Linux Snap / deb 安装包与更贴合系统的标题栏。',
     'v1.3.0': '邀请码入网、路径控制和对等体诊断增强。',
     'v1.2.1-native': '原生网络层重构，连接更快、更稳定。',
     'v1.2.1': '支持网络分享到 CLI，WireGuard 握手更可靠。',
     'v1.2.0': '支持 WireGuard 私有网络、子网分配和链路健康监控。'
   },
   ja: {
+    'v1.4.0': 'Linux 向け Snap / deb パッケージとシステムに馴染むタイトルバー。',
     'v1.3.0': '招待コード、パス制御、ピア診断の強化。',
     'v1.2.1-native': 'より高速で安定したネイティブネットワーク層。',
     'v1.2.1': 'CLI へのネットワーク共有と WireGuard ハンドシェイクの安定化。',
     'v1.2.0': 'WireGuard プライベートネットワーク、サブネット割り当て、リンク健全性監視。'
   },
   'zh-TW': {
+    'v1.4.0': 'Linux Snap / deb 安裝包與更貼合系統的標題欄。',
     'v1.3.0': '邀請碼入網、路徑控制和對等體診斷增強。',
     'v1.2.1-native': '原生網路層重構，連線更快、更穩定。',
     'v1.2.1': '支援網路分享到 CLI，WireGuard 握手更可靠。',
