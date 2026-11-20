@@ -37,12 +37,12 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build with VitePress
-        run: yarn docs:build
+        run: yarn build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/.vitepress/dist
+          path: .vitepress/dist
 
   deploy:
     environment:

@@ -16,7 +16,8 @@ export default defineConfig({
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-7PLNTDZKVT');`
-    ]
+    ],
+    ['link', { rel: 'icon', href: '/favicon.png' }]
   ],
   // 忽略死链检查（允许文档中存在暂时未实现的链接）
   ignoreDeadLinks: true,

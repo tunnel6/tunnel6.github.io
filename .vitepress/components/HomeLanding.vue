@@ -82,7 +82,7 @@ defineProps({
           <div class="home-floating-card">
             <span class="home-status-dot" aria-hidden="true"></span>
             <div>
-              <strong>https://api.example.com</strong>
+              <strong>https://yat.myproxy.dev</strong>
               <small>mTLS · Edge relay · Active</small>
             </div>
           </div>

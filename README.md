@@ -7,117 +7,15 @@ Official website for YAT (Yet Another Tunnel) - Making intranet penetration simp
 
 **Website**: [https://tunnel6.com](https://tunnel6.com)
 
-## Tech Stack
+## Related Projects
 
-- **Framework**: [VitePress](https://vitepress.dev/)
-- **Language**: Vue 3 + TypeScript
-- **Deployment**: Cloudflare Pages / GitHub Pages
-- **i18n**: English, 简体中文, Español
-
-## Project Structure
-
-```
-yat.github.io/
-├── docs/
-│   ├── .vitepress/
-│   │   └── config.js          # VitePress configuration
-│   ├── public/                 # Static assets
-│   │   └── images/
-│   │
-│   ├── # Main pages (in nav)
-│   ├── index.md               # Homepage
-│   ├── features.md            # Features page
-│   ├── download.md            # Download page
-│   ├── pricing.md             # Pricing page
-│   ├── blog/                  # Blog
-│   │   └── index.md
-│   │
-│   ├── # Documentation
-│   ├── guide/                 # User guide
-│   ├── developer/             # Developer docs
-│   │
-│   └── # Hidden pages (footer links)
-│       ├── about.md
-│       ├── privacy.md
-│       ├── terms.md
-│       └── changelog.md
-│
-├── package.json
-└── README.md
-```
-
-## Development
-
-### Prerequisites
-
-- Node.js 18+
-- npm or yarn
-
-### Install Dependencies
-
-```bash
-npm install
-```
-
-### Development Server
-
-```bash
-npm run docs:dev
-```
-
-The site will be available at `http://localhost:5173`
-
-### Build
-
-```bash
-npm run docs:build
-```
-
-Output will be in `docs/.vitepress/dist/`
-
-### Preview Production Build
-
-```bash
-npm run docs:preview
-```
-
-## Deployment
-
-### Cloudflare Pages
-
-1. Connect your GitHub repository to Cloudflare Pages
-2. Configure build settings:
-   - **Build command**: `npm run docs:build`
-   - **Build output directory**: `docs/.vitepress/dist`
-3. Deploy!
-
-### GitHub Pages
-
-The site will auto-deploy via GitHub Actions on push to `main` branch.
-
-## Multi-language Support
-
-The website supports three languages:
-
-- **English** (default): `/`
-- **简体中文**: `/zh/`
-- **Español**: `/es/`
-
-Language configuration is in `docs/.vitepress/config.js`.
-
-## Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+| Project | Address | Description |
+| --- | --- | --- |
+| Edge | <https://github.com/tunnel6/edge.git> | Edge service; the runtime coordinator and public access node for OpenYAT. |
+| network | <https://github.com/tunnel6/network.git> | Core client business processing shared by the desktop client and Linux CLI. |
+| transport | <https://github.com/tunnel6/transport.git> | Protocol transport implementation between Edge and clients. |
+| wireguard | <https://github.com/tunnel6/wireguard.git> | WireGuard protocol wrapper and WG business control layer. |
+| yat-fe-linux | <https://github.com/tunnel6/yat-fe-linux.git> | Linux client CLI edition. |
 
 ## Links
 
