@@ -48,7 +48,7 @@ defineProps({
           <p class="home-hero-lede">{{ description }}</p>
 
           <div class="home-actions">
-            <a class="home-button primary" :href="primaryAction.link">
+            <a class="home-button primary" target="_blank" :href="primaryAction.link">
               {{ primaryAction.text }}
             </a>
             <a class="home-button secondary" :href="secondaryAction.link">

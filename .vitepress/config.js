@@ -17,7 +17,7 @@ export default defineConfig({
         gtag('js', new Date());
         gtag('config', 'G-7PLNTDZKVT');`
     ],
-    ['link', { rel: 'icon', href: '/favicon.png' }]
+    ['link', { rel: 'icon', href: '/images/favicon.png' }]
   ],
   // 忽略死链检查（允许文档中存在暂时未实现的链接）
   ignoreDeadLinks: true,
