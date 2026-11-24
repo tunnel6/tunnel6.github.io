@@ -23,7 +23,7 @@ function buildLink(lang, slug) {
 }
 
 function parsePost({ frontmatter, url, excerpt, html }) {
-  const match = url.match(/^\/blog\/(en|zh|es)\/([^/]*?)(?:\.html)?$/)
+  const match = url.match(/^\/blog\/(en|zh|es|ja)\/([^/]*?)(?:\.html)?$/)
   const slug = match?.[2]
 
   if (!match || !slug || slug === 'index') return null

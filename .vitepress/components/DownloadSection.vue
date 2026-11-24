@@ -143,13 +143,55 @@ const translations = {
     hoursAgo: 'hours ago',
     daysAgo: 'days ago',
     justNow: 'just now'
+  },
+  'zh-TW': {
+    loading: '正在取得最新版本資訊…',
+    error: '無法取得版本資訊，請直接前往 GitHub Releases',
+    fallbackLink: '直接前往 GitHub Releases →',
+    latestVersion: '最新版本:',
+    releasedAt: '發布於',
+    download: '下載',
+    viewChecksum: '查看 SHA256 校驗和',
+    viewReleaseNotes: '查看發布說明',
+    minutesAgo: '分鐘前',
+    hoursAgo: '小時前',
+    daysAgo: '天前',
+    justNow: '剛剛'
+  },
+  es: {
+    loading: 'Obteniendo la última versión…',
+    error: 'No se pudo obtener la información de la versión. Visita GitHub Releases directamente.',
+    fallbackLink: 'Ir a GitHub Releases →',
+    latestVersion: 'Última versión:',
+    releasedAt: 'Publicado',
+    download: 'Descargar',
+    viewChecksum: 'Ver sumas SHA256',
+    viewReleaseNotes: 'Ver notas de versión',
+    minutesAgo: 'min',
+    hoursAgo: 'h',
+    daysAgo: 'd',
+    justNow: 'ahora mismo'
+  },
+  ja: {
+    loading: '最新バージョンを取得しています…',
+    error: 'バージョン情報を取得できませんでした。GitHub Releases へ直接アクセスしてください。',
+    fallbackLink: 'GitHub Releases へ移動 →',
+    latestVersion: '最新バージョン:',
+    releasedAt: 'リリース日',
+    download: 'ダウンロード',
+    viewChecksum: 'SHA256 チェックサムを見る',
+    viewReleaseNotes: 'リリースノートを見る',
+    minutesAgo: '分前',
+    hoursAgo: '時間前',
+    daysAgo: '日前',
+    justNow: 'たった今'
   }
 }
 
 // 获取当前语言的翻译
 const t = computed(() => {
-  const currentLang = lang.value === 'zh-CN' || lang.value === 'zh' ? 'zh' : 'en'
-  return translations[currentLang]
+  const currentLang = lang.value === 'zh-CN' || lang.value === 'zh' ? 'zh' : lang.value
+  return translations[currentLang] ?? translations.en
 })
 
 const fetchLatestRelease = async () => {
@@ -176,7 +218,7 @@ const fetchLatestRelease = async () => {
     }
   } catch (err) {
     console.error('Failed to fetch release:', err)
-    error.value = '无法获取版本信息，请直接访问 GitHub Releases'
+    error.value = t.value.error
   } finally {
     loading.value = false
   }
@@ -225,7 +267,7 @@ const formatSize = (bytes) => {
 
 const formatDate = (dateString) => {
   const date = new Date(dateString)
-  return date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+  return date.toLocaleDateString(lang.value, { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })
 }
 
 const getTimeAgo = (dateString) => {

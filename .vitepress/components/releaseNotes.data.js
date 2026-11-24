@@ -28,6 +28,13 @@ const releaseSummaries = {
     'v1.2.1-native': '原生網路層重構，連線更快、更穩定。',
     'v1.2.1': '支援網路分享到 CLI，WireGuard 握手更可靠。',
     'v1.2.0': '支援 WireGuard 私有網路、子網分配和鏈路健康監控。'
+  },
+  es: {
+    'v1.4.0': 'Paquetes Snap / deb para Linux y una barra de título más integrada con el sistema.',
+    'v1.3.0': 'Códigos de invitación, control de rutas y diagnósticos de pares mejorados.',
+    'v1.2.1-native': 'Arquitectura de red nativa para conexiones más rápidas y estables.',
+    'v1.2.1': 'Uso compartido de redes con la CLI y handshakes de WireGuard más fiables.',
+    'v1.2.0': 'Redes privadas WireGuard con asignación de subred y salud de enlaces.'
   }
 }
 
@@ -89,10 +96,17 @@ function parseNote({ url, frontmatter, src, html }) {
 }
 
 function buildLink(locale, version, index) {
-  if (index === 0) return locale === 'en' ? '/release-notes/' : '/zh/release-notes/'
-  return locale === 'en'
-    ? `/release-notes/${version}/`
-    : `/zh/release-notes/${version}/`
+  const prefixes = {
+    en: '',
+    'zh-CN': '/zh',
+    'zh-TW': '/zh-TW',
+    es: '/es',
+    ja: '/ja'
+  }
+  const prefix = prefixes[locale] ?? ''
+  return index === 0
+    ? `${prefix}/release-notes/`
+    : `${prefix}/release-notes/${version}.html`
 }
 
 export default createContentLoader('release-notes/*/*.md', {

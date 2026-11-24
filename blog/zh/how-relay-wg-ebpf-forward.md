@@ -2,14 +2,14 @@
 title: WireGuard relay 转发之二：用 eBPF 在 TC 入口重定向数据包
 date: 2026-11-24
 author: YAT Team
-description: 讲透中继节点上的 eBPF 转发：TC 与 clsact、SchedCLS 程序能做什么、bpf_redirect 的 flags 为什么必须是 0，以及这条路绕过了什么、又换上了哪些前提。
-excerpt: 中继转发的两条路都是内核级操作，权限要求差不多，eBPF 甚至更高。真正的区别在于：转发是否正确要不要依赖宿主机上那份共享的、会被别人重写的防火墙状态。
+description: 中继节点上的 eBPF 转发实现：TC 与 clsact 的关系、bpf_redirect 的 flags 为什么必须是 0，以及这条路绕过了什么、又换上了哪些前提。
+excerpt: eBPF 转发把中继决策放进 TC ingress 程序，不依赖宿主机上会被其他软件改写的 FORWARD 链。它换来的是更高权限、更窄的协议覆盖和更难排查的失败路径。
 tags:
   - WireGuard
   - Relay
   - eBPF
   - Linux 内核
-publish: false
+publish: true
 layout: doc
 sidebar: true
 aside: false
@@ -17,8 +17,6 @@ pageClass: blog-post
 ---
 
 [上一篇](./how-relay-wg-kernel-forward.md)讲的是让内核自己转发：打开 `ip_forward`、关掉 `rp_filter`、在 nftables 的 forward 链上放行。这一篇讲另一条路：在包进入协议栈更早的位置截住它，直接送回接口的出口。
-
-先划清一条界限，它经常被当成选 eBPF 的理由：**两条路的权限要求是同一级的，eBPF 甚至更高。** 写 `/proc/sys` 和下发 nftables 规则需要 root 与 `CAP_NET_ADMIN`；加载 BPF 程序额外需要 `CAP_BPF` 和一个够新的内核。一台改不了 sysctl 的机器，通常也加载不了 BPF 程序，所以“没权限改机器就改用 eBPF”这个推论不成立。
 
 路径长这样：
 
@@ -32,11 +30,9 @@ UDP 58021 收到密文 → 拆封（内核 WireGuard 解密）→ 明文包到�
 
 包没有查路由表，没有进 netfilter 的 FORWARD hook，没有进 conntrack，也没有离开内核。
 
-范围要先圈清楚：[上一篇](./how-relay-wg-kernel-forward.md)把包在中继上的经历拆成了三步——拆封、转发决策、重封，**这条路只替换中间那一步**。用 A 的会话密钥解密、验 tag、查 counter，以及用 B 的会话密钥重新加密，都还是内核 WireGuard 在做；`bpf_redirect` 提交之后包走的仍然是同一个 `wg_xmit()`。所以它省掉的是路由查找、netfilter 和 conntrack，一次加解密也不会少。
+范围先说清楚：[上一篇](./how-relay-wg-kernel-forward.md)把包在中继上的经历拆成拆封、转发决策、重封三步，这条路只替换中间一步。用 A 的会话密钥解密、验 tag、查 counter，以及用 B 的会话密钥重新加密，仍是内核 WireGuard 在做；`bpf_redirect` 提交后包走的仍是同一个 `wg_xmit()`。
 
-真正的区别在于**转发是否正确要不要依赖别人的状态**。内核转发的结果由三样东西共同决定：一个全局开关、两处 `rp_filter`、一条共用的 FORWARD hook。前两项是整台机器共享的，后一项是所有防火墙工具共用的挂载点。Docker 启停容器、`ufw reload`、安全 agent 刷新规则，都可能把其中某一项改回去，而这类变更不会通知你。eBPF 路径把判断收进自己的程序里：条件写在指令里，不读也不写任何全局开关。
-
-代价是换上一组别的前提：内核版本、编译方式、协议覆盖范围，以及调试与调优的难度——`tcpdump` 在这条路上只能看到出方向，`nft` 计数器不会增长，改一个匹配条件意味着重新生成指令并重新过验证器。这一篇把两边都说清楚。
+两条路的区别在于转发判断放在哪里。内核路径由一个全局开关、两处 `rp_filter` 和一条共用的 FORWARD hook 决定。这些状态整台机器共享；Docker 启停容器、`ufw reload`、安全 agent 刷新规则都可能改掉它们，而且不会通知你。eBPF 路径把判断写进自己的程序：不读全局开关，也不经过 FORWARD hook。
 
 阅读前需要知道 TC、qdisc 这些词大致指什么；如果不清楚，下一节把它们定义清楚。
 
@@ -88,7 +84,7 @@ Stop():
 
 **priority 1 而不是 100。** 同一个 hook 上按优先级从小到大执行。转发程序占 1，只负责计数的程序占 10，顺序是“先决定去留，再计数”。内核转发路径上不搬包，因此需要一个独立的计数程序；eBPF 路径的转发程序自己就把数计了。
 
-## 程序内部：每一条判断都在补协议栈的账
+## 程序内部的判断
 
 程序没有循环、没有查表，网段、掩码、中继地址、接口编号、MTU 都在加载时作为立即数写进指令。判断顺序如下，"交回协议栈"就是返回 `TC_ACT_OK`：
 
@@ -132,7 +128,7 @@ data[10..12] += 0x100 并折叠进 16 位       // 校验和的增量修正
 return bpf_redirect(IFINDEX, 0)
 ```
 
-这段代码里有三件事容易被忽略，但都是必须的。
+这段代码里有三件事容易被忽略。
 
 **头校验和必须自己验。** 走 `ip_rcv` 的话这一步由协议栈做。既然绕过了入口，非法包头就会一路送到 B 那里，由 B 的 WireGuard 或 IP 层丢弃——排查时会变成一个"看起来在转发但不通"的谜。
 
@@ -142,15 +138,13 @@ return bpf_redirect(IFINDEX, 0)
 
 ## `bpf_redirect` 的第二个参数必须是 0
 
-这是这条路最容易搞错、后果也最严重的一点。
-
 `flags = 0` 表示把包送到目标设备的**出口**路径，也就是走 `dev_queue_xmit`，进入出口 qdisc，再交给设备的 `ndo_start_xmit`——对 WireGuard 接口就是 `wg_xmit`，正好是要的效果。
 
 `flags = BPF_F_INGRESS` 表示送到目标设备的**入口**。目标设备就是自己，于是包回到自己挂着的这个程序上，形成循环。
 
 有两个看起来更合适的选择，实际都不对：
 
-- **`bpf_redirect_peer`**：跳过分类器重新执行、直达对端设备，性能更好，但它的语义前提是**对端设备在另一个网络命名空间**（典型场景是 veth 两端分居 netns）。我们的 WireGuard 接口两端都在同一个 netns 里，没有可跳转的"对端设备"。而且它返回 `TC_ACT_REDIRECT` 只表示"提交了一次重定向"，不代表投递成功，失败是静默的。
+- **`bpf_redirect_peer`**：语义前提是目标设备是另一个网络命名空间里的 peer 设备（典型场景是 veth 两端分居 netns）。我们的 WireGuard 接口两端都在同一个 netns 里，没有这样的“对端设备”。它的返回值也要在程序里检查，而且即使提交成功，也不代表 WireGuard 发送和对端接收一定成功。
 - **`bpf_clone_redirect`**：复制一份包再重定向，原包继续走协议栈。我们要的不是复制，而是让这个包换条路走，并且还要修改它（TTL 和校验和），克隆反而多此一举。
 
 因此最终选择是 `bpf_redirect(ifindex, 0)`，配合程序自己完成簿记。
@@ -160,22 +154,22 @@ return bpf_redirect(IFINDEX, 0)
 把两篇的内容并到一张报文路径上看：
 
 ```
-内核路径：解密 → ip_rcv → rp_filter → FORWARD(nftables) → 路由查询 → ip_output → qdisc → wg_xmit
+内核路径：解密 → ip_rcv → 路由与 rp_filter → ip_forward → FORWARD(nftables) → ip_output → qdisc → wg_xmit
 eBPF 路径：解密 → TC ingress → bpf_redirect → qdisc → wg_xmit
 ```
 
-省掉的环节带来的好处是直接的：不需要 `ip_forward`，不需要动 `rp_filter`，不需要在 FORWARD 链上放行，宿主上的 Docker、`ufw`、`firewalld`、云厂商的安全组脚本都影响不到这条路径。每包还少了一次路由查找和一条 hook 链的遍历，但相对于 WireGuard 本身的加解密，这部分开销不是主要矛盾。
+eBPF 省掉了 `ip_forward`、`rp_filter`、路由查找和 FORWARD hook。宿主上的 Docker、`ufw`、`firewalld` 或安全 agent 改 FORWARD 链，影响不到这条已匹配的流量。每包少的那点协议栈开销相对 WireGuard 加解密不是主要矛盾；更重要的收益是依赖边界变窄。
 
-被绕过的另一面是可观测性。这些工具在这个路径上什么都看不到：
+被绕过的另一面是可观测性。netfilter 相关的这些工具在这个路径上什么都看不到：
 
-- `nft list table ip yat_relay`：内核路径的证据。eBPF 路径下这张表是空的，**这是正常的**。
+- `nft list table ip yat_relay`：只属于 kernel 路径。eBPF 路径下没有这张表，这是正常的。
 - `conntrack -E`：eBPF 路径不进 conntrack，没有会话记录。
 - 基于 netfilter 的流量统计与告警：统计不到这部分流量。
-- 想看有没有转发，只能看 `tc -s filter show dev <接口> ingress` 里程序的计数，或者程序自己维护的那张按源地址的哈希表。
+- `tc -s filter show dev <接口> ingress` 能证明 filter 在运行；程序缺少分支计数，不能单靠它证明某个包被重定向了。
 
-还有一个前提值得单独指出，它说明"绕过宿主配置"是有边界的：程序只接管**它判定合格的那部分流量**。IPv6、带 IP 选项的包、分片、跨网段的目的地址，全部原样交回协议栈——而这些包如果确实需要转发，走的还是上一篇那套内核路径。也就是说，`ebpf` 策略并不等于"这台机器完全不需要开 `ip_forward`"，它等于"中继所需的那条主要路径不再依赖它"。
+程序只接管它判定合格的流量。IPv6、带 IP 选项的包、分片和跨网段目的地址都会交回协议栈；这些包如果确实要转发，仍走上一篇那套内核路径。`ebpf` 策略不等于机器不需要 `ip_forward`，只表示主要中继流量不再依赖它。
 
-按成员的字节计数还有个小坑：程序在重定向成功后按源地址查表累加，但表里没有对应条目时不会创建，只跳过。所以统计恒为 0 不代表没在转发，要先确认条目是否建过。
+按成员的流量统计还有一个坑：转发程序重定向后只查找已有 key，不会创建新条目。当前实现也没有另一段代码预建这些 key，所以这张按源地址的哈希表会一直为空，Edge 汇总出的 `Forwarded` 也因此不可用。确认有没有转发，要在成员 B 上测连通性，并看 `wg show wg-yat0-xxx transfer` 的接收计数。
 
 ## 前提与限制
 
@@ -189,11 +183,11 @@ eBPF 路径：解密 → TC ingress → bpf_redirect → qdisc → wg_xmit
 
 ## 什么时候用它
 
-两条路的权限门槛差不多（eBPF 还更高），所以选择依据不是“能不能”，而是下面三条：
+eBPF 的权限更高，选它通常不是为了省权限，而是为了隔离宿主防火墙状态：
 
-- 宿主的 FORWARD 链会不会被别人反复重写。装了 Docker 的机器上，容器启停和 daemon 重启都会重排规则；`ufw`、`firewalld`、EDR 类 agent 也会。内核路径依赖“我们的链恰好排在前面”这个条件一直成立，eBPF 路径不依赖任何人。
+- 宿主的 FORWARD 链会不会被反复重写。装了 Docker 的机器上，容器启停和 daemon 重启都会重排规则；`ufw`、`firewalld`、EDR 类 agent 也会。内核路径要求所有相关防火墙都放行这条流量；eBPF 路径不依赖 FORWARD 链。
 - 是否介意转发的流量进 conntrack。内核转发会给每条流建一个连接跟踪条目，成员多、长连接多的时候这张表持续膨胀，表满时新流会被直接丢弃。eBPF 路径不产生条目。
-- 可运维性值多少。内核转发是 Linux 的标准行为，`tcpdump`、`nft` 计数器、`conntrack -E` 都在这条路径上有效；eBPF 路径上这些工具全部沉默，只剩 `tc -s filter` 和 `bpftool`。
+- 可观测性值多少。内核路径能用 `nft` 计数器、`conntrack -E` 和 `tcpdump` 查每个环节。eBPF 路径仍可在接口上抓包，但 nft 和 conntrack 看不到它；程序内部分支主要靠 `tc -s filter` 和 `bpftool`。
 
 默认仍是 kernel。保留 ebpf 作为可选项，用在前两条确实成立的机器上，而不是把它当成“更快的那个”。
 
@@ -211,7 +205,7 @@ ip -s link show wg-yat0-xxx
 wg show wg-yat0-xxx
 ```
 
-`tc` 输出里 `bpf` 那行带着程序名和 run 次数，是这条路径最直接的存活证据。`Forwarded` 这个计数的含义是"成功提交重定向的次数"，不等于对端收到——从提交到送达之间还有 WireGuard 自己的发送与对端的接收。
+`tc` 输出里 `bpf` 那行带着程序名和 run 次数，是 filter 挂载后最直接的存活证据。它统计的是程序被调用的次数，不区分放行、丢弃和重定向，也不等于对端收到。最终要以成员侧连通性和 WireGuard transfer 计数为准。
 
 ## 相关阅读
 

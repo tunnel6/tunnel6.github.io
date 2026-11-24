@@ -55,6 +55,10 @@
   margin-bottom: 56px;
 }
 
+.blog-hero .blog-lang-switcher {
+  margin-top: 18px;
+}
+
 .blog-eyebrow {
   margin-bottom: 14px;
   color: var(--vp-c-brand-1);

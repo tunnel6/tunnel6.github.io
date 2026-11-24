@@ -134,7 +134,7 @@ CLI 参数（最高） > 启动配置注入 > YAML 配置文件 > 默认值（�
 
 - [Edge 服务器管理](./management.md) - 部署和管理 Edge
 - [配置参数参考](./config-reference.md) - YAML 配置文件完整参考
-- [WireGuard 组网](./wireguard-networking.md) - WireGuard 详细配置
+- [WireGuard 组网](../wireguard-networking.md) - WireGuard 详细配置
 
 ---
 

@@ -164,8 +164,8 @@ YAT checks Edge domain health every 5 minutes:
 - [Config Reference](./config-reference.md) — config.yaml complete reference
 - [CLI Reference](./cli-reference.md) — Command-line tool reference
 - [FAQ](./faq.md) — Edge deployment and runtime issues
-- [Custom Domains](./custom-domains.md) — Domain configuration details
-- [WireGuard Networking](./wireguard-networking.md) — Build virtual LANs
+- [Custom Domains](../custom-domains.md) — Domain configuration details
+- [WireGuard Networking](../wireguard-networking.md) — Build virtual LANs
 
 ---
 

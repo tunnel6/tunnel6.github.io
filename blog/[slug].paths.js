@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { isPublished } from '../.vitepress/components/blogPublish.js'
 
-const languageDirectories = ['en', 'zh', 'es']
+const languageDirectories = ['en', 'zh', 'es', 'ja']
 const slugs = new Set()
 
 for (const language of languageDirectories) {

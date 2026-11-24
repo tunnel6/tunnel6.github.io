@@ -23,7 +23,7 @@ const interfaceText = computed(() => {
       footerDescription:
         'Download the latest client to get all current fixes and networking improvements.',
       downloadLabel: 'Download YAT',
-      downloadLink: '/download'
+      downloadLink: '/download.html'
     },
     zh: {
       eyebrow: '产品更新',
@@ -37,7 +37,49 @@ const interfaceText = computed(() => {
       latestLabel: '最新版本：',
       footerDescription: '下载最新客户端，即可获得当前所有修复和组网改进。',
       downloadLabel: '下载 YAT',
-      downloadLink: '/zh/download'
+      downloadLink: '/zh/download.html'
+    },
+    'zh-TW': {
+      eyebrow: '產品更新',
+      title: '更新說明',
+      description: '了解每個 YAT 版本的變化，涵蓋服務隧道與 WireGuard 組網能力。',
+      indexTitle: '全部版本',
+      pagerTitle: '版本分頁',
+      previousLabel: '較早版本',
+      nextLabel: '較新版本',
+      errorLabel: '無法載入此版本說明。',
+      latestLabel: '最新版本：',
+      footerDescription: '下載最新用戶端，即可取得目前所有修復與組網改進。',
+      downloadLabel: '下載 YAT',
+      downloadLink: '/zh-TW/download.html'
+    },
+    es: {
+      eyebrow: 'Novedades del producto',
+      title: 'Notas de la versión',
+      description: 'Consulta los cambios de cada versión de YAT, desde los túneles hasta las redes WireGuard.',
+      indexTitle: 'Todas las versiones',
+      pagerTitle: 'Paginación de versiones',
+      previousLabel: 'Versión anterior',
+      nextLabel: 'Versión más reciente',
+      errorLabel: 'No se pudo cargar esta nota de versión.',
+      latestLabel: 'Última versión:',
+      footerDescription: 'Descarga el cliente más reciente para obtener todas las correcciones y mejoras de red.',
+      downloadLabel: 'Descargar YAT',
+      downloadLink: '/es/download.html'
+    },
+    ja: {
+      eyebrow: '製品アップデート',
+      title: 'リリースノート',
+      description: 'サービストンネルから WireGuard ネットワークまで、YAT の各バージョン変更を確認できます。',
+      indexTitle: 'すべてのリリース',
+      pagerTitle: 'リリースページング',
+      previousLabel: '前のリリース',
+      nextLabel: '新しいリリース',
+      errorLabel: 'このリリースノートを読み込めませんでした。',
+      latestLabel: '最新バージョン:',
+      footerDescription: '最新クライアントをダウンロードすると、現在の修正とネットワーク改善をすべて利用できます。',
+      downloadLabel: 'YAT をダウンロード',
+      downloadLink: '/ja/download.html'
     }
   }
 

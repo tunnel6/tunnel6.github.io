@@ -8,6 +8,8 @@ dist/
 .qoder
 .vitepress/cache/
 .vitepress/dist/
+.vitepress/.temp/
+.vitepress/components/*.timestamp-*.mjs
 docs/.vitepress/dist/
 docs/.vitepress/cache/
 .nojekyll

@@ -164,8 +164,8 @@ YAT 每 5 分钟定期检查 Edge 域名健康：
 - [配置参数参考](./config-reference.md) — config.yaml 完整配置项
 - [CLI 命令参考](./cli-reference.md) — 命令行工具参考
 - [常见问题](./faq.md) — Edge 部署和运行常见问题
-- [自定义域名](./custom-domains.md) — 域名配置详解
-- [WireGuard 组网](./wireguard-networking.md) — 构建虚拟局域网
+- [自定义域名](../custom-domains.md) — 域名配置详解
+- [WireGuard 组网](../wireguard-networking.md) — 构建虚拟局域网
 
 ---
 

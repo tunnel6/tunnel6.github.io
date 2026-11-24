@@ -20,9 +20,14 @@ const article = computed(() => {
   )
 })
 
+const articleDateLocale = computed(() => {
+  const localeByLanguage = { es: 'es-ES', ja: 'ja-JP', zh: 'zh-CN' }
+  return localeByLanguage[requestedLang.value] ?? 'en-US'
+})
+
 const dateFormatter = computed(
   () =>
-    new Intl.DateTimeFormat(requestedLang.value === 'zh' ? 'zh-CN' : 'en-US', {
+    new Intl.DateTimeFormat(articleDateLocale.value, {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -49,6 +54,8 @@ const languageState = computed(() => {
         ? '文章语言'
         : requestedLang.value === 'es'
           ? 'Idiomas del artículo'
+        : requestedLang.value === 'ja'
+          ? '記事の言語'
           : 'Article languages'
   }
 })

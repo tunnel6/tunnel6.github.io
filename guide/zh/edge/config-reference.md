@@ -424,8 +424,8 @@ channel:
 ## 🔗 相关文档
 
 - [Edge 服务器管理](./management.md) - 部署和管理 Edge
-- [WireGuard 组网](./wireguard-networking.md) - WireGuard 详细配置
-- [传输模式与协议](./transport-modes.md) - 了解各协议模式
+- [WireGuard 组网](../wireguard-networking.md) - WireGuard 详细配置
+- [传输模式与协议](../transport-modes.md) - 了解各协议模式
 - [常见问题](./faq.md) - 配置相关问题排查
 
 ---

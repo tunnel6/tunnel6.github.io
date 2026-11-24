@@ -15,31 +15,48 @@
 <script setup>
 import { onBeforeUnmount, onMounted, watch } from 'vue'
 import DefaultTheme from 'vitepress/theme'
-import { useData, useRoute, useRouter } from 'vitepress'
+import { useRoute, useRouter } from 'vitepress'
 import HeaderGitHubLink from './components/HeaderGitHubLink.vue'
 import HeaderGetStartedButton from './components/HeaderGetStartedButton.vue'
+import { blogLanguageByWikiLocale } from './components/blogLanguages.js'
 import {
   normalizeWikiLocale,
   readStoredWikiLocale,
   writeStoredWikiLocale
 } from './utils/localeStorage'
 
-const { localeIndex } = useData()
 const route = useRoute()
 const router = useRouter()
 
 let observedLocale = null
 
+const localePathPrefixes = {
+  'zh-CN': '/zh',
+  'zh-TW': '/zh-TW',
+  es: '/es',
+  ja: '/ja'
+}
+
 function localeFromPath(pathname) {
-  return pathname === '/zh' || pathname.startsWith('/zh/') ? 'zh-CN' : 'en'
+  if (isBlogPath(pathname)) return readStoredWikiLocale() ?? 'en'
+
+  return (
+    Object.entries(localePathPrefixes).find(([, prefix]) =>
+      pathname === prefix || pathname.startsWith(`${prefix}/`)
+    )?.[0] ?? 'en'
+  )
+}
+
+function isBlogPath(pathname) {
+  return pathname === '/blog' || pathname.startsWith('/blog/')
 }
 
 function localizedPath(pathname, locale) {
-  if (locale === 'zh-CN') {
-    return pathname === '/' ? '/zh/' : `/zh${pathname.startsWith('/') ? pathname : `/${pathname}`}`
-  }
+  const prefix = localePathPrefixes[locale]
+  if (!prefix) return pathname === '/' ? '/' : pathname.replace(/^\/(?:zh|zh-TW|es|ja)(?:\/|$)/, '/')
 
-  return pathname.replace(/^\/zh(?:\/|$)/, '/') || '/'
+  if (pathname === '/') return `${prefix}/`
+  return `${prefix}${pathname.replace(/^\/(?:zh|zh-TW|es|ja)(?:\/|$)/, '/')}`
 }
 
 function persistLanguageSwitch(event) {
@@ -62,6 +79,19 @@ function applyRequestedLocale() {
   const url = new URL(window.location.href)
   url.searchParams.delete('locale')
 
+  if (isBlogPath(url.pathname)) {
+    const blogLanguage = blogLanguageByWikiLocale[requestedLocale] ?? 'en'
+    if (blogLanguage === 'en') url.searchParams.delete('lang')
+    else url.searchParams.set('lang', blogLanguage)
+
+    window.history.replaceState(
+      window.history.state,
+      '',
+      `${url.pathname}${url.search}${url.hash}`
+    )
+    return
+  }
+
   if (localeFromPath(url.pathname) !== requestedLocale) {
     router.go(`${localizedPath(url.pathname, requestedLocale)}${url.hash}`)
   } else {
@@ -69,14 +99,16 @@ function applyRequestedLocale() {
   }
 }
 
-function applyStoredLocaleOnHomepage() {
+function applyStoredLocaleOnHomepage(path = route.path) {
   const preferredLocale = readStoredWikiLocale()
-  if (!preferredLocale || route.path !== '/') return
+  if (!preferredLocale || path !== '/') return false
 
-  const currentLocale = localeIndex.value === 'zh' ? 'zh-CN' : 'en'
-  if (preferredLocale === currentLocale) return
+  const currentLocale = localeFromPath(path)
+  if (preferredLocale === currentLocale) return false
 
-  router.go(localizedPath(route.path, preferredLocale))
+  observedLocale = preferredLocale
+  router.go(localizedPath(path, preferredLocale))
+  return true
 }
 
 onMounted(() => {
@@ -89,6 +121,8 @@ onMounted(() => {
 })
 
 watch(() => route.path, (path) => {
+  if (applyStoredLocaleOnHomepage(path)) return
+
   const nextLocale = localeFromPath(path)
   if (observedLocale !== null && nextLocale !== observedLocale) {
     writeStoredWikiLocale(nextLocale)

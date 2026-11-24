@@ -1,13 +1,14 @@
 <script setup>
 import { computed } from 'vue'
 import { blogLanguageLabels, supportedBlogLanguages } from './blogLanguages'
+import BlogLangSwitcher from './BlogLangSwitcher.vue'
 import { useBlogLanguage } from './useBlogLanguage.js'
 
 const props = defineProps({
   posts: { type: Array, required: true },
 })
 
-const { currentLang } = useBlogLanguage()
+const { currentLang, setBlogLanguage } = useBlogLanguage()
 
 const interfaceText = computed(() => {
   const translations = {
@@ -19,6 +20,7 @@ const interfaceText = computed(() => {
         'Product updates, security notes, architecture decisions, and practical guides for running YAT.',
       listLabel: 'Latest posts',
       readMoreLabel: 'Read article',
+      languageSwitcherLabel: 'Blog language',
       emptyLabel: 'No articles have been published yet.'
     },
     zh: {
@@ -28,6 +30,7 @@ const interfaceText = computed(() => {
       lede: '发布产品更新、安全说明、架构决策，以及运行和维护 YAT 的实践经验。',
       listLabel: '最新文章',
       readMoreLabel: '阅读文章',
+      languageSwitcherLabel: '博客语言',
       emptyLabel: '暂未发布文章。'
     },
     es: {
@@ -38,7 +41,19 @@ const interfaceText = computed(() => {
         'Actualizaciones de producto, notas de seguridad, decisiones de arquitectura y guías prácticas para usar YAT.',
       listLabel: 'Últimas entradas',
       readMoreLabel: 'Leer artículo',
+      languageSwitcherLabel: 'Idioma del blog',
       emptyLabel: 'Todavía no hay artículos publicados.'
+    },
+    ja: {
+      dateLocale: 'ja-JP',
+      eyebrow: 'YAT ブログ',
+      title: '構築、接続、そして制御を維持',
+      lede:
+        'YAT を運用するための製品アップデート、セキュリティノート、アーキテクチャの決定、実践ガイドを公開しています。',
+      listLabel: '最新記事',
+      readMoreLabel: '記事を読む',
+      languageSwitcherLabel: 'ブログの言語',
+      emptyLabel: '公開済みの記事はまだありません。'
     }
   }
 
@@ -81,6 +96,19 @@ const visiblePosts = computed(() => {
     })
     .sort((a, b) => String(b.date ?? '').localeCompare(String(a.date ?? '')))
 })
+
+const languageState = computed(() => ({
+  languages: supportedBlogLanguages
+    .map(code => {
+      const languagePost = props.posts.find(post => post.lang === code)
+      return languagePost
+        ? { code, label: blogLanguageLabels[code], link: languagePost.link }
+        : null
+    })
+    .filter(Boolean),
+  currentLang: currentLang.value,
+  ariaLabel: interfaceText.value.languageSwitcherLabel
+}))
 </script>
 
 <template>
@@ -89,6 +117,11 @@ const visiblePosts = computed(() => {
       <p class="blog-eyebrow">{{ interfaceText.eyebrow }}</p>
       <h1>{{ interfaceText.title }}</h1>
       <p class="blog-lede">{{ interfaceText.lede }}</p>
+      <BlogLangSwitcher
+        v-if="languageState.languages.length"
+        v-bind="languageState"
+        @select="setBlogLanguage"
+      />
     </header>
 
     <section class="blog-grid" :aria-label="interfaceText.listLabel">
