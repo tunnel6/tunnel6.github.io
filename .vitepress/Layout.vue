@@ -1,13 +1,14 @@
 <template>
   <DefaultTheme.Layout>
-    <template #nav-bar-title-after>
-      <HeaderGitHubLink />
-    </template>
     <template #nav-bar-content-after>
+      <HeaderCommunityLinks />
       <HeaderGetStartedButton />
     </template>
     <template #nav-screen-content-after>
-      <HeaderGetStartedButton block />
+      <div class="nav-screen-community">
+        <HeaderCommunityLinks />
+        <HeaderGetStartedButton block />
+      </div>
     </template>
   </DefaultTheme.Layout>
 </template>
@@ -16,7 +17,7 @@
 import { onBeforeUnmount, onMounted, watch } from 'vue'
 import DefaultTheme from 'vitepress/theme'
 import { useRoute, useRouter } from 'vitepress'
-import HeaderGitHubLink from './components/HeaderGitHubLink.vue'
+import HeaderCommunityLinks from './components/HeaderCommunityLinks.vue'
 import HeaderGetStartedButton from './components/HeaderGetStartedButton.vue'
 import { blogLanguageByWikiLocale } from './components/blogLanguages.js'
 import {
@@ -134,3 +135,15 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', persistLanguageSwitch, true)
 })
 </script>
+
+<style scoped>
+.nav-screen-community {
+  display: grid;
+  gap: 12px;
+  padding-top: 12px;
+}
+
+.nav-screen-community :deep(.header-community-links) {
+  justify-self: center;
+}
+</style>

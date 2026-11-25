@@ -1,5 +1,8 @@
 <script setup>
-defineProps({
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import CommunityBrandIcon from './CommunityBrandIcon.vue'
+
+const props = defineProps({
   badge: { type: String, required: true },
   title: { type: String, required: true },
   titleAccent: { type: String, required: true },
@@ -25,10 +28,65 @@ defineProps({
   architectureDescription: { type: String, required: true },
   tunnelMode: { type: Object, required: true },
   wireguardMode: { type: Object, required: true },
+  communityEyebrow: { type: String, default: '' },
+  communityTitle: { type: String, default: '' },
+  communityDescription: { type: String, default: '' },
+  communityLinks: { type: Array, default: () => [] },
   ctaTitle: { type: String, required: true },
   ctaDescription: { type: String, required: true },
   ctaAction: { type: Object, required: true },
   docsAction: { type: Object, required: true }
+})
+
+// hero 社区入口与品牌图标白名单（卡片 icon 命中时用内联 SVG，否则保留 emoji）
+const heroSocialLinks = [
+  { name: 'GitHub', icon: 'github', link: 'https://github.com/tunnel6/yat' },
+  {
+    name: 'Discord',
+    icon: 'discord',
+    link: 'https://discord.com/channels/1575096620155150336/1575096620767387730'
+  },
+  { name: 'X (Twitter)', icon: 'x', link: 'https://x.com/yattool' }
+]
+const brandIcons = ['github', 'discord', 'x', 'bug']
+
+// h1 打字机效果：先打主标题再打绿色 accent，隐形占位保证宽度恒定不跳版；
+// 打完后光标保持闪烁并停顿 TYPE_HOLD，随后重新打字循环播放
+const TYPE_SPEED = 75
+const TYPE_HOLD = 2600
+const typedCount = ref(0)
+const typeTimer = ref(null)
+const typedTotal = computed(() => props.title.length + 1 + props.titleAccent.length)
+const typedTitle = computed(() => props.title.slice(0, Math.min(typedCount.value, props.title.length)))
+const typedSeparator = computed(() => (typedCount.value > props.title.length ? ' ' : ''))
+const typedAccent = computed(() =>
+  typedCount.value > props.title.length
+    ? props.titleAccent.slice(0, typedCount.value - props.title.length - 1)
+    : ''
+)
+
+onMounted(() => {
+  // 尊重系统减少动效偏好，直接呈现完整标题且不循环
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    typedCount.value = typedTotal.value
+    return
+  }
+  let held = 0
+  typeTimer.value = setInterval(() => {
+    if (typedCount.value < typedTotal.value) {
+      typedCount.value += 1
+      return
+    }
+    held += TYPE_SPEED
+    if (held >= TYPE_HOLD) {
+      held = 0
+      typedCount.value = 0
+    }
+  }, TYPE_SPEED)
+})
+
+onBeforeUnmount(() => {
+  if (typeTimer.value) clearInterval(typeTimer.value)
 })
 </script>
 
@@ -41,9 +99,12 @@ defineProps({
             <span aria-hidden="true">●</span>
             {{ badge }}
           </p>
-          <h1>
-            {{ title }}
-            <span>{{ titleAccent }}</span>
+          <h1 :aria-label="`${title} ${titleAccent}`">
+            <span class="title-ghost" aria-hidden="true">{{ title }} {{ titleAccent }}</span>
+            <span class="title-typed" aria-hidden="true"
+              >{{ typedTitle }}{{ typedSeparator }}<span>{{ typedAccent }}</span
+              ><i class="title-caret"></i
+            ></span>
           </h1>
           <p class="home-hero-lede">{{ description }}</p>
 
@@ -61,6 +122,23 @@ defineProps({
               rel="noopener noreferrer"
             >
               {{ githubAction }}
+            </a>
+          </div>
+
+          <div class="home-hero-social" role="group" aria-label="Community links">
+            <a
+              v-for="item in heroSocialLinks"
+              :key="item.icon"
+              class="home-hero-social-link"
+              :href="item.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              :aria-label="item.name"
+              :title="item.name"
+            >
+              <span class="home-hero-social-icon" :class="`icon-${item.icon}`">
+                <CommunityBrandIcon :name="item.icon" />
+              </span>
             </a>
           </div>
 
@@ -202,6 +280,36 @@ defineProps({
       </div>
     </section>
 
+    <section v-if="communityLinks.length" class="home-section community-section">
+      <div class="home-container">
+        <div class="home-section-head">
+          <p>{{ communityEyebrow }}</p>
+          <h2>{{ communityTitle }}</h2>
+          <p class="home-section-description">{{ communityDescription }}</p>
+        </div>
+        <div class="home-community-grid">
+          <a
+            v-for="community in communityLinks"
+            :key="community.title"
+            class="home-community-card"
+            :href="community.link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="home-community-head">
+              <span class="home-community-icon" :class="`icon-${community.icon}`" aria-hidden="true">
+                <CommunityBrandIcon v-if="brandIcons.includes(community.icon)" :name="community.icon" />
+                <template v-else>{{ community.icon }}</template>
+              </span>
+              <h3>{{ community.title }}</h3>
+            </div>
+            <p>{{ community.description }}</p>
+            <span class="home-community-link">{{ community.linkLabel }} →</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <section class="home-cta">
       <div class="home-container home-cta-inner">
         <div>
@@ -224,7 +332,7 @@ defineProps({
 
 .home-container {
   width: 100%;
-  max-width: calc(var(--vp-layout-max-width) - 64px);
+  max-width: 1440px;
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -237,7 +345,7 @@ defineProps({
 
 .home-hero {
   position: relative;
-  padding: 88px 0 112px;
+  padding: 96px 0 120px;
   color: #eaf4ff;
   background:
     radial-gradient(circle at 15% 10%, rgba(132, 204, 22, 0.22), transparent 30rem),
@@ -257,6 +365,7 @@ defineProps({
   box-shadow: inset 0 0 100px rgba(148, 197, 255, 0.04);
 }
 
+/* 原版左文右图双栏；宽屏下 h1 越栏单行，截图下移错开避让（交错式） */
 .home-hero-grid {
   position: relative;
   z-index: 1;
@@ -285,6 +394,7 @@ defineProps({
 }
 
 .home-hero h1 {
+  position: relative;
   margin: 0 0 22px;
   font-size: clamp(2.15rem, 3.35vw, 2.5rem);
   font-weight: 800;
@@ -294,6 +404,42 @@ defineProps({
 
 .home-hero h1 span {
   color: #a3e635;
+}
+
+/* 打字机：ghost 隐形占位撑住完整宽度，typed 叠加在上逐字显现 */
+.home-hero h1 .title-ghost,
+.home-hero h1 .title-typed {
+  color: inherit;
+}
+
+.home-hero h1 .title-ghost {
+  visibility: hidden;
+}
+
+.home-hero h1 .title-typed {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.home-hero h1 .title-typed span {
+  color: #a3e635;
+}
+
+.title-caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.92em;
+  margin-left: 3px;
+  vertical-align: -0.08em;
+  background: #a3e635;
+  animation: caret-blink 0.9s steps(1, end) infinite;
+}
+
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
 }
 
 .home-hero-lede {
@@ -348,6 +494,50 @@ defineProps({
   transform: translateY(-1px);
 }
 
+.home-hero-social {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 26px;
+}
+
+.home-hero-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(197, 224, 255, 0.18);
+  border-radius: 10px;
+  color: rgba(226, 238, 252, 0.68);
+  background: rgba(255, 255, 255, 0.04);
+  transition: color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.home-hero-social-link:hover {
+  border-color: rgba(197, 224, 255, 0.5);
+  color: #eaf4ff;
+  transform: translateY(-1px);
+}
+
+.home-hero-social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+}
+
+/* hero 背景固定深色，品牌图标用原色 */
+.home-hero-social-icon.icon-discord {
+  color: #5865f2;
+}
+
+.home-hero-social-icon.icon-github,
+.home-hero-social-icon.icon-x {
+  color: #f0f6fc;
+}
+
 .home-hero-chips {
   display: flex;
   flex-wrap: wrap;
@@ -368,6 +558,8 @@ defineProps({
 
 .home-product {
   position: relative;
+  min-width: 0;
+  width: 100%;
 }
 
 .home-browser,
@@ -482,6 +674,10 @@ defineProps({
   background: var(--vp-c-bg);
 }
 
+.community-section {
+  background: var(--vp-c-bg);
+}
+
 .architecture-section {
   background: var(--vp-c-bg-alt);
 }
@@ -497,7 +693,8 @@ defineProps({
   text-align: left;
 }
 
-.home-section-head p {
+/* 仅 eyebrow 吃强调样式，副标题由 .home-section-description 接管 */
+.home-section-head > p:first-of-type {
   margin: 0 0 10px;
   color: var(--vp-c-brand-1);
   font-size: 0.875rem;
@@ -527,6 +724,12 @@ defineProps({
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.home-community-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
 .home-card {
   padding: 27px;
   border: 1px solid var(--vp-c-divider);
@@ -536,7 +739,26 @@ defineProps({
   transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
+.home-community-card {
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 16px;
+  color: inherit;
+  background: var(--vp-c-bg);
+  box-shadow: 0 16px 44px rgba(15, 23, 42, 0.05);
+  text-decoration: none;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
 .home-card:hover {
+  border-color: var(--vp-c-brand-1);
+  transform: translateY(-3px);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.09);
+}
+
+.home-community-card:hover {
   border-color: var(--vp-c-brand-1);
   transform: translateY(-3px);
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.09);
@@ -559,6 +781,13 @@ defineProps({
   font-size: 1.25rem;
 }
 
+.home-community-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 11px;
+}
+
 .home-card h3 {
   margin: 0 0 9px;
   color: var(--vp-c-text-1);
@@ -567,11 +796,69 @@ defineProps({
   line-height: 1.35;
 }
 
+.home-community-head h3 {
+  min-width: 0;
+  margin: 0;
+  color: var(--vp-c-text-1);
+  font-size: 1.0625rem;
+  line-height: 1.35;
+}
+
 .home-card p {
   margin: 0;
   color: var(--vp-c-text-2);
   font-size: 1rem;
   line-height: 1.65;
+}
+
+.home-community-card p {
+  margin: 0 0 18px;
+  color: var(--vp-c-text-2);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+
+.home-community-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 21px;
+  height: 21px;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* 品牌原色：Discord blurple；GitHub/X 官方为黑白标识，随 light/dark 翻转 */
+.home-community-icon.icon-discord {
+  color: #5865f2;
+}
+
+.home-community-icon.icon-github {
+  color: #181717;
+}
+
+.home-community-icon.icon-x {
+  color: #000000;
+}
+
+.home-community-icon.icon-bug {
+  color: var(--vp-c-text-2);
+}
+
+html.dark .home-community-icon.icon-github {
+  color: #f0f6fc;
+}
+
+html.dark .home-community-icon.icon-x {
+  color: #ffffff;
+}
+
+.home-community-link {
+  margin-top: auto;
+  color: var(--vp-c-brand-1);
+  font-size: 0.875rem;
+  font-weight: 700;
 }
 
 .home-section-description {
@@ -789,8 +1076,40 @@ defineProps({
   line-height: 1.7;
 }
 
+@media (min-width: 1100px) {
+  /* h1 越栏单行：宽度放开到内容自然结束（不撞右栏图片列），靠 z-index 与
+     下移的截图互不遮挡；其他语言更短同样安全，更窄视口自然换行 */
+  .home-hero-grid {
+    align-items: stretch;
+  }
+
+  /* 左栏填满行高：标题/文案/按钮靠顶，chips 吸底，底部与截图对齐 */
+  .home-hero-copy {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .home-hero-chips {
+    margin-top: auto;
+    padding-top: 38px;
+  }
+
+  .home-hero h1 {
+    position: relative;
+    z-index: 2;
+    width: max-content;
+    max-width: none;
+    white-space: nowrap;
+  }
+
+  /* 避让量：badge(32) + 间距(24) + h1行高(约42) ≈ 98px，120px 留有余量 */
+  .home-product {
+    margin-top: 120px;
+  }
+}
+
 @media (min-width: 768px) {
-  .home-hero h1,
+  /* hero 标题随语言长度自适应换行，不参与 nowrap，避免溢出遮挡产品图 */
   .home-section-head h2,
   .home-cta h2 {
     white-space: nowrap;
@@ -798,6 +1117,10 @@ defineProps({
 }
 
 @media (max-width: 1100px) {
+  .home-community-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .home-use-case-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -831,6 +1154,10 @@ defineProps({
   }
 
   .home-architecture-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-community-grid {
     grid-template-columns: 1fr;
   }
 

@@ -136,6 +136,39 @@ description: 构建基于身份的私有网络，通过认证隧道发布本地�
     guideLink: '/zh/guide/wireguard-networking',
     guideLabel: '阅读 WireGuard 指南'
   }"
+  community-eyebrow="社区"
+  community-title="加入 YAT 社区"
+  community-description="和其他用户一起交流功能想法、反馈问题，并跟踪产品进展。"
+  :community-links="[
+    {
+      icon: 'discord',
+      title: 'Discord 讨论群',
+      description: '在 features 频道和其他用户交流功能想法与使用心得。',
+      link: 'https://discord.com/channels/1575096620155150336/1575096620767387730',
+      linkLabel: '加入 Discord'
+    },
+    {
+      icon: 'bug',
+      title: 'Bug 反馈',
+      description: '遇到问题？在 bug report 频道提交反馈，快速获得帮助。',
+      link: 'https://discord.com/channels/1575096620155150336/1575097079980761120',
+      linkLabel: '提交反馈'
+    },
+    {
+      icon: 'x',
+      title: 'X（Twitter）',
+      description: '关注 @yattool，获取版本发布、技巧和产品动态。',
+      link: 'https://x.com/yattool',
+      linkLabel: '关注 @yattool'
+    },
+    {
+      icon: 'github',
+      title: 'GitHub 讨论区',
+      description: '在公开讨论区提问、分享想法、参与社区讨论。',
+      link: 'https://github.com/orgs/tunnel6/discussions',
+      linkLabel: '进入讨论区'
+    }
+  ]"
   cta-title="今天部署你的第一条安全隧道。"
   cta-description="下载 YAT，接入 Edge，几分钟内创建零信任入口或 WireGuard 虚拟局域网。"
   :cta-action="{ text: '立即开始', link: 'https://dash.tunnel6.com/login?redirect=%2F&source=wiki&locale=zh-CN', target:'_blank'}"

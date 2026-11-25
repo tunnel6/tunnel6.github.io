@@ -108,6 +108,39 @@ description: Construye redes privadas basadas en identidad, publica servicios lo
     guideLink: '/es/guide/wireguard-networking.html',
     guideLabel: 'Leer la guía de WireGuard'
   }"
+  community-eyebrow="Comunidad"
+  community-title="Únete a la comunidad de YAT"
+  community-description="Comparte ideas de funciones, reporta errores y sigue el desarrollo junto a otros usuarios."
+  :community-links="[
+    {
+      icon: 'discord',
+      title: 'Comunidad de Discord',
+      description: 'Comenta funciones y casos de uso con otros usuarios en el canal de features.',
+      link: 'https://discord.com/channels/1575096620155150336/1575096620767387730',
+      linkLabel: 'Unirse a Discord'
+    },
+    {
+      icon: 'bug',
+      title: 'Reportar errores',
+      description: '¿Encontraste un problema? Repórtalo en el canal de bug report y recibe ayuda rápido.',
+      link: 'https://discord.com/channels/1575096620155150336/1575097079980761120',
+      linkLabel: 'Reportar un error'
+    },
+    {
+      icon: 'x',
+      title: 'X (Twitter)',
+      description: 'Sigue a @yattool para noticias de versiones, consejos y novedades.',
+      link: 'https://x.com/yattool',
+      linkLabel: 'Seguir a @yattool'
+    },
+    {
+      icon: 'github',
+      title: 'GitHub Discussions',
+      description: 'Haz preguntas y comparte ideas en el foro abierto de discusiones.',
+      link: 'https://github.com/orgs/tunnel6/discussions',
+      linkLabel: 'Ver discusiones'
+    }
+  ]"
   cta-title="Despliega hoy tu primer túnel seguro."
   cta-description="Descarga YAT, conecta un Edge y crea una entrada zero trust o una LAN virtual WireGuard en minutos."
   :cta-action="{ text: 'Empezar ahora', link: 'https://dash.tunnel6.com/login?redirect=%2F&source=wiki&locale=es', target: '_blank' }"

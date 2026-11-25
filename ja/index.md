@@ -108,6 +108,39 @@ description: 識別情報に基づくプライベートネットワークを構�
     guideLink: '/ja/guide/wireguard-networking.html',
     guideLabel: 'WireGuard ガイドを読む'
   }"
+  community-eyebrow="コミュニティ"
+  community-title="YAT コミュニティに参加"
+  community-description="他のユーザーと機能のアイデアを交換し、不具合を報告し、開発の最新情報をフォローできます。"
+  :community-links="[
+    {
+      icon: 'discord',
+      title: 'Discord コミュニティ',
+      description: 'features チャンネルで他のユーザーと機能や活用方法を語り合えます。',
+      link: 'https://discord.com/channels/1575096620155150336/1575096620767387730',
+      linkLabel: 'Discord に参加'
+    },
+    {
+      icon: 'bug',
+      title: 'バグ報告',
+      description: '問題を見つけたら bug report チャンネルで報告できます。',
+      link: 'https://discord.com/channels/1575096620155150336/1575097079980761120',
+      linkLabel: 'バグを報告'
+    },
+    {
+      icon: 'x',
+      title: 'X（Twitter）',
+      description: '@yattool をフォローしてリリース情報や製品の最新情報を入手できます。',
+      link: 'https://x.com/yattool',
+      linkLabel: '@yattool をフォロー'
+    },
+    {
+      icon: 'github',
+      title: 'GitHub Discussions',
+      description: '公開ディスカッションフォーラムで質問やアイデアを共有できます。',
+      link: 'https://github.com/orgs/tunnel6/discussions',
+      linkLabel: 'ディスカッションを見る'
+    }
+  ]"
   cta-title="今日、最初の安全なトンネルをデプロイしましょう。"
   cta-description="YAT をダウンロードして Edge に接続すれば、数分でゼロトラスト入口または WireGuard 仮想 LAN を作成できます。"
   :cta-action="{ text: '今すぐ始める', link: 'https://dash.tunnel6.com/login?redirect=%2F&source=wiki&locale=ja', target: '_blank' }"

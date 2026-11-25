@@ -136,6 +136,39 @@ description: Build an identity-aware private network, publish local services thr
     guideLink: '/guide/wireguard-networking',
     guideLabel: 'Read the WireGuard guide'
   }"
+  community-eyebrow="Community"
+  community-title="Join the YAT community"
+  community-description="Share feature ideas, report bugs, and follow development with other YAT users."
+  :community-links="[
+    {
+      icon: 'discord',
+      title: 'Discord community',
+      description: 'Discuss features and use cases with other users in the features channel.',
+      link: 'https://discord.com/channels/1575096620155150336/1575096620767387730',
+      linkLabel: 'Join Discord'
+    },
+    {
+      icon: 'bug',
+      title: 'Bug report',
+      description: 'Found an issue? Report it in the bug-report channel and get help fast.',
+      link: 'https://discord.com/channels/1575096620155150336/1575097079980761120',
+      linkLabel: 'Report a bug'
+    },
+    {
+      icon: 'x',
+      title: 'X (Twitter)',
+      description: 'Follow @yattool for release news, tips, and product updates.',
+      link: 'https://x.com/yattool',
+      linkLabel: 'Follow @yattool'
+    },
+    {
+      icon: 'github',
+      title: 'GitHub Discussions',
+      description: 'Ask questions and share ideas in the open discussions forum.',
+      link: 'https://github.com/orgs/tunnel6/discussions',
+      linkLabel: 'Open discussions'
+    }
+  ]"
   cta-title="Deploy your first secure tunnel today."
   cta-description="Download YAT, connect an Edge, and create a zero-trust endpoint or WireGuard virtual LAN in minutes."
   :cta-action="{ text: 'Get started now', link: 'https://dash.tunnel6.com/login?redirect=%2F&source=wiki&locale=en' ,target:'_blank'}"
