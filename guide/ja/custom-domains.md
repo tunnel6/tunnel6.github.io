@@ -37,8 +37,8 @@ curl -I https://app.example.com
 
 CNAME が YAT の値を返し、伝播後に証明書が発行されれば成功です。
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-alias-domain.png) ドメイン設定
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-alias-domain-setup.png) ドメインと CNAME
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-alias-domain.png) ドメイン設定
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-alias-domain-setup.png) ドメインと CNAME
 
 ## 証明書
 

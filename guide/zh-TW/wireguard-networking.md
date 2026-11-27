@@ -77,7 +77,7 @@ WireGuard 組網是 YAT 的高階網路功能，使用 WireGuard 協議在多臺
    - **CIDR 網段**：建議使用 `10.0.0.0/24`（支援 254 個裝置）
    - **中繼模式**：選擇 `optional`（推薦）或 `force`
 
-> ![Networking snapshot](/guide/images/snapshot-networking-create-en.png) 建立 WireGuard 網路對話方塊
+> ![Networking snapshot](../../guide/images/snapshot-networking-create-en.png) 建立 WireGuard 網路對話方塊
 > 
 > 說明：顯示網路名稱、CIDR 輸入框、中繼模式選擇
 
@@ -91,7 +91,7 @@ WireGuard 組網是 YAT 的高階網路功能，使用 WireGuard 協議在多臺
 2. 等待系統分配 IP 地址
 3. 裝置狀態變為 **線上**
 
->  ![Networking snapshot](/guide/images/snapshot-networkinfo-members-en.png) 網路詳情頁面 - 加入本地裝置按鈕
+>  ![Networking snapshot](../../guide/images/snapshot-networkinfo-members-en.png) 網路詳情頁面 - 加入本地裝置按鈕
 > 
 > 說明：顯示網路卡片、加入按鈕、成員列表
 
@@ -121,7 +121,7 @@ ping 10.0.0.3
 64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=2.5ms
 ```
 
-> ![Networking snapshot](/guide/images/snapshot-networkinfo-members-en.png)網路成員列表 - 顯示線上狀態和 IP
+> ![Networking snapshot](../../guide/images/snapshot-networkinfo-members-en.png)網路成員列表 - 顯示線上狀態和 IP
 > 
 > 說明：顯示成員列表、IP 地址、線上狀態、連線質量
 
@@ -134,7 +134,7 @@ ping 10.0.0.3
 - **Endpoint**：對端的實際 UDP 地址
 - **握手時間**：最後一次 WireGuard 握手時間
 
-> ![Networking snapshot](/guide/images/snapshot-networkinfo-links-zh.png)成員詳情對話方塊 - 顯示連線資訊
+> ![Networking snapshot](../../guide/images/snapshot-networkinfo-links-zh.png)成員詳情對話方塊 - 顯示連線資訊
 > 
 > 說明：顯示成員詳情、連線路徑、延遲、endpoint
 
@@ -207,7 +207,7 @@ YAT 支援三種中繼模式，影響裝置間的連線策略：
 3. 修改 **中繼模式**
 4. 儲存後，所有成員會自動同步新配置
 
-> ![Networking snapshot](/guide/images/snapshot-networkinfo-settting-relay-en.png)網路設定對話方塊 - 中繼模式選擇
+> ![Networking snapshot](../../guide/images/snapshot-networkinfo-settting-relay-en.png)網路設定對話方塊 - 中繼模式選擇
 > 
 > 說明：顯示三種中繼模式選項
 
@@ -407,7 +407,7 @@ YAT 會智慧選擇最優路徑：
 - ✅ Edge 會自動檢測 Same-NAT 裝置
 - ✅ 裝置間會優先使用 LAN 地址直連
 
-> ![Networking snapshot](/guide/images/snapshot-networkinfo-links-zh.png) Same-NAT 檢測提示
+> ![Networking snapshot](../../guide/images/snapshot-networkinfo-links-zh.png) Same-NAT 檢測提示
 > 
 > 說明：顯示檢測到同一 NAT 後的裝置對
 
@@ -602,7 +602,7 @@ grep -A 10 "wireguard:" /etc/yat/config.yaml
 2. 點選並等待 IP 分配完成
 3. 裝置狀態變為 **線上** 即表示加入成功
 
-> > ![Networking snapshot](/guide/images/snapshot-networkinfo-join-en.png)加入本地裝置按鈕
+> > ![Networking snapshot](../../guide/images/snapshot-networkinfo-join-en.png)加入本地裝置按鈕
 > 
 > 說明：顯示網路卡片上的加入按鈕
 
@@ -825,7 +825,7 @@ Endpoint：192.168.1.101:51820  （LAN 地址）
 
 如果 Endpoint 是公網 IP，說明未使用 LAN 地址。
 
-> ![Networking snapshot](/guide/images/snapshot-networkinfo-join-en.png)成員詳情 - 顯示 LAN endpoint
+> ![Networking snapshot](../../guide/images/snapshot-networkinfo-join-en.png)成員詳情 - 顯示 LAN endpoint
 > 
 > 說明：顯示連線路徑為 direct，endpoint 為 LAN 地址
 

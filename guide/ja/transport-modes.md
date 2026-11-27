@@ -69,7 +69,7 @@ WireGuard は暗号化インターフェースを作成し、デバイス間の�
 
 詳細は [WireGuard ネットワーク](./wireguard-networking.md) と [Edge WireGuard 設定](./edge/wireguard.md) を参照してください。
 
-> 📸 ![Transport mode selection](/guide/images/snapshot-tunnel-create-02.png) トンネル作成時のモード選択
+> 📸 ![Transport mode selection](../../guide/images/snapshot-tunnel-create-02.png) トンネル作成時のモード選択
 
 ## 診断
 

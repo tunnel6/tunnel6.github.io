@@ -32,8 +32,8 @@
 
 **Edges** ページから Edge を選び、**Create Tunnel** を使うこともできます。
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-01.png) アプリ選択
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-02.png) HTTP 設定
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-01.png) アプリ選択
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-02.png) HTTP 設定
 
 ## 起動と停止
 
@@ -41,7 +41,7 @@
 - **Stop**：接続を閉じ、公開入口を無効化
 - **Restart**：ドメイン、ポート、モード変更後に有効
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-01.png) トンネル起動
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-01.png) トンネル起動
 
 ## 詳細
 
@@ -54,9 +54,9 @@
 - 最近のログ
 - 共有権限
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-03.png) 基本情報
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-04.png) リモートアドレス
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-06.png) チャネル一覧
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-03.png) 基本情報
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-04.png) リモートアドレス
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-06.png) チャネル一覧
 
 ## 共有
 
@@ -81,7 +81,7 @@
 
 一覧ではトンネルごとのトラフィックと状態を確認できます。詳細では送受信バイト数、アクティブ接続数、レイテンシ、パケットロス、チャネル別使用量を参照できます。
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-list.png) 統計カード
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-list.png) 統計カード
 
 ## よくある問題
 

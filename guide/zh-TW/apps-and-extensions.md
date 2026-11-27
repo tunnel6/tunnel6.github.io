@@ -60,7 +60,7 @@
 - 共享設定
 ```
 
-> 📸 ![Edge snapshot](/guide/images/snapshot-ext-http.png) HTTP 代理配置表單
+> 📸 ![Edge snapshot](../../guide/images/snapshot-ext-http.png) HTTP 代理配置表單
 > 
 > 說明：顯示埠輸入、傳輸模式選擇
 
@@ -190,7 +190,7 @@
 2. 檢視已安裝的擴充套件列表
 3. 確認擴充套件狀態為 **已啟用**
 
-> 📸 ![Edge snapshot](/guide/images/snapshot-ext-01.png)  擴充套件管理頁面
+> 📸 ![Edge snapshot](../../guide/images/snapshot-ext-01.png)  擴充套件管理頁面
 > 
 > 說明：顯示已安裝擴充套件、啟用/停用開關、解除安裝按鈕
 
@@ -236,7 +236,7 @@ ARD (Apple Remote Desktop) 擴充套件是 YAT 的第一個官方擴充套件，
 2. 啟用 **螢幕共享** 或 **遠端管理**
 3. 設定訪問許可權
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-ext-ard-tunrnon.png)macOS 螢幕共享設定
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-ext-ard-tunrnon.png)macOS 螢幕共享設定
 > 
 > 說明：顯示共享開關、許可權設定
 
@@ -287,7 +287,7 @@ ARD (Apple Remote Desktop) 擴充套件是 YAT 的第一個官方擴充套件，
 2. 開啟 VNC 客戶端
 3. 貼上地址並連線
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-ext-ard-vncconnect.png) VNC 客戶端連線介面
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-ext-ard-vncconnect.png) VNC 客戶端連線介面
 > 
 > 說明：顯示 VNC 客戶端、地址輸入、連線按鈕
 

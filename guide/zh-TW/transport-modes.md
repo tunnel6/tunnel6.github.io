@@ -69,7 +69,7 @@ YAT 支援三種傳輸模式：
 
 建立隧道時選擇 **Relay** 模式：
 
-> 📸 ![傳輸模式選擇](/guide/images/snapshot-tunnel-create-02.png) 傳輸模式選擇
+> 📸 ![傳輸模式選擇](../../guide/images/snapshot-tunnel-create-02.png) 傳輸模式選擇
 > 
 > 說明：顯示 Relay/P2P/WireGuard 選項
 

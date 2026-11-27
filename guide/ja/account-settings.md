@@ -21,7 +21,7 @@
 | テーマ | ライト、ダーク、自動 | 自動は OS 設定に追従 |
 | 表示スケール | 複数サイズ | 高解像度画面で有効 |
 
-> 📸 ![yat-fe Settings Page](/guide/images/snapshot-setting-theme-en.png) テーマと言語の設定
+> 📸 ![yat-fe Settings Page](../../guide/images/snapshot-setting-theme-en.png) テーマと言語の設定
 
 ## ローカルデータ
 

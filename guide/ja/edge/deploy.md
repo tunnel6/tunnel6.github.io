@@ -21,8 +21,8 @@
 
 スクリプトはバイナリの取得、データディレクトリ作成、ノード登録、systemd サービス作成を行います。
 
-> 📸 ![Edge deploy snapshot](/guide/images/snapshot-edge-deploy.png) スクリプト生成
-> 📸 ![Edge deploy run snapshot](/guide/images/snapshot-edge-deploy-run.png) デプロイ実行
+> 📸 ![Edge deploy snapshot](../../../guide/images/snapshot-edge-deploy.png) スクリプト生成
+> 📸 ![Edge deploy run snapshot](../../../guide/images/snapshot-edge-deploy-run.png) デプロイ実行
 
 ## 手動デプロイ
 

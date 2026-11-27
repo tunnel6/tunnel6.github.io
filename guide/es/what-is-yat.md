@@ -81,9 +81,9 @@ El canal de control y el canal de datos usan identidad y cifrado. La confianza n
 
 ## Capturas
 
-> ![Tunnel snapshot](/guide/images/snapshot-tunnel-list.png) Lista de túneles
-> ![Tunnel snapshot](/guide/images/snapshot-tunnel-detail.png) Detalles de un túnel
-> ![Edge manage snapshot](/guide/images/snapshot-edge-manage.png) Gestión de Edge
+> ![Tunnel snapshot](../../guide/images/snapshot-tunnel-list.png) Lista de túneles
+> ![Tunnel snapshot](../../guide/images/snapshot-tunnel-detail.png) Detalles de un túnel
+> ![Edge manage snapshot](../../guide/images/snapshot-edge-manage.png) Gestión de Edge
 
 ## Siguientes pasos
 

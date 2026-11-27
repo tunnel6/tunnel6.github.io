@@ -76,7 +76,7 @@ https://api.yourcompany.com
 TTL: 300
 ```
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-alias-domain.png) DNS 配置示例
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-alias-domain.png) DNS 配置示例
 > 
 > 說明：顯示 DNS 提供商後臺、CNAME 記錄配置
 
@@ -92,7 +92,7 @@ TCP/UDP 隧道**不支援**自定義域名，只能使用 IP:Port。
 4. 輸入您的域名
 5. 點選 **儲存**
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-alias-domain-setup.png)YAT 自定義域名配置
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-alias-domain-setup.png)YAT 自定義域名配置
 > 
 > 說明：顯示域名輸入框、儲存按鈕、驗證狀態
 

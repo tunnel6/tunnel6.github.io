@@ -77,7 +77,7 @@ WireGuard 组网是 YAT 的高级网络功能，使用 WireGuard 协议在多台
    - **CIDR 网段**：建议使用 `10.0.0.0/24`（支持 254 个设备）
    - **中继模式**：选择 `optional`（推荐）或 `force`
 
-> ![Networking snapshot](../images/snapshot-networking-create-zh.png) 创建 WireGuard 网络对话框
+> ![Networking snapshot](../../guide/images/snapshot-networking-create-zh.png) 创建 WireGuard 网络对话框
 > 
 > 说明：显示网络名称、CIDR 输入框、中继模式选择
 
@@ -91,7 +91,7 @@ WireGuard 组网是 YAT 的高级网络功能，使用 WireGuard 协议在多台
 2. 等待系统分配 IP 地址
 3. 设备状态变为 **在线**
 
->  ![Networking snapshot](../images/snapshot-networkinfo-members-zh.png) 网络详情页面 - 加入本地设备按钮
+>  ![Networking snapshot](../../guide/images/snapshot-networkinfo-members-zh.png) 网络详情页面 - 加入本地设备按钮
 > 
 > 说明：显示网络卡片、加入按钮、成员列表
 
@@ -121,7 +121,7 @@ ping 10.0.0.3
 64 bytes from 10.0.0.3: icmp_seq=1 ttl=64 time=2.5ms
 ```
 
-> ![Networking snapshot](../images/snapshot-networkinfo-members-zh.png)网络成员列表 - 显示在线状态和 IP
+> ![Networking snapshot](../../guide/images/snapshot-networkinfo-members-zh.png)网络成员列表 - 显示在线状态和 IP
 > 
 > 说明：显示成员列表、IP 地址、在线状态、连接质量
 
@@ -134,7 +134,7 @@ ping 10.0.0.3
 - **Endpoint**：对端的实际 UDP 地址
 - **握手时间**：最后一次 WireGuard 握手时间
 
-> ![Networking snapshot](../images/snapshot-networkinfo-links-zh.png)成员详情对话框 - 显示连接信息
+> ![Networking snapshot](../../guide/images/snapshot-networkinfo-links-zh.png)成员详情对话框 - 显示连接信息
 > 
 > 说明：显示成员详情、连接路径、延迟、endpoint
 
@@ -207,7 +207,7 @@ YAT 支持三种中继模式，影响设备间的连接策略：
 3. 修改 **中继模式**
 4. 保存后，所有成员会自动同步新配置
 
-> ![Networking snapshot](../images/snapshot-networkinfo-settting-relay-zh.png)网络设置对话框 - 中继模式选择
+> ![Networking snapshot](../../guide/images/snapshot-networkinfo-settting-relay-zh.png)网络设置对话框 - 中继模式选择
 > 
 > 说明：显示三种中继模式选项
 
@@ -407,7 +407,7 @@ YAT 会智能选择最优路径：
 - ✅ Edge 会自动检测 Same-NAT 设备
 - ✅ 设备间会优先使用 LAN 地址直连
 
-> [Networking snapshot](../images/snapshot-networkinfo-links-zh.png)Same-NAT 检测提示
+> [Networking snapshot](../../guide/images/snapshot-networkinfo-links-zh.png)Same-NAT 检测提示
 > 
 > 说明：显示检测到同一 NAT 后的设备对
 
@@ -602,7 +602,7 @@ grep -A 10 "wireguard:" /etc/yat/config.yaml
 2. 点击并等待 IP 分配完成
 3. 设备状态变为 **在线** 即表示加入成功
 
-> > ![Networking snapshot](../images/snapshot-networkinfo-join-zh.png)加入本地设备按钮
+> > ![Networking snapshot](../../guide/images/snapshot-networkinfo-join-zh.png)加入本地设备按钮
 > 
 > 说明：显示网络卡片上的加入按钮
 
@@ -825,7 +825,7 @@ Endpoint：192.168.1.101:51820  （LAN 地址）
 
 如果 Endpoint 是公网 IP，说明未使用 LAN 地址。
 
-> ![Networking snapshot](../images/snapshot-networkinfo-join-zh.png)成员详情 - 显示 LAN endpoint
+> ![Networking snapshot](../../guide/images/snapshot-networkinfo-join-zh.png)成员详情 - 显示 LAN endpoint
 > 
 > 说明：显示连接路径为 direct，endpoint 为 LAN 地址
 

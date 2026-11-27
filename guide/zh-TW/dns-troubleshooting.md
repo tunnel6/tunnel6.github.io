@@ -30,7 +30,7 @@
 4. 在 **域名健康** 或 **DNS 配置** 區域找到 CNAME 記錄值
 5. 複製顯示的 CNAME 記錄值（通常格式為 `xxx.edge.tunnel6.com`）
 
-> 📸 ![Edge 控制台 DNS 配置](/guide/images/snapshot-egde-dns01-en.png) Edge 控制台的 DNS 配置
+> 📸 ![Edge 控制台 DNS 配置](../../guide/images/snapshot-egde-dns01-en.png) Edge 控制台的 DNS 配置
 
 #### 在 yat-fe 客戶端中獲取記錄值
 1. 開啟 yat-fe 客戶端應用
@@ -39,7 +39,7 @@
 4. 在 **遠端地址** 或 **域名配置** 區域找到 CNAME 記錄值
 5. 點選複製按鈕獲取記錄值
 
-> 📸 ![yat-fe 客戶端隧道詳情](/guide/images/snapshot-tunnel-status-04.png) 隧道詳情頁會顯示遠端地址、CNAME 記錄和複製按鈕
+> 📸 ![yat-fe 客戶端隧道詳情](../../guide/images/snapshot-tunnel-status-04.png) 隧道詳情頁會顯示遠端地址、CNAME 記錄和複製按鈕
 
 ### 步驟 2: 檢查 DNS 記錄配置
 1. 登入您的 DNS 提供商控制台
@@ -66,7 +66,7 @@ dig your-domain.com CNAME +short
 5. 在 **域名配置** 區域輸入您的自定義域名（如 `myapp.example.com`）
 6. 儲存配置並啟動隧道
 
-> 📸 ![yat-fe 隧道建立域名配置](/guide/images/snapshot-tunnel-create-02.png) 建立隧道嚮導中的域名輸入與儲存設定
+> 📸 ![yat-fe 隧道建立域名配置](../../guide/images/snapshot-tunnel-create-02.png) 建立隧道嚮導中的域名輸入與儲存設定
 
 ### 步驟 4: 清除本地 DNS 快取
 ```bash

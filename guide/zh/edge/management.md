@@ -69,7 +69,7 @@ Edge 服务器
 
 点击 **Edges**，切换到 **我的** 标签：
 
-> 📸 ![Edge snapshot](../../images/snapshot-edge-manage.png) Edge 列表页面
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-manage.png) Edge 列表页面
 > 
 > 说明：显示 Edge 卡片、状态、操作按钮
 
@@ -96,7 +96,7 @@ Edge 服务器
 - 服务运行状态
 - 隧道列表
 
-> 📸 ![Edge snapshot](../../images/snapshot-edge-manage.png) Edge 详情页面
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-manage.png) Edge 详情页面
 
 #### 管理配置
 

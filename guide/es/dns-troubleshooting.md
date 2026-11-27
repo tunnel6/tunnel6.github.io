@@ -30,7 +30,7 @@
 4. Copia el valor del CNAME en **Domain Health** o **DNS Configuration**.
 5. El valor suele tener el formato `xxx.edge.tunnel6.com`.
 
-> ![Tunnel snapshot](/guide/images/snapshot-egde-dns01-en.png) Configuración DNS en la consola de Edge
+> ![Tunnel snapshot](../../guide/images/snapshot-egde-dns01-en.png) Configuración DNS en la consola de Edge
 > Descripción: área de configuración DNS con tipo de registro, nombre, valor y botón de copia.
 
 #### Desde el cliente yat-fe
@@ -40,7 +40,7 @@
 4. Busca el valor del CNAME en **Remote Addresses** o **Domain Configuration**.
 5. Usa el botón de copia.
 
-> 📸 ![yat-fe client tunnel details](/guide/images/snapshot-tunnel-status-04.png) Detalles del túnel en yat-fe
+> 📸 ![yat-fe client tunnel details](../../guide/images/snapshot-tunnel-status-04.png) Detalles del túnel en yat-fe
 > Descripción: direcciones remotas, registro CNAME y botón de copia.
 
 ### Paso 2: revisa el registro
@@ -67,7 +67,7 @@ dig your-domain.com CNAME +short
 5. Escribe tu dominio en **Domain Configuration**, por ejemplo `myapp.example.com`.
 6. Guarda e inicia el túnel.
 
-> 📸 ![yat-fe tunnel creation domain configuration](/guide/images/snapshot-tunnel-create-02.png) Configuración de dominio al crear un túnel
+> 📸 ![yat-fe tunnel creation domain configuration](../../guide/images/snapshot-tunnel-create-02.png) Configuración de dominio al crear un túnel
 > Descripción: asistente de creación con campo de dominio y botón de guardado.
 
 ### Paso 5: limpia la caché DNS local

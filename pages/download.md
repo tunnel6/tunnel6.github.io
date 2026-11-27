@@ -5,7 +5,7 @@ pageClass: download-page
 ---
 
 <script setup>
-import DownloadSection from './.vitepress/components/DownloadSection.vue'
+import DownloadSection from '../.vitepress/components/DownloadSection.vue'
 </script>
 
 <div class="vp-doc">

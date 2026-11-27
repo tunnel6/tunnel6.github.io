@@ -27,7 +27,7 @@
 4. Elige el Edge.
 5. Guarda y espera a que Edge cree la interfaz.
 
-> 📸 ![Networking snapshot](/guide/images/snapshot-networking-create-en.png) Creación de red
+> 📸 ![Networking snapshot](../../guide/images/snapshot-networking-create-en.png) Creación de red
 
 ## Añadir miembros
 
@@ -36,8 +36,8 @@
 3. Invita o registra el dispositivo remoto.
 4. Comprueba que ambos miembros aparecen en línea y con IP asignada.
 
-> 📸 ![Networking snapshot](/guide/images/snapshot-networkinfo-members-en.png) Lista de miembros
-> 📸 ![Networking snapshot](/guide/images/snapshot-networkinfo-join-en.png) Unir un dispositivo local
+> 📸 ![Networking snapshot](../../guide/images/snapshot-networkinfo-members-en.png) Lista de miembros
+> 📸 ![Networking snapshot](../../guide/images/snapshot-networkinfo-join-en.png) Unir un dispositivo local
 
 ## Pruebas
 
@@ -61,7 +61,7 @@ nc -zv 100.64.0.2 5432
 
 Si Direct falla, cambia a Relay y verifica la conectividad. Después puedes volver a probar Direct.
 
-> 📸 ![Networking snapshot](/guide/images/snapshot-networkinfo-settting-relay-en.png) Modo de retransmisión
+> 📸 ![Networking snapshot](../../guide/images/snapshot-networkinfo-settting-relay-en.png) Modo de retransmisión
 
 ## Diagnóstico
 

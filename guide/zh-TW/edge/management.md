@@ -69,7 +69,7 @@ Edge 伺服器
 
 點選 **Edges**，切換到 **我的** 標籤：
 
-> 📸 ![Edge snapshot](/guide/images/snapshot-edge-manage.png) Edge 列表頁面
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-manage.png) Edge 列表頁面
 > 
 > 說明：顯示 Edge 卡片、狀態、操作按鈕
 
@@ -96,7 +96,7 @@ Edge 伺服器
 - 服務執行狀態
 - 隧道列表
 
-> 📸 ![Edge snapshot](/guide/images/snapshot-edge-manage.png) Edge 詳情頁面
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-manage.png) Edge 詳情頁面
 
 #### 管理配置
 

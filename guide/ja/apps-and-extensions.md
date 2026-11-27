@@ -62,8 +62,8 @@ ARD は macOS の Screen Sharing を TCP トンネル経由で利用しやすく
 3. リモートアドレスを入力します。
 4. macOS の認証情報でログインします。
 
-> 📸 ![Extension HTTP](/guide/images/snapshot-ext-http.png) HTTP 拡張機能
-> 📸 ![ARD VNC](/guide/images/snapshot-ext-ard-vncconnect.png) ARD 接続
+> 📸 ![Extension HTTP](../../guide/images/snapshot-ext-http.png) HTTP 拡張機能
+> 📸 ![ARD VNC](../../guide/images/snapshot-ext-ard-vncconnect.png) ARD 接続
 
 接続できない場合は次を確認してください。
 

@@ -32,8 +32,8 @@ Tipos de aplicación:
 
 También puedes crear un túnel desde la página **Edges**, seleccionando el Edge y pulsando **Create Tunnel**.
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-01.png) Selección de aplicación
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-02.png) Configuración HTTP
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-01.png) Selección de aplicación
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-02.png) Configuración HTTP
 
 ## Iniciar y detener
 
@@ -41,7 +41,7 @@ También puedes crear un túnel desde la página **Edges**, seleccionando el Edg
 - **Stop**: cierra la conexión activa y desactiva la entrada.
 - **Restart**: útil después de cambiar dominio, puerto o modo de transporte.
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-01.png) Arranque del túnel
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-01.png) Arranque del túnel
 
 ## Detalles
 
@@ -54,9 +54,9 @@ La página de detalles muestra:
 - Registros recientes
 - Permisos de colaboración
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-03.png) Información básica
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-04.png) Direcciones remotas
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-06.png) Canales
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-03.png) Información básica
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-04.png) Direcciones remotas
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-06.png) Canales
 
 ## Compartir
 
@@ -88,7 +88,7 @@ La lista muestra tráfico y estado por túnel. En los detalles puedes consultar:
 - Latencia y pérdida de paquetes
 - Uso por canal
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-list.png) Tarjetas de estadísticas
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-list.png) Tarjetas de estadísticas
 
 ## Problemas frecuentes
 

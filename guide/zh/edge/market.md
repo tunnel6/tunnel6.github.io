@@ -17,7 +17,7 @@
 1. 点击 **Edges** > **市场**
 2. 查看可订阅的 Edge 列表
 
-> 📸 ![Edge snapshot](../../images/snapshot-edge-market.png) Edge 市场
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-market.png) Edge 市场
 > 
 > 说明：显示可订阅的 Edge、订阅按钮、所有者信息
 

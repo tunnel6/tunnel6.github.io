@@ -32,7 +32,7 @@ YAT 支援以下登入方式：
 4. 授權訪問
 5. 完成登入
 
-> 📸 ![登入頁面](/guide/images/snapshot-login.png) 登入頁面
+> 📸 ![登入頁面](../../guide/images/snapshot-login.png) 登入頁面
 > 
 > 說明：顯示 GitHub/Google 登入按鈕
 
@@ -64,7 +64,7 @@ YAT 支援以下登入方式：
 
 點選左側導航欄的 **Settings** 圖示。
 
-> > 📸 ![yat-fe 主題設定](/guide/images/snapshot-setting-theme-en.png) yat-fe 客戶端主題設定
+> > 📸 ![yat-fe 主題設定](../../guide/images/snapshot-setting-theme-en.png) yat-fe 客戶端主題設定
 > 
 > 說明：顯示設定項列表
 
@@ -135,7 +135,7 @@ YAT 支援三種主題模式：
 - 自動跟隨系統主題
 - 系統切換時自動變化
 
-> ![yat-fe 主題設定](/guide/images/snapshot-setting-theme-en.png) yat-fe 客戶端主題設定
+> ![yat-fe 主題設定](../../guide/images/snapshot-setting-theme-en.png) yat-fe 客戶端主題設定
 > 
 > 說明：顯示 Light/Dark/System 選項
 

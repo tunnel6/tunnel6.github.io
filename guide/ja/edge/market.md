@@ -13,7 +13,7 @@
 
 購読後、Edge は **My Edges** に表示され、トンネル作成時に選択できます。
 
-> 📸 ![Edge snapshot](/guide/images/snapshot-edge-market.png) Edge マーケット
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-market.png) Edge マーケット
 
 ## 購読を解除
 

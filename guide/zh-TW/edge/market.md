@@ -17,7 +17,7 @@
 1. 點選 **Edges** > **市場**
 2. 檢視可訂閱的 Edge 列表
 
-> 📸 ![Edge snapshot](/guide/images/snapshot-edge-market.png) Edge 市場
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-market.png) Edge 市場
 > 
 > 說明：顯示可訂閱的 Edge、訂閱按鈕、所有者資訊
 

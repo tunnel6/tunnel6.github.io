@@ -30,7 +30,7 @@
 4. **Domain Health** または **DNS Configuration** の CNAME 値を確認
 5. 表示された値をコピーします（通常 `xxx.edge.tunnel6.com` 形式）
 
-> ![Tunnel snapshot](/guide/images/snapshot-egde-dns01-en.png) Edge コンソールの DNS 設定
+> ![Tunnel snapshot](../../guide/images/snapshot-egde-dns01-en.png) Edge コンソールの DNS 設定
 > 説明：レコード種別、名前、値、コピーボタンを含む DNS 設定領域。
 
 #### yat-fe クライアントから取得
@@ -40,7 +40,7 @@
 4. **Remote Addresses** または **Domain Configuration** の CNAME 値を確認
 5. コピーボタンで値を取得
 
-> 📸 ![yat-fe client tunnel details](/guide/images/snapshot-tunnel-status-04.png) yat-fe のトンネル詳細
+> 📸 ![yat-fe client tunnel details](../../guide/images/snapshot-tunnel-status-04.png) yat-fe のトンネル詳細
 > 説明：リモートアドレス、CNAME レコード、コピーボタン。
 
 ### 手順 2：DNS レコードを確認
@@ -67,7 +67,7 @@ dig your-domain.com CNAME +short
 5. **Domain Configuration** にカスタムドメインを入力（例：`myapp.example.com`）
 6. 設定を保存してトンネルを開始
 
-> 📸 ![yat-fe tunnel creation domain configuration](/guide/images/snapshot-tunnel-create-02.png) トンネル作成時のドメイン設定
+> 📸 ![yat-fe tunnel creation domain configuration](../../guide/images/snapshot-tunnel-create-02.png) トンネル作成時のドメイン設定
 > 説明：ドメイン入力欄と保存ボタンを含む作成ウィザード。
 
 ### 手順 5：ローカル DNS キャッシュを消去

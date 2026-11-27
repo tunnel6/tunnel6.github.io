@@ -73,7 +73,7 @@ Temas clave:
 
 Más detalles en [Redes WireGuard](./wireguard-networking.md) y [Configuración de Edge WireGuard](./edge/wireguard.md).
 
-> 📸 ![Transport mode selection](/guide/images/snapshot-tunnel-create-02.png) Selección de modo en el asistente de túnel
+> 📸 ![Transport mode selection](../../guide/images/snapshot-tunnel-create-02.png) Selección de modo en el asistente de túnel
 
 ## Diagnóstico
 

@@ -21,16 +21,16 @@
    - **Edge 名称** - 自定义名称
    - **节点类型** - 私有还是共享
 
-> 📸 ![Edge snapshot](../../images/snapshot-edge-deploy.png) Edge 部署对话框
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-deploy.png) Edge 部署对话框
 
-> 📸 ![Edge snapshot](../../images/snapshot-edge-deployscript.png) 获取部署脚本
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-deployscript.png) 获取部署脚本
 
 ### 步骤 2：手动部署
 
 1. 登录到公网服务器
 2. 执行部署脚本
 
-> 📸 ![Edge snapshot](../../images/snapshot-edge-deploy-run.png) 执行部署脚本
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-deploy-run.png) 执行部署脚本
 
 ### 步骤 3：验证部署
 

@@ -81,9 +81,9 @@ NAS、データベース、開発環境、リモートデスクトップサー�
 
 ## 画面
 
-> ![Tunnel snapshot](/guide/images/snapshot-tunnel-list.png) トンネル一覧
-> ![Tunnel snapshot](/guide/images/snapshot-tunnel-detail.png) トンネル詳細
-> ![Edge manage snapshot](/guide/images/snapshot-edge-manage.png) Edge 管理
+> ![Tunnel snapshot](../../guide/images/snapshot-tunnel-list.png) トンネル一覧
+> ![Tunnel snapshot](../../guide/images/snapshot-tunnel-detail.png) トンネル詳細
+> ![Edge manage snapshot](../../guide/images/snapshot-edge-manage.png) Edge 管理
 
 ## 次のステップ
 

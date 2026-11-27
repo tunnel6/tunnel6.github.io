@@ -37,8 +37,8 @@ curl -I https://app.example.com
 
 El CNAME debe devolver el valor de YAT y el certificado debe emitirse después de la propagación.
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-alias-domain.png) Configuración del dominio
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-alias-domain-setup.png) Dominio y CNAME
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-alias-domain.png) Configuración del dominio
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-alias-domain-setup.png) Dominio y CNAME
 
 ## Certificados
 

@@ -33,7 +33,7 @@ chmod +x yat-*.AppImage
 
 Si la aplicación se abre y muestra la pantalla de inicio de sesión, la instalación es correcta.
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-login.png) Interfaz principal de YAT en el primer inicio
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-login.png) Interfaz principal de YAT en el primer inicio
 
 ## Paso 2: inicia sesión
 
@@ -53,7 +53,7 @@ Un Edge es el punto público por el que entra el tráfico. La cuenta puede usar 
 3. Pulsa **Subscribe**.
 4. Comprueba que el nodo aparece como disponible.
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-edge-market.png) Página de Edge disponibles
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-edge-market.png) Página de Edge disponibles
 
 ## Paso 4: crea el primer túnel
 
@@ -76,9 +76,9 @@ Después crea el túnel:
 5. Configura la dirección local como `127.0.0.1:3000`.
 6. Guarda el túnel.
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-01.png) Selección de aplicación
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-02.png) Configuración del proxy HTTP
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-03.png) Confirmación de creación
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-01.png) Selección de aplicación
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-02.png) Configuración del proxy HTTP
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-03.png) Confirmación de creación
 
 ## Paso 5: arranca y prueba el túnel
 
@@ -89,8 +89,8 @@ Después crea el túnel:
 
 Si ves el contenido del servidor local, el túnel funciona.
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-01.png) Proceso de arranque
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-02.png) Acceso desde el navegador
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-01.png) Proceso de arranque
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-02.png) Acceso desde el navegador
 
 ## Lista de comprobación
 

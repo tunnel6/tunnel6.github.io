@@ -13,7 +13,7 @@
 
 Después de suscribirte, el nodo aparece en **My Edges** y se puede seleccionar al crear un túnel.
 
-> 📸 ![Edge snapshot](/guide/images/snapshot-edge-market.png) Mercado de Edge
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-market.png) Mercado de Edge
 
 ## Cancelar la suscripción
 

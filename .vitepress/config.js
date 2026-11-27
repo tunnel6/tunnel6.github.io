@@ -73,6 +73,17 @@ export default defineConfig({
   ],
   // 忽略死链检查（允许文档中存在暂时未实现的链接）
   ignoreDeadLinks: true,
+  // Root-level page files (index/download/about/features/pricing and their
+  // translations) live under pages/ but keep their original /, /download,
+  // /zh/... URLs. Guide translations live under guide/<locale>/ and are
+  // exposed under /<locale>/guide/...
+  rewrites: {
+    'pages/:path*': ':path*',
+    'guide/zh/:path*': 'zh/guide/:path*',
+    'guide/zh-TW/:path*': 'zh-TW/guide/:path*',
+    'guide/es/:path*': 'es/guide/:path*',
+    'guide/ja/:path*': 'ja/guide/:path*'
+  },
   srcExclude: [
     'blog/en/**',
     'blog/zh/**',
@@ -81,24 +92,6 @@ export default defineConfig({
     'release-notes/*/*.md'
   ],
 
-  // Normalize legal page URLs by locale:
-  // English -> /legal/..., Simplified Chinese -> /zh/legal/...
-  rewrites: {
-    'pages/legal/en/:slug': 'legal/:slug',
-    'pages/legal/zh-CN/:slug': 'zh/legal/:slug',
-
-    // Simplified Chinese guide pages are stored under guide/zh but exposed
-    // under the /zh/guide locale prefix.
-    'guide/zh/index.md': 'zh/guide/index.md',
-    'guide/zh/:path*': 'zh/guide/:path*',
-
-    // Additional guide locales are seeded from the English guide and can be
-    // translated page-by-page without changing their public URL prefixes.
-    'guide/zh-TW/:path*': 'zh-TW/guide/:path*',
-    'guide/es/:path*': 'es/guide/:path*',
-    'guide/ja/:path*': 'ja/guide/:path*'
-  },
-  
   // 多语言配置
   locales: {
     root: {

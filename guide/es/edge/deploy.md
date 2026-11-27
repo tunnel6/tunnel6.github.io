@@ -21,8 +21,8 @@
 
 El script descarga el binario, crea el directorio de datos, registra el nodo y crea un servicio systemd.
 
-> 📸 ![Edge deploy snapshot](/guide/images/snapshot-edge-deploy.png) Generación del script
-> 📸 ![Edge deploy run snapshot](/guide/images/snapshot-edge-deploy-run.png) Ejecución del despliegue
+> 📸 ![Edge deploy snapshot](../../../guide/images/snapshot-edge-deploy.png) Generación del script
+> 📸 ![Edge deploy run snapshot](../../../guide/images/snapshot-edge-deploy-run.png) Ejecución del despliegue
 
 ## Despliegue manual
 

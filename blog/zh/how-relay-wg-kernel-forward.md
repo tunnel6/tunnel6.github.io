@@ -79,7 +79,7 @@ UDP 58021 收到密文
 
 `net.ipv4.ip_forward` 为 0 时，内核在 `ip_rcv` 之后就把非本机地址的包丢弃，转发路径根本不会进入。这个开关在多数发行版的云镜像上是关的。
 
-[Edge](/guide/zh/edge/#什么是-edge) 在启动转发器时直接写入 1，写不进去就报错退出：这个条件不成立，后面所有配置都没有意义，与其让中继静默丢包，不如启动失败。
+[Edge](/zh/guide/edge/#什么是-edge) 在启动转发器时直接写入 1，写不进去就报错退出：这个条件不成立，后面所有配置都没有意义，与其让中继静默丢包，不如启动失败。
 
 ```bash
 sysctl net.ipv4.ip_forward          # 期望 1
@@ -118,7 +118,7 @@ netfilter 在协议栈的固定位置开放挂载点，称为 hook，转发路�
 - **chain**：声明自己 `type` 与挂在哪个 `hook`、`priority` 多少、以及没有任何规则命中时的默认动作 `policy`。
 - **rule**：匹配条件加一个 verdict（`accept`、`drop`、`continue`……）。
 
-[Edge](/guide/zh/edge/#什么是-edge) 装的是一条这样的链：
+[Edge](/zh/guide/edge/#什么是-edge) 装的是一条这样的链：
 
 ```nft
 table ip yat_relay {

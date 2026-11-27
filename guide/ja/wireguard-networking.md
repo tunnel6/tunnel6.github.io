@@ -27,7 +27,7 @@
 4. Edge を選択します。
 5. 保存し、Edge がインターフェースを作成するのを待ちます。
 
-> 📸 ![Networking snapshot](/guide/images/snapshot-networking-create-en.png) ネットワーク作成
+> 📸 ![Networking snapshot](../../guide/images/snapshot-networking-create-en.png) ネットワーク作成
 
 ## メンバー追加
 
@@ -36,8 +36,8 @@
 3. リモートデバイスを登録または招待します。
 4. 両メンバーがオンラインで IP を持つことを確認します。
 
-> 📸 ![Networking snapshot](/guide/images/snapshot-networkinfo-members-en.png) メンバー一覧
-> 📸 ![Networking snapshot](/guide/images/snapshot-networkinfo-join-en.png) ローカルデバイス参加
+> 📸 ![Networking snapshot](../../guide/images/snapshot-networkinfo-members-en.png) メンバー一覧
+> 📸 ![Networking snapshot](../../guide/images/snapshot-networkinfo-join-en.png) ローカルデバイス参加
 
 ## 動作確認
 
@@ -56,7 +56,7 @@ nc -zv 100.64.0.2 5432
 
 Direct が失敗する場合は Relay に切り替えて接続性を確認してください。
 
-> 📸 ![Networking snapshot](/guide/images/snapshot-networkinfo-settting-relay-en.png) 中継モード設定
+> 📸 ![Networking snapshot](../../guide/images/snapshot-networkinfo-settting-relay-en.png) 中継モード設定
 
 ## 診断
 

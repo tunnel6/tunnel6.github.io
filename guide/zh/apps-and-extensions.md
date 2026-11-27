@@ -60,7 +60,7 @@
 - 共享设置
 ```
 
-> 📸 ![Edge snapshot](../images/snapshot-ext-http.png) HTTP 代理配置表单
+> 📸 ![Edge snapshot](../../guide/images/snapshot-ext-http.png) HTTP 代理配置表单
 > 
 > 说明：显示端口输入、传输模式选择
 
@@ -190,7 +190,7 @@
 2. 查看已安装的扩展列表
 3. 确认扩展状态为 **已启用**
 
-> 📸 ![Edge snapshot](../images/snapshot-ext-01.png)  扩展管理页面
+> 📸 ![Edge snapshot](../../guide/images/snapshot-ext-01.png)  扩展管理页面
 > 
 > 说明：显示已安装扩展、启用/禁用开关、卸载按钮
 
@@ -236,7 +236,7 @@ ARD (Apple Remote Desktop) 扩展是 YAT 的第一个官方扩展，用于 macOS
 2. 启用 **屏幕共享** 或 **远程管理**
 3. 设置访问权限
 
-> 📸 ![Tunnel snapshot](../images/snapshot-ext-ard-tunrnon.png)macOS 屏幕共享设置
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-ext-ard-tunrnon.png)macOS 屏幕共享设置
 > 
 > 说明：显示共享开关、权限设置
 
@@ -287,7 +287,7 @@ ARD (Apple Remote Desktop) 扩展是 YAT 的第一个官方扩展，用于 macOS
 2. 打开 VNC 客户端
 3. 粘贴地址并连接
 
-> 📸 ![Tunnel snapshot](../images/snapshot-ext-ard-vncconnect.png) VNC 客户端连接界面
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-ext-ard-vncconnect.png) VNC 客户端连接界面
 > 
 > 说明：显示 VNC 客户端、地址输入、连接按钮
 

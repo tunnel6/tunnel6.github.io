@@ -33,7 +33,7 @@ chmod +x yat-*.AppImage
 
 アプリが起動してサインイン画面が表示されればインストール成功です。
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-login.png) 初回起動時の YAT 画面
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-login.png) 初回起動時の YAT 画面
 
 ## 手順 2：サインイン
 
@@ -53,7 +53,7 @@ Edge は外部トラフィックの入口です。公式ノード、他のデバ
 3. **Subscribe** をクリックします。
 4. ノードが利用可能になっていることを確認します。
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-edge-market.png) Edge 一覧
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-edge-market.png) Edge 一覧
 
 ## 手順 4：最初のトンネルを作成
 
@@ -76,9 +76,9 @@ npx serve -l 3000 .
 5. ローカルアドレスに `127.0.0.1:3000` を入力します。
 6. 保存します。
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-01.png) アプリ選択
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-02.png) HTTP プロキシ設定
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-03.png) 作成確認
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-01.png) アプリ選択
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-02.png) HTTP プロキシ設定
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-03.png) 作成確認
 
 ## 手順 5：起動して確認
 
@@ -89,8 +89,8 @@ npx serve -l 3000 .
 
 ローカルサービスの内容が表示されれば成功です。
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-01.png) 起動処理
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-02.png) ブラウザーからのアクセス
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-01.png) 起動処理
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-02.png) ブラウザーからのアクセス
 
 ## 確認リスト
 

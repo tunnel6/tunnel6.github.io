@@ -42,7 +42,7 @@ chmod +x yat-*.AppImage
 
 啟動後，您應該看到 YAT 的主介面：
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-login.png)YAT 主介面 - 首次啟動
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-login.png)YAT 主介面 - 首次啟動
 > 
 > 說明：顯示歡迎頁面、登入按鈕、功能介紹
 
@@ -65,7 +65,7 @@ YAT 支援以下登入方式：
 3. 授權 YAT 訪問您的賬戶
 4. 完成登入
 
-> ![Tunnel snapshot](/guide/images/snapshot-login.png) 登入頁面
+> ![Tunnel snapshot](../../guide/images/snapshot-login.png) 登入頁面
 > 
 > 說明：顯示 GitHub/Google 登入按鈕
 
@@ -92,7 +92,7 @@ Edge 伺服器是 YAT 網路的中轉節點。對於新使用者，我們建議�
 3. 選擇一個可用的 Edge 伺服器
 4. 點選 **訂閱** 按鈕
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-edge-market.png) Edge 市場頁面
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-edge-market.png) Edge 市場頁面
 > 
 > 說明：顯示可訂閱的 Edge 列表、訂閱按鈕
 
@@ -132,9 +132,9 @@ npx http-server -p 8080
    - **共享設定**: 獨佔（推薦）
 6. 點選 **建立**
 
-> ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-01.png) 建立隧道對話方塊
-> ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-02.png)
-> ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-03.png)
+> ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-01.png) 建立隧道對話方塊
+> ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-02.png)
+> ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-03.png)
 > 說明：顯示應用選擇、Edge 選擇、配置表單
 
 ### 建立成功
@@ -149,7 +149,7 @@ npx http-server -p 8080
 2. 點選 **啟動** 按鈕
 3. 等待狀態變為 **執行中**
 
-> ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-01.png) 隧道啟動過程
+> ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-01.png) 隧道啟動過程
 > 
 > 說明：顯示啟動按鈕、狀態變化、載入動畫
 
@@ -179,7 +179,7 @@ https://abc123-def456.myroxy.dev
 2. 在瀏覽器中開啟
 3. 您應該看到與 `http://localhost:8080` 相同的內容
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-02.png)  瀏覽器訪問遠端地址
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-02.png)  瀏覽器訪問遠端地址
 > 
 > 說明：顯示通過 YAT 隧道訪問的網頁
 

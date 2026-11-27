@@ -21,16 +21,16 @@
    - **Edge 名稱** - 自定義名稱
    - **節點型別** - 私有還是共享
 
-> 📸 ![Edge snapshot](/guide/images/snapshot-edge-deploy.png) Edge 部署對話方塊
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-deploy.png) Edge 部署對話方塊
 
-> 📸 ![Edge snapshot](/guide/images/snapshot-edge-deployscript.png) 獲取部署指令碼
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-deployscript.png) 獲取部署指令碼
 
 ### 步驟 2：手動部署
 
 1. 登入到公網伺服器
 2. 執行部署指令碼
 
-> 📸 ![Edge snapshot](/guide/images/snapshot-edge-deploy-run.png) 執行部署指令碼
+> 📸 ![Edge snapshot](../../../guide/images/snapshot-edge-deploy-run.png) 執行部署指令碼
 
 ### 步驟 3：驗證部署
 

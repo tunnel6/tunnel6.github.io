@@ -65,8 +65,8 @@ ARD expone la función Screen Sharing de macOS a través de un túnel TCP.
 3. Introduce la dirección remota.
 4. Autentica con las credenciales del macOS remoto.
 
-> 📸 ![Extension HTTP](/guide/images/snapshot-ext-http.png) Extensión HTTP
-> 📸 ![ARD VNC](/guide/images/snapshot-ext-ard-vncconnect.png) Conexión ARD
+> 📸 ![Extension HTTP](../../guide/images/snapshot-ext-http.png) Extensión HTTP
+> 📸 ![ARD VNC](../../guide/images/snapshot-ext-ard-vncconnect.png) Conexión ARD
 
 ### Si no conecta
 

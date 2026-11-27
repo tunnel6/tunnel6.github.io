@@ -21,7 +21,7 @@ Al cerrar sesión se detienen los túneles locales; puedes volver a iniciarlos c
 | Tema | Claro, oscuro o automático | El modo automático sigue al sistema |
 | Escala | Tamaños de interfaz | Útil en pantallas de alta densidad |
 
-> 📸 ![yat-fe Settings Page](/guide/images/snapshot-setting-theme-en.png) Ajustes de tema e idioma
+> 📸 ![yat-fe Settings Page](../../guide/images/snapshot-setting-theme-en.png) Ajustes de tema e idioma
 
 ## Datos locales
 

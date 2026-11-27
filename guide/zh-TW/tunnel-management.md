@@ -58,7 +58,7 @@
 2. 點選 **建立隧道** 按鈕
 3. 選擇應用型別
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-01.png)  應用選擇對話方塊
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-01.png)  應用選擇對話方塊
 > 
 > 說明：顯示可用的應用列表、應用圖示和描述
 
@@ -79,7 +79,7 @@
 - **傳輸模式** - Relay / P2P / WireGuard
 - **共享設定** - 共享 / 獨佔
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-create-02.png) HTTP 代理配置表單
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-create-02.png) HTTP 代理配置表單
 > 
 > 說明：顯示名稱、埠、傳輸模式等配置項
 
@@ -138,7 +138,7 @@
 1. 點選 **檢視詳情**
 2. 點選 **啟動** 按鈕
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-01.png)  隧道啟動過程
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-01.png)  隧道啟動過程
 > 
 > 說明：顯示啟動按鈕、載入狀態、成功提示
 
@@ -195,7 +195,7 @@ Edge 建立通道
 - **建立時間**
 - **更新時間**
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-03.png) 隧道詳情 - 基本資訊
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-03.png) 隧道詳情 - 基本資訊
 > 
 > 說明：顯示名稱、應用、Edge、時間等資訊
 
@@ -207,7 +207,7 @@ Edge 建立通道
 - **自定義域名** - 如果已配置
 - **CNAME 狀態** - DNS 驗證狀態
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-04.png) 隧道詳情 - 遠端地址
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-04.png) 隧道詳情 - 遠端地址
 > 
 > 說明：顯示多個地址、複製按鈕、CNAME 狀態
 
@@ -220,7 +220,7 @@ Edge 建立通道
 | VNC 通道 | TCP | 5900 | 12345 | 執行中 |
 | VNC 通道 | UDP | 5900 | 12345 | 執行中 |
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-06.png) 隧道詳情 - 通道列表
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-06.png) 隧道詳情 - 通道列表
 > 
 > 說明：顯示通道 key、協議、埠繫結、狀態
 
@@ -241,7 +241,7 @@ Edge 建立通道
 - **連線狀態** - 顯示 VNC 服務狀態
 - **遠端桌面快照** - 顯示遠端桌面預覽
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-07.png) 隧道詳情 - ARD 自定義標籤
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-07.png) 隧道詳情 - ARD 自定義標籤
 > 
 > 說明：顯示連線狀態、桌面快照
 
@@ -291,7 +291,7 @@ YAT 支援兩種共享模式：
    - 角色：**Consumer**（消費端）
    - 檢視遠端地址，訪問服務
 
-> 📸  ![Tunnel snapshot](/guide/images/snapshot-tunnel-status-08.png) 多裝置協作示意圖
+> 📸  ![Tunnel snapshot](../../guide/images/snapshot-tunnel-status-08.png) 多裝置協作示意圖
 > 
 > 說明：顯示 Publisher 和 Consumer 裝置、隧道共享關係
 
@@ -352,7 +352,7 @@ Tunnels 頁面頂部顯示統計資訊：
 - **入站流量** - 接收的資料量
 - **出站流量** - 傳送的資料量
 
-> 📸 ![Tunnel snapshot](/guide/images/snapshot-tunnel-list.png) 統計卡片
+> 📸 ![Tunnel snapshot](../../guide/images/snapshot-tunnel-list.png) 統計卡片
 > 
 > 說明：顯示 4 個統計指標
 

@@ -183,20 +183,20 @@ Edge 服务器是 YAT 网络的节点，负责转发流量，服务协调等。
 
 ### 主界面
 
-> 📸 **![Tunnel snapshot](../images/snapshot-tunnel-list.png)** 主界面截图
+> 📸 **![Tunnel snapshot](../../guide/images/snapshot-tunnel-list.png)** 主界面截图
 > 
 > 说明：显示隧道列表、统计卡片、创建按钮
 
 ### 隧道详情
 
 > 📸  **隧道详情页面**
-> ![Tunnel snapshot](../images/snapshot-tunnel-detail.png)
+> ![Tunnel snapshot](../../guide/images/snapshot-tunnel-detail.png)
 > 说明：显示隧道状态、远程地址、通道列表、操作按钮
 
 ### Edge 管理
 
 > 📸  Edge 管理页面
-> [![Edge manage snapshot](../images/snapshot-edge-manage.png)](../images/snapshot-edge-manage.png)
+> [![Edge manage snapshot](../../guide/images/snapshot-edge-manage.png)](../../guide/images/snapshot-edge-manage.png)
 > 说明：显示 Edge 列表、部署对话框、订阅市场
 
 ---

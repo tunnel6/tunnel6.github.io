@@ -32,7 +32,7 @@ YAT 支持以下登录方式：
 4. 授权访问
 5. 完成登录
 
-> 📸 ![登录页面](../images/snapshot-login.png) 登录页面
+> 📸 ![登录页面](../../guide/images/snapshot-login.png) 登录页面
 > 
 > 说明：显示 GitHub/Google 登录按钮
 
@@ -64,7 +64,7 @@ YAT 支持以下登录方式：
 
 点击左侧导航栏的 **Settings** 图标。
 
-> > 📸 ![yat-fe 主题设置](../images/snapshot-setting-theme-en.png) yat-fe 客户端主题设置
+> > 📸 ![yat-fe 主题设置](../../guide/images/snapshot-setting-theme-en.png) yat-fe 客户端主题设置
 > 
 > 说明：显示设置项列表
 
@@ -135,7 +135,7 @@ YAT 支持三种主题模式：
 - 自动跟随系统主题
 - 系统切换时自动变化
 
-> ![yat-fe 主题设置](../images/snapshot-setting-theme-en.png) yat-fe 客户端主题设置
+> ![yat-fe 主题设置](../../guide/images/snapshot-setting-theme-en.png) yat-fe 客户端主题设置
 > 
 > 说明：显示 Light/Dark/System 选项
 

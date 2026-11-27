@@ -40,7 +40,7 @@
 4. 在 **远程地址** 或 **域名配置** 区域找到 CNAME 记录值
 5. 点击复制按钮获取记录值
 
-> 📸 ![yat-fe 客户端隧道详情](../images/snapshot-tunnel-status-04.png) yat-fe 客户端隧道详情页
+> 📸 ![yat-fe 客户端隧道详情](../../guide/images/snapshot-tunnel-status-04.png) yat-fe 客户端隧道详情页
 > Description: 展示 yat-fe 客户端中的隧道详情页面，包含远程地址、CNAME 记录和复制按钮
 
 ### 步骤 2: 检查 DNS 记录配置
@@ -68,7 +68,7 @@ dig your-domain.com CNAME +short
 5. 在 **域名配置** 区域输入您的自定义域名（如 `myapp.example.com`）
 6. 保存配置并启动隧道
 
-> 📸 ![yat-fe 隧道创建域名配置](../images/snapshot-tunnel-create-02.png) yat-fe 隧道创建域名配置
+> 📸 ![yat-fe 隧道创建域名配置](../../guide/images/snapshot-tunnel-create-02.png) yat-fe 隧道创建域名配置
 > Description: 展示 yat-fe 客户端中的隧道创建向导，包含域名输入框和保存按钮
 
 ### 步骤 4: 清除本地 DNS 缓存
