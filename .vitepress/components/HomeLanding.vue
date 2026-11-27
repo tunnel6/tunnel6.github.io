@@ -1,4 +1,5 @@
 <script setup>
+import { useData } from 'vitepress'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import CommunityBrandIcon from './CommunityBrandIcon.vue'
 
@@ -37,6 +38,33 @@ const props = defineProps({
   ctaAction: { type: Object, required: true },
   docsAction: { type: Object, required: true }
 })
+
+// 商店徽章本地图片按当前语言匹配；Snap 仅有 en/es，其余语言回落到 en
+const { lang } = useData()
+const badgeLocale = computed(() => {
+  switch (String(lang.value || 'en').toLowerCase()) {
+    case 'zh-cn':
+    case 'zh':
+      return 'zh-cn'
+    case 'zh-tw':
+    case 'zh-hk':
+    case 'zh-hant':
+      return 'zh-tw'
+    case 'es':
+      return 'es'
+    case 'ja':
+      return 'ja'
+    default:
+      return 'en'
+  }
+})
+const snapcraftBadgeSrc = computed(() => {
+  const locale = badgeLocale.value === 'es' ? 'es' : 'en'
+  return '/images/badge/snapcraft/' + locale + '-light.svg'
+})
+const microsoftBadgeSrc = computed(
+  () => '/images/badge/microsoft/' + badgeLocale.value + '-light.svg'
+)
 
 // hero 社区入口与品牌图标白名单（卡片 icon 命中时用内联 SVG，否则保留 emoji）
 const heroSocialLinks = [
@@ -134,7 +162,7 @@ onBeforeUnmount(() => {
               aria-label="Get it from the Snap Store"
             >
               <img
-                src="https://snapcraft.io/en/dark/install.svg"
+                :src="snapcraftBadgeSrc"
                 alt="Get it from the Snap Store"
                 height="44"
               />
@@ -146,7 +174,7 @@ onBeforeUnmount(() => {
               aria-label="Get it from Microsoft Store"
             >
               <img
-                src="https://get.microsoft.com/images/en-us%20light.svg"
+                :src="microsoftBadgeSrc"
                 alt="Get it from Microsoft Store"
               />
             </a>
@@ -281,12 +309,16 @@ onBeforeUnmount(() => {
             <span aria-hidden="true"></span>
             <p>{{ terminalTitle }}</p>
           </div>
-          <pre><code><span
-            v-for="line in terminalLines"
-            :key="line"
-            :class="{ command: line.startsWith('$') }"
-          >{{ line }}
-</span></code></pre>
+          <pre>
+            <code>
+              <span
+                v-for="line in terminalLines"
+                :key="line"
+                :class="{ command: line.startsWith('$') }"
+              >{{ line }}
+              </span>
+            </code>
+          </pre>
         </div>
       </div>
     </section>
