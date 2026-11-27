@@ -125,6 +125,33 @@ onBeforeUnmount(() => {
             </a>
           </div>
 
+          <div class="home-store-badges">
+            <a
+              class="home-store-badge"
+              href="https://snapcraft.io/yat-network"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Get it from the Snap Store"
+            >
+              <img
+                src="https://snapcraft.io/en/dark/install.svg"
+                alt="Get it from the Snap Store"
+                height="44"
+              />
+            </a>
+            <a
+              class="home-store-badge"
+              href="https://get.microsoft.com/installer/download/9N00WFV937MH?referrer=appbadge"
+              target="_self"
+              aria-label="Get it from Microsoft Store"
+            >
+              <img
+                src="https://get.microsoft.com/images/en-us%20light.svg"
+                alt="Get it from Microsoft Store"
+              />
+            </a>
+          </div>
+
           <div class="home-hero-social" role="group" aria-label="Community links">
             <a
               v-for="item in heroSocialLinks"
@@ -492,6 +519,30 @@ onBeforeUnmount(() => {
 .home-button.ghost:hover {
   border-color: rgba(197, 224, 255, 0.5);
   transform: translateY(-1px);
+}
+
+.home-store-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.home-store-badge {
+  display: inline-flex;
+  border-radius: 8px;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.home-store-badge:hover {
+  transform: translateY(-1px);
+}
+
+.home-store-badge img {
+  display: block;
+  width: auto;
+  height: 44px;
 }
 
 .home-hero-social {
