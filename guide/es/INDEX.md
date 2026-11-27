@@ -30,6 +30,7 @@
 
 ## Diagnóstico y mantenimiento
 
+- [Guía de instalación de macOS (build sin firmar)](./macos-unsigned-install.md)
 - [Diagnóstico de DNS](./dns-troubleshooting.md)
 - [Diagnóstico de conexiones](./connection-troubleshooting.md)
 - [Gestión de certificados](./certificate-management.md)

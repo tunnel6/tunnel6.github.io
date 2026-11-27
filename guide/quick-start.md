@@ -22,6 +22,8 @@
 
 > ⚠️ **First Launch**: If prompted "Cannot verify developer", go to System Settings > Privacy & Security > Open Anyway
 
+> 📖 For all solutions (DMG one-click fix, Finder allow, terminal commands, local self-signing), see the [macOS Installation Guide (Unsigned Build)](./macos-unsigned-install.md).
+
 ### Windows
 
 1. Download the `.exe` installer

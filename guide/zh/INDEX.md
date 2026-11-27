@@ -53,6 +53,7 @@
 | 13 | [connection-troubleshooting.md](./connection-troubleshooting.md) | 86 | 连接故障排除指南 |
 | 14 | [performance-optimization.md](./performance-optimization.md) | 85 | 性能优化指南 |
 | 15 | [microsoft-store-user-agreement.md](./microsoft-store-user-agreement.md) | 60 | 微软商店用户协议 |
+| 16 | [macos-unsigned-install.md](./macos-unsigned-install.md) | 173 | macOS 未签名/自签名安装指南 |
 | - | [SCREENSHOTS.md](./SCREENSHOTS.md) | 180 | 截图清单 |
 | - | [SUMMARY.md](./SUMMARY.md) | 348 | 编写总结 |
 | **总计** | | **5,123** | |

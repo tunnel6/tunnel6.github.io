@@ -6,7 +6,8 @@ function guideSidebar(prefix, text) {
       text: text.gettingStarted,
       items: [
         { text: text.whatIsYat, link: `${prefix}/guide/what-is-yat` },
-        { text: text.quickStart, link: `${prefix}/guide/quick-start` }
+        { text: text.quickStart, link: `${prefix}/guide/quick-start` },
+        { text: text.macosInstall, link: `${prefix}/guide/macos-unsigned-install` }
       ]
     },
     {
@@ -119,7 +120,8 @@ export default defineConfig({
               text: 'Getting Started',
               items: [
                 { text: 'What is YAT', link: '/guide/what-is-yat' },
-                { text: 'Quick Start', link: '/guide/quick-start' }
+                { text: 'Quick Start', link: '/guide/quick-start' },
+                { text: 'macOS Install (Unsigned)', link: '/guide/macos-unsigned-install' }
               ]
             },
             {
@@ -214,7 +216,8 @@ export default defineConfig({
               text: '快速开始',
               items: [
                 { text: 'YAT 是什么', link: '/zh/guide/what-is-yat' },
-                { text: '快速上手', link: '/zh/guide/quick-start' }
+                { text: '快速上手', link: '/zh/guide/quick-start' },
+                { text: 'macOS 安装指南（未签名）', link: '/zh/guide/macos-unsigned-install' }
               ]
             },
             {
@@ -298,6 +301,7 @@ export default defineConfig({
             gettingStarted: '快速開始',
             whatIsYat: 'YAT 是什麼',
             quickStart: '快速上手',
+            macosInstall: 'macOS 安裝指南（未簽名）',
             coreFeatures: '核心功能',
             tunnelManagement: '隧道管理',
             edgeManagement: 'Edge 管理',
@@ -343,6 +347,7 @@ export default defineConfig({
             gettingStarted: 'Primeros pasos',
             whatIsYat: 'Qué es YAT',
             quickStart: 'Inicio rápido',
+            macosInstall: 'Guía de instalación de macOS (sin firmar)',
             coreFeatures: 'Funciones principales',
             tunnelManagement: 'Gestión de túneles',
             edgeManagement: 'Gestión de Edge',
@@ -388,6 +393,7 @@ export default defineConfig({
             gettingStarted: 'はじめに',
             whatIsYat: 'YAT とは',
             quickStart: 'クイックスタート',
+            macosInstall: 'macOS インストールガイド（未署名）',
             coreFeatures: '主要機能',
             tunnelManagement: 'トンネル管理',
             edgeManagement: 'Edge 管理',

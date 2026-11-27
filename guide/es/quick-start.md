@@ -18,6 +18,8 @@
 
 > ⚠️ Si macOS avisa de que no puede verificar el desarrollador, abre **Ajustes del sistema → Privacidad y seguridad → Abrir igualmente**.
 
+> 📖 Para todas las soluciones (corrección de un clic en el DMG, permiso desde Finder, comandos de Terminal, autofirma local), consulta la [Guía de instalación de macOS (build sin firmar)](./macos-unsigned-install.md).
+
 ### Windows
 1. Descarga el instalador `.exe`.
 2. Ejecuta el asistente de instalación.

@@ -50,6 +50,7 @@ We have prepared **15 complete documents** (total **5,123 lines**) covering all 
 | 13 | [connection-troubleshooting.md](./connection-troubleshooting.md) | 86 | Connection troubleshooting guide |
 | 14 | [performance-optimization.md](./performance-optimization.md) | 85 | Performance optimization guide |
 | 15 | [microsoft-store-user-agreement.md](./microsoft-store-user-agreement.md) | 60 | Microsoft Store user agreement |
+| 16 | [macos-unsigned-install.md](./macos-unsigned-install.md) | 173 | macOS unsigned/self-signed installation guide |
 | - | [SCREENSHOTS.md](./SCREENSHOTS.md) | 180 | Screenshot checklist |
 | - | [SUMMARY.md](./SUMMARY.md) | 348 | Writing summary |
 | **Total** | | **5,123** | |

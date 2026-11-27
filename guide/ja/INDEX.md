@@ -30,6 +30,7 @@
 
 ## 診断と保守
 
+- [macOS インストールガイド（未署名ビルド）](./macos-unsigned-install.md)
 - [DNS トラブルシューティング](./dns-troubleshooting.md)
 - [接続トラブルシューティング](./connection-troubleshooting.md)
 - [証明書管理](./certificate-management.md)

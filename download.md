@@ -18,6 +18,7 @@ import DownloadSection from './.vitepress/components/DownloadSection.vue'
 
 - [Windows Installation Guide](/guide/quick-start#windows)
 - [macOS Installation Guide](/guide/quick-start#macos)
+- [macOS First-Launch Fix (Unsigned Build)](/guide/macos-unsigned-install)
 - [Linux Installation Guide](/guide/quick-start#linux)
 
 ## All Releases

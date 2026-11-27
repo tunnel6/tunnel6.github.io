@@ -18,6 +18,7 @@ import DownloadSection from '../.vitepress/components/DownloadSection.vue'
 
 - [Windows 安装指南](/zh/guide/quick-start#windows)
 - [macOS 安装指南](/zh/guide/quick-start#macos)
+- [macOS 首次打开修复（未签名版本）](/zh/guide/macos-unsigned-install)
 - [Linux 安装指南](/zh/guide/quick-start#linux)
 
 ## 所有版本

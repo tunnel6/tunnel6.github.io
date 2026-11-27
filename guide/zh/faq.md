@@ -46,6 +46,8 @@
 xattr -d com.apple.quarantine /Applications/YAT.app
 ```
 
+更多方案（DMG 一键修复、Finder 放行、系统设置放行、本地自签名）见 [macOS 安装指南（未签名 / 自签名版本）](./macos-unsigned-install.md)。
+
 ### Q: Windows SmartScreen 阻止安装？
 
 **解决**:

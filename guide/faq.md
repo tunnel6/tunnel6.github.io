@@ -46,6 +46,8 @@ Or use command line:
 xattr -d com.apple.quarantine /Applications/YAT.app
 ```
 
+More options — the DMG one-click fix, Finder allow, System Settings allow, and local self-signing — are covered in the [macOS Installation Guide (Unsigned Build)](./macos-unsigned-install.md).
+
 ### Q: Windows SmartScreen blocks installation?
 
 **Solution**:
